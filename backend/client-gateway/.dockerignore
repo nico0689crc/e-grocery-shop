@@ -1,0 +1,43 @@
+# Ignorar node_modules, ya que se reinstalarán dentro del contenedor
+node_modules
+dist
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Ignorar directorios de configuración del editor
+.idea
+.vscode
+*.swp
+
+# Ignorar archivos de entorno locales
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Ignorar archivos de log
+logs
+*.log
+
+# Ignorar cachés de npm/yarn/pnpm
+npm-cache/
+yarn-cache/
+.pnpm-store/
+
+# Ignorar archivos temporales de Docker y build
+docker-compose.override.yml
+Dockerfile.*
+.dockerignore
+
+# Ignorar archivos específicos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Ignorar pruebas locales
+test/
+coverage/
+
+# Ignorar configuraciones de lint locales
+.eslintcache

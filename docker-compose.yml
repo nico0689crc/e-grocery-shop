@@ -1,0 +1,86 @@
+services:
+  ##################################################################################
+  #   AUTHENTICATION MS - Setup Database Container
+  ##################################################################################
+
+  authentication-ms-database:
+    container_name: authentication-ms-database-dev
+    image: postgres:14.3
+    env_file:
+      - ./backend/authentication-ms/.env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_HOST_PORT}:${POSTGRES_CONTAINER_PORT}"
+    volumes:
+      - authentication-ms-dev-db:/var/lib/postgresql/data
+    networks:
+      - authentication-ms-network-dev
+
+  ##################################################################################
+  #   AUTHENTICATION MS - Setup Backend Container
+  ##################################################################################
+
+  authentication-ms-backend:
+    depends_on:
+      - authentication-ms-database
+    container_name: authentication-ms-backend-dev
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_AUTHENTICATION_MS_BACKEND_IMAGE}:dev
+    build:
+      context: ./backend/authentication-ms
+      target: development
+    env_file:
+      - ./backend/authentication-ms/.env
+    environment:
+      - AUTHENTICATION_MS_BACKEND_CONTAINER_PORT=${AUTHENTICATION_MS_BACKEND_CONTAINER_PORT}
+      - AUTHENTICATION_MS_BACKEND_HOST_PORT=${AUTHENTICATION_MS_BACKEND_HOST_PORT}
+      - POSTGRES_CONTAINER_PORT=${POSTGRES_CONTAINER_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+    ports:
+      - "${AUTHENTICATION_MS_BACKEND_HOST_PORT}:${AUTHENTICATION_MS_BACKEND_CONTAINER_PORT}"
+    expose:
+      - 3000
+    volumes:
+      - type: bind
+        source: ./backend/authentication-ms
+        target: /app
+      - /app/node_modules
+    networks:
+      - authentication-ms-network-dev
+
+##################################################################################
+#   CLIENT GATEWAY - Setup 
+##################################################################################
+
+  client-gateway-backend:
+    depends_on:
+      - authentication-ms-backend
+    container_name: client-gateway-backend-dev
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_CLIENT_GATEWAY_BACKEND_IMAGE}:dev
+    build:
+      context: ./backend/client-gateway
+      target: development
+    env_file:
+      - ./backend/client-gateway/.env
+    environment:
+      - CLIENT_GATEWAY_BACKEND_HOST_PORT=${CLIENT_GATEWAY_BACKEND_HOST_PORT}
+      - CLIENT_GATEWAY_BACKEND_CONTAINER_PORT=${CLIENT_GATEWAY_BACKEND_CONTAINER_PORT}
+    ports:
+      - "${CLIENT_GATEWAY_BACKEND_HOST_PORT}:${CLIENT_GATEWAY_BACKEND_CONTAINER_PORT}"
+    volumes:
+      - type: bind
+        source: ./backend/client-gateway
+        target: /app
+      - /app/node_modules
+    networks:
+      - authentication-ms-network-dev
+volumes:
+  authentication-ms-dev-db:
+networks:
+  authentication-ms-network-dev:
