@@ -30,7 +30,7 @@ COPY --chown=node:node ./docker-entrypoint.sh /app/
 # Make the entrypoint script executable
 RUN chmod +x /app/docker-entrypoint.sh
 
-# ENTRYPOINT ["/app/docker-entrypoint.sh"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
 CMD ["npm", "run", "start:dev"]
 

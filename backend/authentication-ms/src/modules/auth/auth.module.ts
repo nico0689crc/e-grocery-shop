@@ -7,11 +7,11 @@ import { Services } from 'src/core/constants';
 @Module({
   imports: [UsersModule],
   providers: [
-    AuthResolver, 
+    AuthResolver,
     {
       provide: Services.AUTH,
-      useClass: AuthService
-    }
+      useClass: AuthService,
+    },
   ],
 })
 export class AuthModule {}

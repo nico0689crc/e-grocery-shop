@@ -2,11 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AuthPayload {
-  token: String!
-  userId: String!
-}
-
 type User {
   id: ID!
   email: String!
@@ -19,7 +14,6 @@ type User {
   passwordResetToken: String!
   passwordResetTokenReqAt: DateTime!
   password: String!
-  passwordConfirmation: String!
   role: UserRole!
   createdAt: String!
   updatedAt: String!
@@ -33,6 +27,11 @@ scalar DateTime
 enum UserRole {
   CUSTOMER
   ADMINISTRATOR
+}
+
+type AuthPayload {
+  token: String!
+  userId: String!
 }
 
 type Query {

@@ -15,7 +15,9 @@ async function bootstrap() {
     }),
   );
 
-  logger.log(`Authentication-Service running on port ${envs.backendContainerPort}`);
+  logger.log(
+    `Authentication-Service running on port ${envs.backendContainerPort}`,
+  );
   await app.listen(envs.backendContainerPort);
 }
 bootstrap();

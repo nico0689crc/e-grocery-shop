@@ -8,13 +8,13 @@ import { AuthPayload } from './entity/auth.entity';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(Services.USERS) private readonly userService: UsersService
+    @Inject(Services.USERS) private readonly userService: UsersService,
   ) {}
 
   login(loginInput: LoginInput): AuthPayload {
     return {
-      token: "F9Aj65cTjwaRxJtuDPPY",
-      userId: "1773bead-c539-5e4c-ab27-086cf54b5b73"
+      token: 'F9Aj65cTjwaRxJtuDPPY',
+      userId: '1773bead-c539-5e4c-ab27-086cf54b5b73',
     };
   }
 }
