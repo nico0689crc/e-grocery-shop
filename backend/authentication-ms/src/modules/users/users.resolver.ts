@@ -6,8 +6,6 @@ import { Services } from 'src/core/constants';
 
 @Resolver(() => User)
 export class UsersResolver {
-  // constructor(private readonly usersService: UsersService) {}
-
   constructor(@Inject(Services.USERS) private usersService: UsersService) {}
 
   @Query(() => User)
@@ -20,5 +18,4 @@ export class UsersResolver {
   async findAll(): Promise<User[]> {
     return await this.usersService.findAll();
   }
-
 }

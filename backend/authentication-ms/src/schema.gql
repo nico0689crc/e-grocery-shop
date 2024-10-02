@@ -7,31 +7,18 @@ type User {
   email: String!
   firstName: String!
   lastName: String!
-  avatar: String!
-  confirmationCode: String!
-  emailVerified: String!
-  emailVerifiedAt: DateTime!
-  passwordResetToken: String!
-  passwordResetTokenReqAt: DateTime!
-  password: String!
+  avatar: String
   role: UserRole!
-  createdAt: String!
-  updatedAt: String!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 enum UserRole {
   CUSTOMER
   ADMINISTRATOR
 }
 
-type AuthPayload {
+type AuthResponse {
   token: String!
-  userId: String!
+  user: User!
 }
 
 type Query {
@@ -40,10 +27,14 @@ type Query {
 }
 
 type Mutation {
-  login(login: LoginInput!): AuthPayload!
+  signUp(signupInput: SignUpInput!): AuthResponse!
 }
 
-input LoginInput {
+input SignUpInput {
   email: String!
-  password: Float!
+  firstName: String!
+  lastName: String!
+  password: String!
+  passwordConfirmation: String!
+  returnUrl: String!
 }

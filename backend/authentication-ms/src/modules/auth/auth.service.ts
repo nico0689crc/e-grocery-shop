@@ -1,20 +1,39 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { LoginInput } from './dto/inputs/LoginInput';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Services } from 'src/core/constants';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
-import { AuthPayload } from './entity/auth.entity';
+import { AuthResponse } from './types/auth-response.types';
+import { SignUpInput } from './dto/inputs/signup.input';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(Services.USERS) private readonly userService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  login(loginInput: LoginInput): AuthPayload {
-    return {
-      token: 'F9Aj65cTjwaRxJtuDPPY',
-      userId: '1773bead-c539-5e4c-ab27-086cf54b5b73',
-    };
+  async signup(signupInput: SignUpInput): Promise<AuthResponse> {
+    const user = await this.userService.create(signupInput);
+
+    const token = this.getJwtToken(user);
+
+    return { token, user };
+  }
+
+  async validateUser(id: string): Promise<User> {
+    const user = await this.userService.findOne({ where: { id } });
+
+    if (!user.emailVerified) {
+      throw new UnauthorizedException(`User email is not verified`);
+    }
+
+    delete user.password;
+
+    return user;
+  }
+
+  private getJwtToken(user: User) {
+    return this.jwtService.sign({ user });
   }
 }

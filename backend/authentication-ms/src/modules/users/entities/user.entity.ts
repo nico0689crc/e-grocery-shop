@@ -44,32 +44,26 @@ export class User {
   @Field(() => String)
   lastName: string;
 
-  @Column({ name: 'avatar' })
-  @Field(() => String)
+  @Column({ name: 'avatar', nullable: true })
+  @Field(() => String, { nullable: true})
   avatar: string;
 
   @Column({ name: 'confirmation_code', nullable: true })
-  @Field(() => String)
   confirmationCode: string;
 
   @Column({ name: 'email_verified', default: false })
-  @Field(() => String)
   emailVerified: boolean;
 
   @CreateDateColumn({ name: 'email_verified_at', default: null })
-  @Field(() => Date)
   emailVerifiedAt: Date;
 
   @Column({ name: 'password_reset_token', nullable: true })
-  @Field(() => String)
   passwordResetToken: string;
 
   @CreateDateColumn({ name: 'password_reset_token_req_at', nullable: true })
-  @Field(() => Date)
   passwordResetTokenReqAt: Date;
 
   @Column()
-  @Field(() => String)
   password: string;
 
   @Column({
@@ -80,11 +74,9 @@ export class User {
   @Field(() => UserRole)
   role: UserRole;
 
-  @CreateDateColumn({name: 'created_at'})
-  @Field(() => String)
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: number;
 
-  @UpdateDateColumn({name: 'updated_at'})
-  @Field(() => String)
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: number;
 }

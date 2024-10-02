@@ -31,6 +31,7 @@ export class CreateTableUsers1727833222369 implements MigrationInterface {
                 {
                   name: 'avatar',
                   type: 'varchar',
+                  isNullable: true,
                 },
                 {
                   name: 'confirmation_code',

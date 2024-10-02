@@ -1,32 +1,23 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  Int,
-  ResolveReference,
-} from '@nestjs/graphql';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { MessagePattern } from '@nestjs/microservices';
-import { LoginInput } from './dto/inputs/LoginInput';
 import { Services } from 'src/core/constants';
-import { Inject } from '@nestjs/common';
-import { AuthPayload } from './entity/auth.entity';
+import { Inject, UseGuards } from '@nestjs/common';
+import { AuthResponse } from './types/auth-response.types';
+import { DoesUserExist } from 'src/core/guards/does-user-exist';
+import { SignUpInput } from './dto/inputs/signup.input';
 
-@Resolver(() => AuthPayload)
+@Resolver()
 export class AuthResolver {
   constructor(
-    @Inject(Services.AUTH) private readonly authService: AuthService,
+    @Inject(Services.AUTH)
+    private readonly authService: AuthService,
   ) {}
 
-  @Mutation(() => AuthPayload)
-  @MessagePattern('auth.login')
-  login(@Args('login') loginInput: LoginInput): AuthPayload {
-    return this.authService.login(loginInput);
+  @UseGuards(DoesUserExist)
+  @Mutation(() => AuthResponse, { name: 'signUp' })
+  async signUp(
+    @Args('signupInput') signupInput: SignUpInput,
+  ): Promise<AuthResponse> {
+    return await this.authService.signup(signupInput);
   }
-
-  // @ResolveReference()
-  // resolveReference(reference: { __typename: string; id: number }): User {
-  //   return this.authService.findUserById(reference.id);
-  // }
 }
