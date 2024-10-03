@@ -1,8 +1,10 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { User } from './entities/user.entity';
+import { User, UserRole } from './entities/user.entity';
 import { UsersService } from './users.service';
-import { Inject } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
 import { Services } from 'src/core/constants';
+import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
+import { CurrentUser } from 'src/core/decorators/current-user.decorator';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -15,7 +17,10 @@ export class UsersResolver {
   }
 
   @Query(() => [User], { name: 'getUsers' })
-  async findAll(): Promise<User[]> {
+  @UseGuards(JwtAuthGuard)
+  async getUsers(
+    @CurrentUser([UserRole.ADMINISTRATOR]) user: User
+  ): Promise<User[]> {
     return await this.usersService.findAll();
   }
 }

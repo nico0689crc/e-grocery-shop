@@ -45,25 +45,31 @@ export class User {
   lastName: string;
 
   @Column({ name: 'avatar', nullable: true })
-  @Field(() => String, { nullable: true})
+  @Field(() => String, { nullable: true })
   avatar: string;
 
   @Column({ name: 'confirmation_code', nullable: true })
+  @Exclude()
   confirmationCode: string;
 
   @Column({ name: 'email_verified', default: false })
+  @Exclude()
   emailVerified: boolean;
 
   @CreateDateColumn({ name: 'email_verified_at', default: null })
+  @Exclude()
   emailVerifiedAt: Date;
 
   @Column({ name: 'password_reset_token', nullable: true })
+  @Exclude()
   passwordResetToken: string;
 
   @CreateDateColumn({ name: 'password_reset_token_req_at', nullable: true })
+  @Exclude()
   passwordResetTokenReqAt: Date;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column({
@@ -75,8 +81,10 @@ export class User {
   role: UserRole;
 
   @CreateDateColumn({ name: 'created_at' })
+  @Exclude()
   createdAt: number;
 
   @UpdateDateColumn({ name: 'updated_at' })
+  @Exclude()
   updatedAt: number;
 }

@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { envs } from './config';
 
 async function bootstrap() {
@@ -13,6 +13,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
   await app.listen(envs.clientGatewayBackendContainerPort);
   logger.log(`Gateway running on port ${envs.clientGatewayBackendContainerPort}`);
 }

@@ -24,10 +24,10 @@ export class DoesUserExist implements CanActivate {
     return this.validateRequest(args);
   }
 
-  async validateRequest(args: {signupInput : SignUpInput}) {
+  async validateRequest(args: { signUpInput: SignUpInput }) {
     const user = await this.userService.findOne({
       where: {
-        email: args.signupInput.email,
+        email: args.signUpInput.email,
       },
     });
 

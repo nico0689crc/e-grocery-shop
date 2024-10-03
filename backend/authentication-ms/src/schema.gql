@@ -22,12 +22,14 @@ type AuthResponse {
 }
 
 type Query {
+  getProfile: AuthResponse!
   getUser(id: Float!): User!
   getUsers: [User!]!
 }
 
 type Mutation {
-  signUp(signupInput: SignUpInput!): AuthResponse!
+  signUp(signUpInput: SignUpInput!): AuthResponse!
+  signIn(signInInput: SignInInput!): AuthResponse!
 }
 
 input SignUpInput {
@@ -37,4 +39,9 @@ input SignUpInput {
   password: String!
   passwordConfirmation: String!
   returnUrl: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
 }
