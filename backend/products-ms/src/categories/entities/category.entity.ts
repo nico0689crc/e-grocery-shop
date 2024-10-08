@@ -15,7 +15,7 @@ export class Category extends Core {
   slug: string;
 
   @Column({ type: 'text', nullable: false })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   description: string;
 
   @Column({ type: 'varchar', name: 'parent_id', nullable: true })

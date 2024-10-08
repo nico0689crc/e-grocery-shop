@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  OneToMany,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { Field, Float, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Attachment } from 'src/attachments/entities/attachment.entity';
 import { Category } from 'src/categories/entities/category.entity';
@@ -54,15 +48,15 @@ export class Product extends Core {
   price: number;
 
   @Column({ type: 'decimal', nullable: false, name: 'min_price' })
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   minPrice: number;
 
   @Column({ type: 'decimal', nullable: false, name: 'max_price' })
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   maxPrice: number;
 
   @Column({ type: 'decimal', name: 'sale_price', nullable: true })
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   salePrice: number;
 
   @Column({ nullable: false })
@@ -71,6 +65,7 @@ export class Product extends Core {
 
   @ManyToMany(() => Category, (category) => category.products, {
     cascade: ['insert'],
+    eager: true,
   })
   @JoinTable({
     name: 'categories_products',
@@ -83,11 +78,12 @@ export class Product extends Core {
       referencedColumnName: 'id',
     },
   })
-  @Field(() => [Category])
+  @Field(() => [Category], { nullable: true })
   categories: Category[];
 
   @ManyToMany(() => Tag, (tag) => tag.products, {
     cascade: ['insert'],
+    eager: true,
   })
   @JoinTable({
     name: 'tags_products',
@@ -100,12 +96,13 @@ export class Product extends Core {
       referencedColumnName: 'id',
     },
   })
-  @Field(() => [Tag])
+  @Field(() => [Tag], { nullable: true })
   tags: Tag[];
 
   @OneToMany(() => Attachment, (galleryItem) => galleryItem.product, {
     cascade: ['insert'],
+    eager: true,
   })
-  @Field(() => [Attachment])
+  @Field(() => [Attachment], { nullable: true })
   attachments: Attachment[];
 }

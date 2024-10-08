@@ -61,20 +61,24 @@ export default class ProductsSeeder implements Seeder {
               )?.id,
             })),
             attachments: [
-              ...attachements.images.map(({thumbnail, original, isPrimary, order}) => ({
-                thumbnail,
-                original,
-                isPrimary,
-                order,
-                type: AttachmentType.IMAGE,
-              })),
-              ...attachements.videos.map(({thumbnail, original, isPrimary, order}) => ({
-                thumbnail,
-                original,
-                isPrimary,
-                order,
-                type: AttachmentType.VIDEO,
-              }))
+              ...attachements.images.map(
+                ({ thumbnail, original, isPrimary, order }) => ({
+                  thumbnail,
+                  original,
+                  isPrimary,
+                  order,
+                  type: AttachmentType.IMAGE,
+                }),
+              ),
+              ...attachements.videos.map(
+                ({ thumbnail, original, isPrimary, order }) => ({
+                  thumbnail,
+                  original,
+                  isPrimary,
+                  order,
+                  type: AttachmentType.VIDEO,
+                }),
+              ),
             ],
             createdAt,
             updatedAt,

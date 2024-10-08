@@ -20,7 +20,7 @@ enum AttachmentType {
 type Category {
   title: String!
   slug: String!
-  description: String!
+  description: String
   parentId: String!
   referenceId: Int!
   products: [Product!]!
@@ -40,13 +40,13 @@ type Product {
   stock: Float!
   status: ProductStatus!
   price: Float!
-  minPrice: Float!
-  maxPrice: Float!
-  salePrice: Float!
+  minPrice: Float
+  maxPrice: Float
+  salePrice: Float
   creator: String!
-  categories: [Category!]!
-  tags: [Tag!]!
-  attachments: [Attachment!]!
+  categories: [Category!]
+  tags: [Tag!]
+  attachments: [Attachment!]
 }
 
 enum ProductStatus {
