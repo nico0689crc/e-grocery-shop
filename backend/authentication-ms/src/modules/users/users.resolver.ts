@@ -10,10 +10,13 @@ import { CurrentUser } from 'src/core/decorators/current-user.decorator';
 export class UsersResolver {
   constructor(@Inject(Services.USERS) private usersService: UsersService) {}
 
-  @Query(() => User)
-  getUser(@Args('id') id: number): User {
-    const user = new User();
-    return user;
+  @Query(() => User, { name: 'getUser' })
+  @UseGuards(JwtAuthGuard)
+  async getUser(
+    @Args('id') id: string,
+    @CurrentUser([UserRole.ADMINISTRATOR]) user: User
+  ): Promise<User> {
+    return await this.usersService.findOne({ where: { id } });
   }
 
   @Query(() => [User], { name: 'getUsers' })

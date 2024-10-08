@@ -17,6 +17,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
         supergraphSdl: new IntrospectAndCompose({
           subgraphs: [
             { name: 'auth', url: 'http://authentication-ms-backend:3000/graphql' },
+            { name: 'products', url: 'http://products-ms-backend:3000/graphql' },
           ],
         }),
         buildService({ url }) {

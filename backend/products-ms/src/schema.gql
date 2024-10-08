@@ -1,0 +1,125 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Attachment {
+  thumbnail: String!
+  original: String!
+  isPrimary: Boolean!
+  order: Int!
+  type: AttachmentType!
+}
+
+enum AttachmentType {
+  IMAGE
+  VIDEO
+  FILE
+  AUDIO
+}
+
+type Category {
+  title: String!
+  slug: String!
+  description: String!
+  parentId: String!
+  referenceId: Int!
+  products: [Product!]!
+}
+
+type Tag {
+  name: String!
+  slug: String!
+  products: [Product!]!
+}
+
+type Product {
+  title: String!
+  slug: String!
+  description: String!
+  inStock: Boolean!
+  stock: Float!
+  status: ProductStatus!
+  price: Float!
+  minPrice: Float!
+  maxPrice: Float!
+  salePrice: Float!
+  creator: String!
+  categories: [Category!]!
+  tags: [Tag!]!
+  attachments: [Attachment!]!
+}
+
+enum ProductStatus {
+  PUBLISHED
+  DRAFTED
+}
+
+type Query {
+  products: [Product!]!
+  product(id: Int!): Product!
+  attachments: [Attachment!]!
+  attachment(id: Int!): Attachment!
+  categories: [Category!]!
+  category(id: Int!): Category!
+  tags: [Tag!]!
+  tag(id: Int!): Tag!
+}
+
+type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: Int!): Product!
+  createAttachment(createAttachmentInput: CreateAttachmentInput!): Attachment!
+  updateAttachment(updateAttachmentInput: UpdateAttachmentInput!): Attachment!
+  removeAttachment(id: Int!): Attachment!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
+  createTag(createTagInput: CreateTagInput!): Tag!
+  updateTag(updateTagInput: UpdateTagInput!): Tag!
+  removeTag(id: Int!): Tag!
+}
+
+input CreateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateAttachmentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateAttachmentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateTagInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTagInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}

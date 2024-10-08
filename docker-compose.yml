@@ -54,6 +54,59 @@ services:
       - /app/node_modules
     networks:
       - authentication-ms-network-dev
+      - e-grocery-network-dev
+  ##################################################################################
+  #   PRODUCTS MS - Setup Database Container
+  ##################################################################################
+
+  products-ms-database:
+    container_name: products-ms-database-dev
+    image: postgres:14.3
+    env_file:
+      - ./backend/products-ms/.env
+    environment:
+      - POSTGRES_DB=${PRODUCTS_MS_BACKEND_POSTGRES_DB}
+      - POSTGRES_USER=${PRODUCTS_MS_BACKEND_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${PRODUCTS_MS_BACKEND_POSTGRES_PASSWORD}
+    ports:
+      - "${PRODUCTS_MS_BACKEND_POSTGRES_HOST_PORT}:${PRODUCTS_MS_BACKEND_POSTGRES_CONTAINER_PORT}"
+    volumes:
+      - products-ms-dev-db:/var/lib/postgresql/data
+    networks:
+      - products-ms-network-dev
+
+  ##################################################################################
+  #   PRODUCTS MS - Setup Backend Container
+  ##################################################################################
+
+  products-ms-backend:
+    depends_on:
+      - products-ms-database
+    container_name: products-ms-backend-dev
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_PRODUCTS_MS_BACKEND_IMAGE}:dev
+    build:
+      context: ./backend/products-ms
+      target: development
+    environment:
+      - PRODUCTS_MS_BACKEND_CONTAINER_PORT=${PRODUCTS_MS_BACKEND_CONTAINER_PORT}
+      - PRODUCTS_MS_BACKEND_HOST_PORT=${PRODUCTS_MS_BACKEND_HOST_PORT}
+      - POSTGRES_CONTAINER_PORT=${PRODUCTS_MS_BACKEND_POSTGRES_CONTAINER_PORT}
+      - POSTGRES_HOST=${PRODUCTS_MS_BACKEND_POSTGRES_HOST}
+      - POSTGRES_DB=${PRODUCTS_MS_BACKEND_POSTGRES_DB}
+      - POSTGRES_USER=${PRODUCTS_MS_BACKEND_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${PRODUCTS_MS_BACKEND_POSTGRES_PASSWORD}
+    ports:
+      - "${PRODUCTS_MS_BACKEND_HOST_PORT}:${PRODUCTS_MS_BACKEND_CONTAINER_PORT}"
+    expose:
+      - 3000
+    volumes:
+      - type: bind
+        source: ./backend/products-ms
+        target: /app
+      - /app/node_modules
+    networks:
+      - products-ms-network-dev
+      - e-grocery-network-dev
 
 ##################################################################################
 #   CLIENT GATEWAY - Setup 
@@ -62,6 +115,7 @@ services:
   client-gateway-backend:
     depends_on:
       - authentication-ms-backend
+      - products-ms-backend
     container_name: client-gateway-backend-dev
     image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_CLIENT_GATEWAY_BACKEND_IMAGE}:dev
     build:
@@ -80,8 +134,11 @@ services:
         target: /app
       - /app/node_modules
     networks:
-      - authentication-ms-network-dev
+      - e-grocery-network-dev
 volumes:
   authentication-ms-dev-db:
+  products-ms-dev-db:
 networks:
   authentication-ms-network-dev:
+  e-grocery-network-dev:
+  products-ms-network-dev:

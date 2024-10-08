@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { DeepPartial, FindOneOptions, Repository } from 'typeorm';
@@ -23,7 +23,14 @@ export class UsersService {
   }
 
   async findOne(params: Partial<FindOneOptions<User>>): Promise<User> {
-    return await this.userRepository.findOne(params);
+
+    const user = await this.userRepository.findOne(params);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   // update(id: number, updateUserInput: UpdateUserInput) {

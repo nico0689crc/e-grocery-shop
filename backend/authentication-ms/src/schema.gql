@@ -23,7 +23,7 @@ type AuthResponse {
 
 type Query {
   getProfile: AuthResponse!
-  getUser(id: Float!): User!
+  getUser(id: String!): User!
   getUsers: [User!]!
 }
 
