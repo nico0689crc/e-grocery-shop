@@ -55,15 +55,21 @@ export class CreateTableProducts1728369317864 implements MigrationInterface {
             default: 0,
           },
           {
+            name: 'sale_price',
+            type: 'decimal',
+            isNullable: true,
+            default: 0,
+          },
+          {
             name: 'min_price',
             type: 'decimal',
-            isNullable: false,
+            isNullable: true,
             default: 0,
           },
           {
             name: 'max_price',
             type: 'decimal',
-            isNullable: false,
+            isNullable: true,
             default: 0,
           },
           {

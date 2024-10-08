@@ -1,9 +1,9 @@
 import { ObjectType, Field, Int, ID, registerEnumType } from '@nestjs/graphql';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Core } from 'src/core/entities/core.entity';
 import { Product } from 'src/products/entities/product.entity';
 
-enum AttachmentType {
+export enum AttachmentType {
   IMAGE = 'IMAGE',
   VIDEO = 'VIDEO',
   FILE = 'FILE',
@@ -43,5 +43,6 @@ export class Attachment extends Core {
   @ManyToOne(() => Product, (product) => product.attachments, {
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'product_id' })
   product: Product;
 }

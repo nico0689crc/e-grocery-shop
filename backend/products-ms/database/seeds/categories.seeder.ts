@@ -4,17 +4,18 @@ import { Category } from 'src/categories/entities/category.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import { Product } from 'src/products/entities/product.entity';
 
-export default class UserSeeder implements Seeder {
+export default class CategoriesSeeder implements Seeder {
   public async run(
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
     const categoryRepository = dataSource.getRepository(Category);
 
-    const count = await categoryRepository.count();
+    const categoriesCount = await categoryRepository.count();
 
-    if (count === 0) {
+    if (categoriesCount === 0) {
       const filePath = path.join(__dirname, '..', '..', 'data', 'data.json');
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       const { categories } = JSON.parse(fileContent);
@@ -55,7 +56,7 @@ export default class UserSeeder implements Seeder {
       console.log('Categories seeded successfully.');
     } else {
       console.log(
-        `Skipped seeding Categories. ${count} Categories already exist.`,
+        `Skipped seeding. ${categoriesCount} Categories already exist.`,
       );
     }
   }

@@ -2,7 +2,6 @@ import {
   Entity,
   Column,
   OneToMany,
-  JoinColumn,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
@@ -62,7 +61,7 @@ export class Product extends Core {
   @Field(() => Float)
   maxPrice: number;
 
-  @Column({ type: 'decimal', name: 'sale_price' })
+  @Column({ type: 'decimal', name: 'sale_price', nullable: true })
   @Field(() => Float)
   salePrice: number;
 
@@ -74,7 +73,7 @@ export class Product extends Core {
     cascade: ['insert'],
   })
   @JoinTable({
-    name: 'product_categories',
+    name: 'categories_products',
     joinColumn: {
       name: 'product_id',
       referencedColumnName: 'id',
@@ -107,7 +106,6 @@ export class Product extends Core {
   @OneToMany(() => Attachment, (galleryItem) => galleryItem.product, {
     cascade: ['insert'],
   })
-  @JoinColumn({ name: 'product_id' })
   @Field(() => [Attachment])
   attachments: Attachment[];
 }
