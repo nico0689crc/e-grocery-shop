@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { envs } from './core/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { MicroserviceOptions } from '@nestjs/microservices';
-import { rabbitmqTransport } from './transports/rabbitmq.transport';
+import { rabbitmqTransport } from './core/transports/rabbitmq.transport';
 
 async function bootstrap() {
   const logger = new Logger('Authentication-Service');

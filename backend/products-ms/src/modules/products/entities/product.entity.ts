@@ -1,9 +1,9 @@
 import { Entity, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { Field, Float, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Attachment } from 'src/attachments/entities/attachment.entity';
-import { Category } from 'src/categories/entities/category.entity';
+import { Attachment } from 'src/modules/attachments/entities/attachment.entity';
+import { Category } from 'src/modules/categories/entities/category.entity';
 import { Core } from 'src/core/entities/core.entity';
-import { Tag } from 'src/tags/entities/tag.entity';
+import { Tag } from 'src/modules/tags/entities/tag.entity';
 
 enum ProductStatus {
   PUBLISHED = 'PUBLISHED',

@@ -1,10 +1,10 @@
 import { DataSource } from 'typeorm';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
-import { Category } from 'src/categories/entities/category.entity';
+import { Category } from 'src/modules/categories/entities/category.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { Product } from 'src/products/entities/product.entity';
+import { Product } from 'src/modules/products/entities/product.entity';
 
 export default class CategoriesSeeder implements Seeder {
   public async run(

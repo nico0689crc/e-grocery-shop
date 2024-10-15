@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ProductsModule } from './products/products.module';
+import { ProductsModule } from './modules/products/products.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
   ApolloFederationDriver,
@@ -8,9 +8,9 @@ import {
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { join } from 'path';
 import { CommonModule } from './core/common.module';
-import { CategoriesModule } from './categories/categories.module';
-import { AttachmentsModule } from './attachments/attachments.module';
-import { TagsModule } from './tags/tags.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { AttachmentsModule } from './modules/attachments/attachments.module';
+import { TagsModule } from './modules/tags/tags.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { envs } from './core/config';
 

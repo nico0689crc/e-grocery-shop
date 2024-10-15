@@ -9,7 +9,7 @@ export const rabbitmqTransport = {
     urls: [
       `amqp://${envs.rabbitMqDefaultUser}:${envs.rabbitMqDefaultPass}@${envs.rabbitMqTransportHost}:${envs.rabbitMqTransportHostPort}`,
     ],
-    queue: 'authentication_queue',
+    queue: envs.rabbitMqQueueName,
     queueOptions: {
       durable: false,
     },

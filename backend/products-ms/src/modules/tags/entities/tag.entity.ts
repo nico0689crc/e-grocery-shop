@@ -1,6 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Core } from 'src/core/entities/core.entity';
-import { Product } from 'src/products/entities/product.entity';
+import { Product } from 'src/modules/products/entities/product.entity';
 import { Column, Entity, ManyToMany } from 'typeorm';
 
 @Entity({ name: 'tags' })

@@ -1,6 +1,6 @@
 import { ConfigModule } from '@nestjs/config';
 import InitSeeder from 'database/seeds/init.seeder';
-import { Category } from 'src/categories/entities/category.entity';
+import { Category } from 'src/modules/categories/entities/category.entity';
 import { DataSource } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 import { DataSourceOptions } from 'typeorm/data-source';

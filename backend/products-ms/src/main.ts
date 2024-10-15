@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { envs } from './core/config';
 import { MicroserviceOptions } from '@nestjs/microservices';
-import { rabbitmqTransport } from './transports/rabbitmq.transport';
+import { rabbitmqTransport } from './core/transports/rabbitmq.transport';
 
 async function bootstrap() {
   const logger = new Logger('ProductsMicroservice');
