@@ -1,1 +1,1 @@
-export const NATS_SERVICE = 'NATS_SERVICE';
+export const RABBITMQ_SERVICE = 'RABBITMQ_SERVICE';

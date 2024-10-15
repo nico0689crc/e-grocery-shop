@@ -3,6 +3,12 @@ import 'dotenv/config';
 import * as joi from 'joi';
 
 interface EnvVars {
+  RABBIT_MQ_TRANSPORT_HOST: string;
+  RABBIT_MQ_QUEUE_NAME: string;
+  RABBIT_MQ_TRANSPORT_HOST_PORT: string;
+  RABBIT_MQ_TRANSPORT_CONTAINER_PORT: string;
+  RABBIT_MQ_DEFAULT_USER: string;
+  RABBIT_MQ_DEFAULT_PASS: string;
   JWT_SECRET: string;
   AUTHENTICATION_MS_BACKEND_USERS_PASSWORDS: string;
   AUTHENTICATION_MS_BACKEND_POSTGRES_DB: string;
@@ -31,6 +37,12 @@ const envsSchema = joi
     AUTHENTICATION_MS_BACKEND_HOST_PORT: joi.string().required(),
     AUTHENTICATION_MS_BACKEND_CONTAINER_PORT: joi.string().required(),
     DOCKER_HUB_AUTHENTICATION_MS_BACKEND_IMAGE: joi.string().required(),
+    RABBIT_MQ_TRANSPORT_HOST: joi.string().required(),
+    RABBIT_MQ_QUEUE_NAME: joi.string().required(),
+    RABBIT_MQ_TRANSPORT_HOST_PORT: joi.string().required(),
+    RABBIT_MQ_TRANSPORT_CONTAINER_PORT: joi.string().required(),
+    RABBIT_MQ_DEFAULT_USER: joi.string().required(),
+    RABBIT_MQ_DEFAULT_PASS: joi.string().required(),
   })
   .unknown(true);
 
@@ -59,4 +71,10 @@ export const envs = {
   backendHostPort: envVars.AUTHENTICATION_MS_BACKEND_HOST_PORT,
   backendContainerPort: envVars.AUTHENTICATION_MS_BACKEND_CONTAINER_PORT,
   dockerHubBackendImage: envVars.DOCKER_HUB_AUTHENTICATION_MS_BACKEND_IMAGE,
+  rabbitMqTransportHost: envVars.RABBIT_MQ_TRANSPORT_HOST,
+  rabbitMqQueueName: envVars.RABBIT_MQ_QUEUE_NAME,
+  rabbitMqTransportHostPort: envVars.RABBIT_MQ_TRANSPORT_HOST_PORT,
+  rabbitMqTransportContainerPort: envVars.RABBIT_MQ_TRANSPORT_CONTAINER_PORT,
+  rabbitMqDefaultUser: envVars.RABBIT_MQ_DEFAULT_USER,
+  rabbitMqDefaultPass: envVars.RABBIT_MQ_DEFAULT_PASS,
 };

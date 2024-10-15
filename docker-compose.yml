@@ -1,4 +1,16 @@
 services:
+  transport-rabbitmq:
+    container_name: transport-rabbitmq-dev
+    image: 'rabbitmq:3-management'
+    ports:
+      - "${RABBIT_MQ_TRANSPORT_HOST_PORT}:${RABBIT_MQ_TRANSPORT_CONTAINER_PORT}"
+      - "${RABBIT_MQ_TRANSPORT_ADMIN_HOST_PORT}:${RABBIT_MQ_TRANSPORT_ADMIN_CONTAINER_PORT}"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBIT_MQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_MQ_DEFAULT_PASS}
+    networks:
+      - e-grocery-network-dev
+
   ##################################################################################
   #   AUTHENTICATION MS - Setup Database Container
   ##################################################################################
@@ -6,8 +18,6 @@ services:
   authentication-ms-database:
     container_name: authentication-ms-database-dev
     image: postgres:14.3
-    env_file:
-      - ./backend/authentication-ms/.env
     environment:
       - POSTGRES_DB=${AUTHENTICATION_MS_BACKEND_POSTGRES_DB}
       - POSTGRES_USER=${AUTHENTICATION_MS_BACKEND_POSTGRES_USER}
@@ -31,8 +41,6 @@ services:
     build:
       context: ./backend/authentication-ms
       target: development
-    env_file:
-      - ./backend/authentication-ms/.env
     environment:
       - AUTHENTICATION_MS_BACKEND_CONTAINER_PORT=${AUTHENTICATION_MS_BACKEND_CONTAINER_PORT}
       - AUTHENTICATION_MS_BACKEND_HOST_PORT=${AUTHENTICATION_MS_BACKEND_HOST_PORT}
@@ -43,6 +51,12 @@ services:
       - POSTGRES_PASSWORD=${AUTHENTICATION_MS_BACKEND_POSTGRES_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}
       - AUTHENTICATION_MS_BACKEND_USERS_PASSWORDS=${AUTHENTICATION_MS_BACKEND_USERS_PASSWORDS}
+      - RABBIT_MQ_TRANSPORT_HOST=${RABBIT_MQ_TRANSPORT_HOST}
+      - RABBIT_MQ_QUEUE_NAME=${RABBIT_MQ_QUEUE_NAME}
+      - RABBIT_MQ_TRANSPORT_HOST_PORT=${RABBIT_MQ_TRANSPORT_HOST_PORT}
+      - RABBIT_MQ_TRANSPORT_CONTAINER_PORT=${RABBIT_MQ_TRANSPORT_CONTAINER_PORT}
+      - RABBIT_MQ_DEFAULT_USER=${RABBIT_MQ_DEFAULT_USER}
+      - RABBIT_MQ_DEFAULT_PASS=${RABBIT_MQ_DEFAULT_PASS}
     ports:
       - "${AUTHENTICATION_MS_BACKEND_HOST_PORT}:${AUTHENTICATION_MS_BACKEND_CONTAINER_PORT}"
     expose:
@@ -62,8 +76,6 @@ services:
   products-ms-database:
     container_name: products-ms-database-dev
     image: postgres:14.3
-    env_file:
-      - ./backend/products-ms/.env
     environment:
       - POSTGRES_DB=${PRODUCTS_MS_BACKEND_POSTGRES_DB}
       - POSTGRES_USER=${PRODUCTS_MS_BACKEND_POSTGRES_USER}
@@ -95,6 +107,12 @@ services:
       - POSTGRES_DB=${PRODUCTS_MS_BACKEND_POSTGRES_DB}
       - POSTGRES_USER=${PRODUCTS_MS_BACKEND_POSTGRES_USER}
       - POSTGRES_PASSWORD=${PRODUCTS_MS_BACKEND_POSTGRES_PASSWORD}
+      - RABBIT_MQ_TRANSPORT_HOST=${RABBIT_MQ_TRANSPORT_HOST}
+      - RABBIT_MQ_QUEUE_NAME=${RABBIT_MQ_QUEUE_NAME}
+      - RABBIT_MQ_TRANSPORT_HOST_PORT=${RABBIT_MQ_TRANSPORT_HOST_PORT}
+      - RABBIT_MQ_TRANSPORT_CONTAINER_PORT=${RABBIT_MQ_TRANSPORT_CONTAINER_PORT}
+      - RABBIT_MQ_DEFAULT_USER=${RABBIT_MQ_DEFAULT_USER}
+      - RABBIT_MQ_DEFAULT_PASS=${RABBIT_MQ_DEFAULT_PASS}
     ports:
       - "${PRODUCTS_MS_BACKEND_HOST_PORT}:${PRODUCTS_MS_BACKEND_CONTAINER_PORT}"
     expose:
@@ -121,8 +139,6 @@ services:
     build:
       context: ./backend/client-gateway
       target: development
-    env_file:
-      - ./backend/client-gateway/.env
     environment:
       - CLIENT_GATEWAY_BACKEND_HOST_PORT=${CLIENT_GATEWAY_BACKEND_HOST_PORT}
       - CLIENT_GATEWAY_BACKEND_CONTAINER_PORT=${CLIENT_GATEWAY_BACKEND_CONTAINER_PORT}

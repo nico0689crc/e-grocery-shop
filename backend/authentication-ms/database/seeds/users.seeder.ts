@@ -19,12 +19,14 @@ export default class UserSeeder implements Seeder {
         password: await bcrypt.hash(process.env.AUTHENTICATION_MS_BACKEND_USERS_PASSWORDS, 10),
         email: 'admin@egrocery.com', 
         role: UserRole.ADMINISTRATOR, 
-        id: 'a1fa8681-72af-4363-869a-930e123794a7'
+        id: 'a1fa8681-72af-4363-869a-930e123794a7',
+        emailVerified: true,
       });
 
       await userFactory.save({
         email: 'customer@egrocery.com', 
         password: await bcrypt.hash(process.env.AUTHENTICATION_MS_BACKEND_USERS_PASSWORDS, 10),
+        emailVerified: true,
       });
 
       console.log('Users seeded successfully.');

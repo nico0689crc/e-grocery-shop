@@ -23,7 +23,6 @@ export class UsersService {
   }
 
   async findOne(params: Partial<FindOneOptions<User>>): Promise<User> {
-
     const user = await this.userRepository.findOne(params);
 
     if (!user) {

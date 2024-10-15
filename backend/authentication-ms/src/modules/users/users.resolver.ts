@@ -14,7 +14,7 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuard)
   async getUser(
     @Args('id') id: string,
-    @CurrentUser([UserRole.ADMINISTRATOR]) user: User
+    @CurrentUser([UserRole.ADMINISTRATOR]) user: User,
   ): Promise<User> {
     return await this.usersService.findOne({ where: { id } });
   }
@@ -22,7 +22,7 @@ export class UsersResolver {
   @Query(() => [User], { name: 'getUsers' })
   @UseGuards(JwtAuthGuard)
   async getUsers(
-    @CurrentUser([UserRole.ADMINISTRATOR]) user: User
+    @CurrentUser([UserRole.ADMINISTRATOR]) user: User,
   ): Promise<User[]> {
     return await this.usersService.findAll();
   }

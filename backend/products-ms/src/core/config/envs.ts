@@ -3,6 +3,12 @@ import 'dotenv/config';
 import * as joi from 'joi';
 
 interface EnvVars {
+  RABBIT_MQ_TRANSPORT_HOST: string;
+  RABBIT_MQ_QUEUE_NAME: string;
+  RABBIT_MQ_TRANSPORT_HOST_PORT: string;
+  RABBIT_MQ_TRANSPORT_CONTAINER_PORT: string;
+  RABBIT_MQ_DEFAULT_USER: string;
+  RABBIT_MQ_DEFAULT_PASS: string;
   PRODUCTS_MS_BACKEND_POSTGRES_DB: string;
   PRODUCTS_MS_BACKEND_POSTGRES_HOST: string;
   PRODUCTS_MS_BACKEND_POSTGRES_USER: string;
@@ -23,6 +29,12 @@ const envsSchema = joi
     PRODUCTS_MS_BACKEND_POSTGRES_CONTAINER_PORT: joi.string().required(),
     PRODUCTS_MS_BACKEND_HOST_PORT: joi.string().required(),
     PRODUCTS_MS_BACKEND_CONTAINER_PORT: joi.string().required(),
+    RABBIT_MQ_TRANSPORT_HOST: joi.string().required(),
+    RABBIT_MQ_QUEUE_NAME: joi.string().required(),
+    RABBIT_MQ_TRANSPORT_HOST_PORT: joi.string().required(),
+    RABBIT_MQ_TRANSPORT_CONTAINER_PORT: joi.string().required(),
+    RABBIT_MQ_DEFAULT_USER: joi.string().required(),
+    RABBIT_MQ_DEFAULT_PASS: joi.string().required(),
   })
   .unknown(true);
 
@@ -46,4 +58,10 @@ export const envs = {
   postgresContainerPort: envVars.PRODUCTS_MS_BACKEND_POSTGRES_CONTAINER_PORT,
   backendHostPort: envVars.PRODUCTS_MS_BACKEND_HOST_PORT,
   backendContainerPort: envVars.PRODUCTS_MS_BACKEND_CONTAINER_PORT,
+  rabbitMqTransportHost: envVars.RABBIT_MQ_TRANSPORT_HOST,
+  rabbitMqQueueName: envVars.RABBIT_MQ_QUEUE_NAME,
+  rabbitMqTransportHostPort: envVars.RABBIT_MQ_TRANSPORT_HOST_PORT,
+  rabbitMqTransportContainerPort: envVars.RABBIT_MQ_TRANSPORT_CONTAINER_PORT,
+  rabbitMqDefaultUser: envVars.RABBIT_MQ_DEFAULT_USER,
+  rabbitMqDefaultPass: envVars.RABBIT_MQ_DEFAULT_PASS,
 };
