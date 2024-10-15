@@ -9,7 +9,6 @@ import { SignInInput } from './dto/inputs/signin.input';
 import { User } from '../users/entities/user.entity';
 import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/core/decorators/current-user.decorator';
-import { MessagePattern } from '@nestjs/microservices';
 
 @Resolver()
 export class AuthResolver {

@@ -1,16 +1,23 @@
 services:
-  transport-rabbitmq:
-    container_name: transport-rabbitmq-dev
-    image: 'rabbitmq:3-management'
+  # transport-rabbitmq:
+  #   container_name: transport-rabbitmq-dev
+  #   image: 'rabbitmq:3-management'
+  #   ports:
+  #     - "${RABBIT_MQ_TRANSPORT_HOST_PORT}:${RABBIT_MQ_TRANSPORT_CONTAINER_PORT}"
+  #     - "${RABBIT_MQ_TRANSPORT_ADMIN_HOST_PORT}:${RABBIT_MQ_TRANSPORT_ADMIN_CONTAINER_PORT}"
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=${RABBIT_MQ_DEFAULT_USER}
+  #     - RABBITMQ_DEFAULT_PASS=${RABBIT_MQ_DEFAULT_PASS}
+  #   networks:
+  #     - e-grocery-network-dev
+
+  nats-server:
+    image: nats:latest
     ports:
-      - "${RABBIT_MQ_TRANSPORT_HOST_PORT}:${RABBIT_MQ_TRANSPORT_CONTAINER_PORT}"
-      - "${RABBIT_MQ_TRANSPORT_ADMIN_HOST_PORT}:${RABBIT_MQ_TRANSPORT_ADMIN_CONTAINER_PORT}"
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBIT_MQ_DEFAULT_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBIT_MQ_DEFAULT_PASS}
+      - "8222:8222"
     networks:
       - e-grocery-network-dev
-
+      
   ##################################################################################
   #   AUTHENTICATION MS - Setup Database Container
   ##################################################################################

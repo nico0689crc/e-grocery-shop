@@ -13,6 +13,7 @@ import { JwtService } from '@nestjs/jwt';
 import { SignInInput } from './dto/inputs/signin.input';
 import * as bcrypt from 'bcrypt';
 import { UserNotFoundException } from 'src/core/exceptions/user-not-found';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class AuthService {
@@ -51,6 +52,18 @@ export class AuthService {
       token,
       user,
     };
+  }
+
+  async authValidate(token: string): Promise<Partial<User> | boolean> {
+    try {
+      const { id } = this.jwtService.verify(token);
+
+      const {firstName, lastName, email, role} =  await this.validateUser(id);
+
+      return {id, firstName, lastName, email, role};
+    } catch (error) {
+      return false;
+    }
   }
 
   async validateUser(id: string): Promise<User> {

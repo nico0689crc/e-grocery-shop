@@ -19,8 +19,8 @@ async function bootstrap() {
 
   await app.listen(envs.backendContainerPort);
 
-
-  const microservice = app.connectMicroservice<MicroserviceOptions>(rabbitmqTransport);
+  const microservice =
+    app.connectMicroservice<MicroserviceOptions>(rabbitmqTransport);
 
   await microservice.listen();
   console.log('Products-Service connected to RabbitMQ');

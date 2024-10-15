@@ -7,6 +7,8 @@ import { Inject } from '@nestjs/common';
 import { RABBITMQ_SERVICE } from 'src/core/config';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { Auth } from 'src/core/decorators/auth.decorator';
+import { UserRole } from 'src/core/entities/user.entity';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -23,14 +25,8 @@ export class ProductsResolver {
   }
 
   @Query(() => [Product], { name: 'products' })
-  async findAll(): Promise<Product[]> {1
-    const isAdmin = await lastValueFrom(
-      this.authClient.send<boolean>(
-        "check-admin",
-        { userId: 1 },
-      ),
-    );
-    
+  @Auth(UserRole.ADMINISTRATOR)
+  async findAll(): Promise<Product[]> {
     return await this.productsService.findAll();
   }
 
