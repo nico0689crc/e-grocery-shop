@@ -1,7 +1,15 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from "@nestjs/graphql";
+import { IsString, IsNotEmpty } from "class-validator";
 
 @InputType()
 export class CreateTagInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field(() => String)
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @Field(() => String)
+  @IsString()
+  @IsNotEmpty()
+  slug: string;
 }

@@ -37,14 +37,19 @@ export class AuthValidatorGuard implements CanActivate {
       this.authClient.send<User | boolean>({ cmd: 'auth-validate' }, { token }),
     );
 
-    if (!(validationResponse instanceof User) && typeof validationResponse === 'boolean') {
+    if (
+      !(validationResponse instanceof User) &&
+      typeof validationResponse === 'boolean'
+    ) {
       return false;
     }
 
     const { role: userRoles } = validationResponse as User;
 
     if (validRoles && validRoles.length > 0) {
-      const hasValidRole = validRoles.some((role: UserRole) => userRoles === role);
+      const hasValidRole = validRoles.some(
+        (role: UserRole) => userRoles === role,
+      );
       if (!hasValidRole) {
         return false;
       }

@@ -55,71 +55,49 @@ enum ProductStatus {
 }
 
 type Query {
-  products: [Product!]!
-  product(id: Int!): Product!
-  attachments: [Attachment!]!
-  attachment(id: Int!): Attachment!
-  categories: [Category!]!
-  category(id: Int!): Category!
-  tags: [Tag!]!
-  tag(id: Int!): Tag!
+  products(tags: [String!], categories: [String!], search: String, page: Int = 1, pageSize: Int = 10): [Product!]!
+  product(id: String!): Product!
 }
 
 type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
-  removeProduct(id: Int!): Product!
-  createAttachment(createAttachmentInput: CreateAttachmentInput!): Attachment!
-  updateAttachment(updateAttachmentInput: UpdateAttachmentInput!): Attachment!
-  removeAttachment(id: Int!): Attachment!
-  createCategory(createCategoryInput: CreateCategoryInput!): Category!
-  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
-  removeCategory(id: Int!): Category!
-  createTag(createTagInput: CreateTagInput!): Tag!
-  updateTag(updateTagInput: UpdateTagInput!): Tag!
-  removeTag(id: Int!): Tag!
+  removeProduct(id: String!): Product!
 }
 
 input CreateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  title: String!
+  description: String!
+  stock: Float!
+  status: ProductStatus! = PUBLISHED
+  price: Float!
+  minPrice: Float!
+  maxPrice: Float!
+  salePrice: Float
+  attachment: [CreateAttachmentInput!]
+  categories: [ID!]!
+  tags: [ID!]!
 }
 
 input CreateAttachmentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  thumbnail: String!
+  original: String!
+  isPrimary: Boolean!
+  order: Int!
+  type: AttachmentType!
 }
 
-input UpdateAttachmentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateCategoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateCategoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateTagInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateTagInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input UpdateProductInput {
+  title: String
+  description: String
+  stock: Float
+  status: ProductStatus = PUBLISHED
+  price: Float
+  minPrice: Float
+  maxPrice: Float
+  salePrice: Float
+  attachment: [CreateAttachmentInput!]
+  categories: [ID!]
+  tags: [ID!]
+  id: ID!
 }

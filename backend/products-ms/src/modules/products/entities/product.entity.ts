@@ -5,7 +5,7 @@ import { Category } from 'src/modules/categories/entities/category.entity';
 import { Core } from 'src/core/entities/core.entity';
 import { Tag } from 'src/modules/tags/entities/tag.entity';
 
-enum ProductStatus {
+export enum ProductStatus {
   PUBLISHED = 'PUBLISHED',
   DRAFTED = 'DRAFTED',
 }

@@ -15,12 +15,12 @@ import { envs, RABBITMQ_SERVICE } from 'src/core/config';
 //     },
 //   },
 // };
-export const rabbitmqTransport: NatsOptions & {name: string} = {
+export const rabbitmqTransport: NatsOptions & { name: string } = {
   name: RABBITMQ_SERVICE,
   transport: Transport.NATS,
   options: {
-    servers: ["nats://nats-server:4222"]
-  }
+    servers: ['nats://nats-server:4222'],
+  },
 };
 
 @Module({
