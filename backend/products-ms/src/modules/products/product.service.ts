@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductInput } from './dto/create-product.input';
-import { UpdateProductInput } from './dto/update-product.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { RpcException } from '@nestjs/microservices';
 import { FindAllOptions } from './interfaces/find-all.interface';
+import { FindAllResponse } from 'src/core/dto/find-all-response.dto';
+import { MessageEntityResponse } from 'src/core/dto/message-entity-response.dto';
+import { CreateProductInput } from './dto/inputs/create-product.input';
+import { UpdateProductInput } from './dto/inputs/update-product.input';
+import { ProductsResponse } from './dto/responses/products-response.dto';
 
 @Injectable()
 export class ProductsService {
@@ -17,14 +20,18 @@ export class ProductsService {
   async create(createProductInput: CreateProductInput): Promise<Product> {
     const newProduct = this.productRepository.create({
       ...createProductInput,
-      tags: createProductInput.tags?.map(tag => ({ id: tag })),
+      tags: createProductInput.tags?.map((tag) => ({ id: tag })),
     });
     return await this.productRepository.save(newProduct);
   }
 
-  async findAll(options: FindAllOptions): Promise<Product[]> {
+  async findAll(options: FindAllOptions): Promise<ProductsResponse> {
     const { tags, categories, search, page, pageSize } = options;
     const query = this.productRepository.createQueryBuilder('product');
+
+    query.leftJoinAndSelect('product.attachments', 'attachment');
+    query.leftJoinAndSelect('product.tags', 'tags');
+    query.leftJoinAndSelect('product.categories', 'categories');
 
     if (tags && tags.length > 0) {
       query
@@ -48,7 +55,20 @@ export class ProductsService {
     query.skip((page - 1) * pageSize).take(pageSize);
 
     try {
-      return await query.getMany();
+      const [products, totalItems] = await query.getManyAndCount();
+      const totalPages = Math.ceil(totalItems / pageSize);
+
+      return {
+        message: 'Products fetched successfully',
+        result: {
+          data: products,
+          totalItems,
+          totalPages,
+          currentPage: page,
+          pageSize,
+        },
+        statusCode: 200,
+      };
     } catch (error) {
       throw new RpcException({
         message: `Failed to fetch products: ${error.message}`,
@@ -76,7 +96,7 @@ export class ProductsService {
     const product = await this.productRepository.preload({
       id: id,
       ...updateProductInput,
-      tags: updateProductInput.tags?.map(tag => ({ id: tag })),
+      tags: updateProductInput.tags?.map((tag) => ({ id: tag })),
     });
     if (!product) {
       throw new RpcException({

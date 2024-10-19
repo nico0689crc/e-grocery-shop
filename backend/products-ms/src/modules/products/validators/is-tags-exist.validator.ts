@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, registerDecorator, ValidationOptions } from 'class-validator';
+import {
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidationArguments,
+  registerDecorator,
+  ValidationOptions,
+} from 'class-validator';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Tag } from 'src/modules/tags/entities/tag.entity';
@@ -12,7 +18,10 @@ export class IsTagsExistConstraint implements ValidatorConstraintInterface {
     private readonly tagRepository: Repository<Tag>,
   ) {}
 
-  async validate(tagIds: string[], args: ValidationArguments): Promise<boolean> {
+  async validate(
+    tagIds: string[],
+    args: ValidationArguments,
+  ): Promise<boolean> {
     const tags = await this.tagRepository.findByIds(tagIds);
     return tags.length === tagIds.length;
   }

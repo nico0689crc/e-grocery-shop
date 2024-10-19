@@ -1,7 +1,6 @@
 import { InputType, Field, Float, ID } from '@nestjs/graphql';
 import {
   IsString,
-  IsBoolean,
   IsInt,
   IsEnum,
   IsDecimal,
@@ -12,16 +11,12 @@ import {
   ValidateNested,
   IsUUID,
 } from 'class-validator';
-import { ProductStatus } from '../entities/product.entity';
-import { Category } from 'src/modules/categories/entities/category.entity';
-import { Tag } from 'src/modules/tags/entities/tag.entity';
 import { Type } from 'class-transformer';
-import { Attachment } from 'src/modules/attachments/entities/attachment.entity';
 import { CreateAttachmentInput } from 'src/modules/attachments/dto/create-attachment.input';
-import { CreateTagInput } from 'src/modules/tags/dto/create-tag.input';
 import { CreateCategoryInput } from 'src/modules/categories/dto/create-category.input';
-import { IsTagsExist } from '../validators/is-tags-exist.validator';
 import { IsCategoriesExist } from 'src/modules/categories/validators/is-categories-exist.validator';
+import { ProductStatus } from '../../entities/product.entity';
+import { IsTagsExist } from '../../validators/is-tags-exist.validator';
 
 @InputType()
 export class CreateProductInput {
@@ -67,7 +62,6 @@ export class CreateProductInput {
   salePrice?: number;
 
   @Field(() => [CreateAttachmentInput], { nullable: true })
-  @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => CreateAttachmentInput)
   @IsOptional()
@@ -80,7 +74,6 @@ export class CreateProductInput {
   categories: CreateCategoryInput[];
 
   @Field(() => [ID])
-  @ArrayNotEmpty()
   @IsUUID('4', { each: true })
   @IsOptional()
   @IsTagsExist({ message: 'Some tags do not exist' })

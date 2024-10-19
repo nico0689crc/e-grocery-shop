@@ -1,18 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, registerDecorator, ValidationOptions } from 'class-validator';
+import {
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidationArguments,
+  registerDecorator,
+  ValidationOptions,
+} from 'class-validator';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from '../entities/category.entity';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
-export class IsCategoriesExistConstraint implements ValidatorConstraintInterface {
+export class IsCategoriesExistConstraint
+  implements ValidatorConstraintInterface
+{
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async validate(categoryIds: string[], args: ValidationArguments): Promise<boolean> {
+  async validate(
+    categoryIds: string[],
+    args: ValidationArguments,
+  ): Promise<boolean> {
     const categories = await this.categoryRepository.findByIds(categoryIds);
     return categories.length === categoryIds.length;
   }

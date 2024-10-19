@@ -54,9 +54,31 @@ enum ProductStatus {
   DRAFTED
 }
 
+type ProductsFindAllResponse {
+  totalItems: Int!
+  totalPages: Int!
+  currentPage: Int!
+  pageSize: Int!
+  data: [Product!]!
+}
+
+type ProductsResponse {
+  message: String
+  statusCode: Int
+  result: ProductsFindAllResponse
+}
+
 type Query {
-  products(tags: [String!], categories: [String!], search: String, page: Int = 1, pageSize: Int = 10): [Product!]!
+  products(input: FindAllProductsInput): ProductsResponse!
   product(id: String!): Product!
+}
+
+input FindAllProductsInput {
+  tags: [String!]
+  categories: [String!]
+  search: String
+  page: Int
+  pageSize: Int
 }
 
 type Mutation {

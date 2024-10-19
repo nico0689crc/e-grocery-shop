@@ -1,14 +1,13 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ProductsService } from './product.service';
 import { Product } from './entities/product.entity';
-import { CreateProductInput } from './dto/create-product.input';
-import { UpdateProductInput } from './dto/update-product.input';
-import { Inject } from '@nestjs/common';
-import { RABBITMQ_SERVICE } from 'src/core/config';
-import { ClientProxy, RpcException } from '@nestjs/microservices';
-import { lastValueFrom } from 'rxjs';
+import { RpcException } from '@nestjs/microservices';
 import { Auth } from 'src/core/decorators/auth.decorator';
 import { UserRole } from 'src/core/entities/user.entity';
+import { ProductsResponse } from './dto/responses/products-response.dto';
+import { CreateProductInput } from './dto/inputs/create-product.input';
+import { UpdateProductInput } from './dto/inputs/update-product.input';
+import { FindAllProductsInput } from './dto/inputs/find-all-products.input';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -29,17 +28,11 @@ export class ProductsResolver {
     }
   }
 
-  @Query(() => [Product], { name: 'products' })
+  @Query(() => ProductsResponse, { name: 'products' })
   async findAll(
-    @Args('tags', { type: () => [String], nullable: true }) tags?: string[],
-    @Args('categories', { type: () => [String], nullable: true })
-    categories?: string[],
-    @Args('search', { type: () => String, nullable: true }) search?: string,
-    @Args('page', { type: () => Int, nullable: true, defaultValue: 1 })
-    page: number = 1,
-    @Args('pageSize', { type: () => Int, nullable: true, defaultValue: 10 })
-    pageSize: number = 10,
-  ): Promise<Product[]> {
+    @Args('input', { nullable: true }) input?: FindAllProductsInput,
+  ): Promise<ProductsResponse> {
+    const { tags, categories, search, page = 1, pageSize = 10 } = input || {};
     return await this.productsService.findAll({
       tags,
       categories,
