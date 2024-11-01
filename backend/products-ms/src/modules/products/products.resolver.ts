@@ -1,5 +1,5 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { ProductsService } from './product.service';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
+import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { RpcException } from '@nestjs/microservices';
 import { Auth } from 'src/core/decorators/auth.decorator';
@@ -7,7 +7,6 @@ import { UserRole } from 'src/core/entities/user.entity';
 import { ProductsResponse } from './dto/responses/products-response.dto';
 import { CreateProductInput } from './dto/inputs/create-product.input';
 import { UpdateProductInput } from './dto/inputs/update-product.input';
-import { FindAllProductsInput } from './dto/inputs/find-all-products.input';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -17,22 +16,25 @@ export class ProductsResolver {
   @Auth(UserRole.ADMINISTRATOR)
   async createProduct(
     @Args('createProductInput') createProductInput: CreateProductInput,
+    @Context() context: any,
   ): Promise<Product> {
-    try {
-      return await this.productsService.create(createProductInput);
-    } catch (error) {
-      throw new RpcException({
-        message: `Failed to create product: ${error.message}`,
-        status: 500,
-      });
-    }
+    return await this.productsService.create(
+      createProductInput,
+      context.req.user,
+    );
   }
 
   @Query(() => ProductsResponse, { name: 'products' })
   async findAll(
-    @Args('input', { nullable: true }) input?: FindAllProductsInput,
+    @Args('tags', { type: () => [String], nullable: true }) tags?: string[],
+    @Args('categories', { type: () => [String], nullable: true })
+    categories?: string[],
+    @Args('search', { type: () => String, nullable: true }) search?: string,
+    @Args('page', { type: () => Int, nullable: true, defaultValue: 1 })
+    page: number = 1,
+    @Args('pageSize', { type: () => Int, nullable: true, defaultValue: 10 })
+    pageSize: number = 10,
   ): Promise<ProductsResponse> {
-    const { tags, categories, search, page = 1, pageSize = 10 } = input || {};
     return await this.productsService.findAll({
       tags,
       categories,
@@ -46,14 +48,16 @@ export class ProductsResolver {
   async findOne(
     @Args('id', { type: () => String }) id: string,
   ): Promise<Product> {
-    try {
-      return await this.productsService.findOne(id);
-    } catch (error) {
+    const product = await this.productsService.findOne({ where: { id } });
+
+    if (!product) {
       throw new RpcException({
-        message: `Failed to find product with ID ${id}: ${error.message}`,
+        message: `Product with ID ${id} not found`,
         status: 404,
       });
     }
+
+    return product;
   }
 
   @Mutation(() => Product)
@@ -61,17 +65,10 @@ export class ProductsResolver {
   async updateProduct(
     @Args('updateProductInput') updateProductInput: UpdateProductInput,
   ): Promise<Product> {
-    try {
-      return await this.productsService.update(
-        updateProductInput.id,
-        updateProductInput,
-      );
-    } catch (error) {
-      throw new RpcException({
-        message: `Failed to update product with ID ${updateProductInput.id}: ${error.message}`,
-        status: 500,
-      });
-    }
+    return await this.productsService.update(
+      updateProductInput.id,
+      updateProductInput,
+    );
   }
 
   @Mutation(() => Product)

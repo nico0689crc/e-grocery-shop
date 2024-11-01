@@ -3,12 +3,21 @@
 # ------------------------------------------------------
 
 type Attachment {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
   thumbnail: String!
   original: String!
   isPrimary: Boolean!
   order: Int!
   type: AttachmentType!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 enum AttachmentType {
   IMAGE
@@ -18,21 +27,32 @@ enum AttachmentType {
 }
 
 type Category {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
   title: String!
   slug: String!
   description: String
-  parentId: String!
-  referenceId: Int!
+  parentId: String
   products: [Product!]!
 }
 
 type Tag {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
   name: String!
   slug: String!
   products: [Product!]!
 }
 
 type Product {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
   title: String!
   slug: String!
   description: String!
@@ -68,23 +88,54 @@ type ProductsResponse {
   result: ProductsFindAllResponse
 }
 
-type Query {
-  products(input: FindAllProductsInput): ProductsResponse!
-  product(id: String!): Product!
+type TagsFindAllResponse {
+  totalItems: Int!
+  totalPages: Int!
+  currentPage: Int!
+  pageSize: Int!
+  data: [Tag!]!
 }
 
-input FindAllProductsInput {
-  tags: [String!]
-  categories: [String!]
-  search: String
-  page: Int
-  pageSize: Int
+type TagsResponse {
+  message: String
+  statusCode: Int
+  result: TagsFindAllResponse
+}
+
+type Query {
+  categories: [Category!]!
+  category(id: String!): Category!
+  products(tags: [String!], categories: [String!], search: String, page: Int = 1, pageSize: Int = 10): ProductsResponse!
+  product(id: String!): Product!
+  tags(search: String, page: Int = 1, pageSize: Int = 10): TagsResponse!
+  tag(id: ID!): Tag!
 }
 
 type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: String!): Category!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   removeProduct(id: String!): Product!
+  createTag(createTagInput: CreateTagInput!): Tag!
+  updateTag(updateTagInput: UpdateTagInput!): Tag!
+  removeTag(id: ID!): Tag!
+}
+
+input CreateCategoryInput {
+  name: String!
+  slug: String!
+  description: String!
+  parentId: String
+}
+
+input UpdateCategoryInput {
+  name: String
+  slug: String
+  description: String
+  parentId: String
+  id: ID!
 }
 
 input CreateProductInput {
@@ -96,18 +147,13 @@ input CreateProductInput {
   minPrice: Float!
   maxPrice: Float!
   salePrice: Float
-  attachment: [CreateAttachmentInput!]
+  attachments: [Upload!]
   categories: [ID!]!
-  tags: [ID!]!
+  tags: [ID!]
 }
 
-input CreateAttachmentInput {
-  thumbnail: String!
-  original: String!
-  isPrimary: Boolean!
-  order: Int!
-  type: AttachmentType!
-}
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input UpdateProductInput {
   title: String
@@ -118,8 +164,17 @@ input UpdateProductInput {
   minPrice: Float
   maxPrice: Float
   salePrice: Float
-  attachment: [CreateAttachmentInput!]
+  attachments: [Upload!]
   categories: [ID!]
   tags: [ID!]
+  id: ID!
+}
+
+input CreateTagInput {
+  name: String!
+}
+
+input UpdateTagInput {
+  name: String
   id: ID!
 }

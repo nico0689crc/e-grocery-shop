@@ -3,7 +3,6 @@ import {
   IsString,
   IsInt,
   IsEnum,
-  IsDecimal,
   IsNotEmpty,
   IsOptional,
   Min,
@@ -12,17 +11,18 @@ import {
   IsUUID,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CreateAttachmentInput } from 'src/modules/attachments/dto/create-attachment.input';
-import { CreateCategoryInput } from 'src/modules/categories/dto/create-category.input';
-import { IsCategoriesExist } from 'src/modules/categories/validators/is-categories-exist.validator';
 import { ProductStatus } from '../../entities/product.entity';
-import { IsTagsExist } from '../../validators/is-tags-exist.validator';
+import { GraphQLUpload, FileUpload } from 'graphql-upload-ts';
+import { IsProductTitleUnique } from '../../validators/is-product-title-unique';
+import { IsCategoryIdValid } from '../../validators/is-category-id-valid';
+import { IsTagIdValid } from '../../validators/is-tag-id-valid';
 
 @InputType()
 export class CreateProductInput {
   @Field(() => String)
   @IsString()
   @IsNotEmpty()
+  @IsProductTitleUnique({ message: 'Title already exists. Choose another title.' })
   title: string;
 
   @Field(() => String)
@@ -40,42 +40,38 @@ export class CreateProductInput {
 
   @Field(() => Float)
   @Min(0.01)
-  @IsDecimal()
   price: number;
 
   @Field(() => Float)
   @Min(0.01)
-  @IsDecimal()
   @IsOptional()
   minPrice?: number;
 
   @Field(() => Float)
   @Min(0.01)
-  @IsDecimal()
   @IsOptional()
   maxPrice?: number;
 
   @Field(() => Float, { nullable: true })
-  @IsDecimal()
   @IsOptional()
   @Min(0.01)
   salePrice?: number;
 
-  @Field(() => [CreateAttachmentInput], { nullable: true })
+  @Field(() => [GraphQLUpload], { nullable: true })
   @ValidateNested({ each: true })
-  @Type(() => CreateAttachmentInput)
+  @Type(() => Object)
   @IsOptional()
-  attachment?: CreateAttachmentInput[];
+  attachments?: Promise<FileUpload[]>;
 
   @Field(() => [ID])
   @ArrayNotEmpty()
   @IsUUID('4', { each: true })
-  @IsCategoriesExist({ message: 'Some categories do not exist' })
-  categories: CreateCategoryInput[];
+  @IsCategoryIdValid({ message: 'One or more category IDs are invalid.' })
+  categories: string[];
 
-  @Field(() => [ID])
+  @Field(() => [ID], { nullable: true })
   @IsUUID('4', { each: true })
   @IsOptional()
-  @IsTagsExist({ message: 'Some tags do not exist' })
+  @IsTagIdValid({ message: 'One or more tag IDs are invalid.' })
   tags?: string[];
 }

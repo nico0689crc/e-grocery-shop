@@ -4,7 +4,7 @@ import { UpdateAttachmentInput } from './dto/update-attachment.input';
 
 @Injectable()
 export class AttachmentsService {
-  create(createAttachmentInput: CreateAttachmentInput) {
+  create() {
     return 'This action adds a new attachment';
   }
 
@@ -16,7 +16,7 @@ export class AttachmentsService {
     return `This action returns a #${id} attachment`;
   }
 
-  update(id: number, updateAttachmentInput: UpdateAttachmentInput) {
+  update(id: number) {
     return `This action updates a #${id} attachment`;
   }
 

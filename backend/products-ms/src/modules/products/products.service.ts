@@ -1,28 +1,59 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { RpcException } from '@nestjs/microservices';
 import { FindAllOptions } from './interfaces/find-all.interface';
-import { FindAllResponse } from 'src/core/dto/find-all-response.dto';
-import { MessageEntityResponse } from 'src/core/dto/message-entity-response.dto';
 import { CreateProductInput } from './dto/inputs/create-product.input';
 import { UpdateProductInput } from './dto/inputs/update-product.input';
 import { ProductsResponse } from './dto/responses/products-response.dto';
+import { FileUpload } from 'graphql-upload-ts';
+import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'fs';
+import * as path from 'path';
+import {
+  Attachment,
+  AttachmentType,
+} from '../attachments/entities/attachment.entity';
+import { User } from 'src/core/entities/user.entity';
+import { CategoriesService } from '../categories/categories.service';
+import slugify from 'src/core/utils/slugify';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    private readonly categoriesService: CategoriesService,
   ) {}
 
-  async create(createProductInput: CreateProductInput): Promise<Product> {
-    const newProduct = this.productRepository.create({
+  async create(
+    createProductInput: CreateProductInput,
+    { id }: User,
+  ): Promise<Product> {
+    const attachments: Partial<Attachment>[] = [];
+
+    if (createProductInput.attachments) {
+      (await this.uploadImages(createProductInput.attachments)).forEach(
+        (attachment) => attachments.push(attachment),
+      );
+    }
+
+    const savedProduct = await this.productRepository.save({
       ...createProductInput,
+      slug: slugify(createProductInput.title),
+      creator: id,
+      attachments,
       tags: createProductInput.tags?.map((tag) => ({ id: tag })),
+      categories: createProductInput.categories?.map((category) => ({
+        id: category,
+      })),
     });
-    return await this.productRepository.save(newProduct);
+
+    return this.productRepository.findOne({
+      where: { id: savedProduct.id },
+      relations: ['attachments', 'tags', 'categories'],
+    });
   }
 
   async findAll(options: FindAllOptions): Promise<ProductsResponse> {
@@ -77,27 +108,33 @@ export class ProductsService {
     }
   }
 
-  async findOne(id: string): Promise<Product> {
-    const product = await this.productRepository.findOne({ where: { id } });
-    if (!product) {
-      throw new RpcException({
-        statusCode: 404,
-        error: 'Not Found',
-        message: `Product with ID ${id} not found`,
-      });
-    }
-    return product;
+  async findOne(options: FindOneOptions<Product>): Promise<Product> {
+    return await this.productRepository.findOne(options);
   }
 
   async update(
     id: string,
     updateProductInput: UpdateProductInput,
   ): Promise<Product> {
+    const attachments: Partial<Attachment>[] = [];
+
+    if (updateProductInput.attachments) {
+      (await this.uploadImages(updateProductInput.attachments)).forEach(
+        (attachment) => attachments.push(attachment),
+      );
+    }
+
     const product = await this.productRepository.preload({
-      id: id,
+      id,
       ...updateProductInput,
+      slug: slugify(updateProductInput.title),
+      attachments,
       tags: updateProductInput.tags?.map((tag) => ({ id: tag })),
+      categories: updateProductInput.categories?.map((category) => ({
+        id: category,
+      })),
     });
+
     if (!product) {
       throw new RpcException({
         statusCode: 404,
@@ -105,11 +142,55 @@ export class ProductsService {
         message: `Product with ID ${id} not found`,
       });
     }
+
     return await this.productRepository.save(product);
   }
 
   async remove(id: string): Promise<void> {
     const product = await this.productRepository.findOne({ where: { id } });
+
+    if (!product) {
+      throw new RpcException({
+        statusCode: 404,
+        error: 'Not Found',
+        message: `Product with ID ${id} not found`,
+      });
+    }
+
     await this.productRepository.remove(product);
+  }
+
+  private async uploadImages(
+    images: Promise<FileUpload[]>,
+  ): Promise<Partial<Attachment>[]> {
+    const attachments: Partial<Attachment>[] = [];
+
+    const uploadDir = path.join(__dirname, '..', '..', 'uploads');
+
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    const imagesUploads = await images;
+
+    imagesUploads.forEach((image, index) => {
+      const { createReadStream, filename } = image;
+      const newFilename = `${uuidv4()}-${filename}`;
+      const filePath = path.join(uploadDir, newFilename);
+
+      const stream = createReadStream();
+      const writeStream = fs.createWriteStream(filePath);
+      stream.pipe(writeStream);
+
+      attachments.push({
+        thumbnail: `/uploads/${newFilename}`,
+        original: `/uploads/${newFilename}`,
+        isPrimary: index === 0,
+        order: index + 1,
+        type: AttachmentType.IMAGE,
+      });
+    });
+
+    return attachments;
   }
 }

@@ -3,9 +3,8 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
-import { RABBITMQ_SERVICE } from '../config';
+import { NATS_SERVICE } from '../config';
 import { ClientProxy } from '@nestjs/microservices';
 import { Reflector } from '@nestjs/core';
 import { VALID_ROLES_KEY } from '../decorators/valid-roles.decorator';
@@ -16,7 +15,7 @@ import { User, UserRole } from '../entities/user.entity';
 @Injectable()
 export class AuthValidatorGuard implements CanActivate {
   constructor(
-    @Inject(RABBITMQ_SERVICE) private readonly authClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly authClient: ClientProxy,
     private reflector: Reflector,
   ) {}
 
@@ -54,6 +53,8 @@ export class AuthValidatorGuard implements CanActivate {
         return false;
       }
     }
+
+    request.user = validationResponse;
 
     return true;
   }

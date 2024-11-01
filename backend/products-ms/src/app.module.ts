@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ProductsModule } from './modules/products/products.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
@@ -13,6 +13,7 @@ import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { TagsModule } from './modules/tags/tags.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { envs } from './core/config';
+import { graphqlUploadExpress } from 'graphql-upload-ts';
 
 @Module({
   imports: [
@@ -35,14 +36,20 @@ import { envs } from './core/config';
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
+    CategoriesModule,
     ProductsModule,
     CommonModule,
     AttachmentsModule,
-    CategoriesModule,
     AttachmentsModule,
     TagsModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }))
+      .forRoutes('graphql');
+  }
+}

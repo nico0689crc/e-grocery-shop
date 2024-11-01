@@ -3,8 +3,7 @@ import {
   IsEmail,
   IsNotEmpty,
   IsString,
-  Matches,
-  MinLength,
+  Matches
 } from 'class-validator';
 import { PasswordMatch } from 'src/core/decorators/password-match';
 

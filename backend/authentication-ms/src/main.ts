@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { envs } from './core/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { MicroserviceOptions } from '@nestjs/microservices';
-import { rabbitmqTransport } from './core/transports/rabbitmq.transport';
+import { natsTransport } from './core/transports/nats.transport';
 
 async function bootstrap() {
   const logger = new Logger('Authentication-Service');
@@ -23,9 +23,9 @@ async function bootstrap() {
   await app.listen(envs.backendContainerPort);
 
   const microservice =
-    app.connectMicroservice<MicroserviceOptions>(rabbitmqTransport);
+    app.connectMicroservice<MicroserviceOptions>(natsTransport);
 
   await microservice.listen();
-  console.log('Authentication-Service connected to RabbitMQ');
+  console.log('Authentication-Service connected to NATS');
 }
 bootstrap();

@@ -1,11 +1,5 @@
-import { ObjectType, Field, Int, ID, registerEnumType } from '@nestjs/graphql';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Core } from 'src/core/entities/core.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 

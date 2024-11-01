@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+@ObjectType()
 export class Core {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)

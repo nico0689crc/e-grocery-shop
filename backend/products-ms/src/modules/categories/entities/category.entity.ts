@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { Core } from 'src/core/entities/core.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { Column, Entity, ManyToMany } from 'typeorm';
@@ -19,11 +19,10 @@ export class Category extends Core {
   description: string;
 
   @Column({ type: 'varchar', name: 'parent_id', nullable: true })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   parentId: string;
 
   @Column({ type: 'int', name: 'reference_id', nullable: true })
-  @Field(() => Int)
   referenceId: number;
 
   @ManyToMany(() => Product, (product) => product.categories)
