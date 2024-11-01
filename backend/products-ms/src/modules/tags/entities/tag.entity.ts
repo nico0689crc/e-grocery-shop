@@ -1,7 +1,7 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { Core } from 'src/core/entities/core.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 
 @Entity({ name: 'tags' })
 @ObjectType()
@@ -17,6 +17,6 @@ export class Tag extends Core {
   @ManyToMany(() => Product, (product) => product.tags, {
     onDelete: 'CASCADE',
   })
-  @Field(() => [Product])
+  @Field(() => [Product], { nullable: true })
   products: Product[];
 }

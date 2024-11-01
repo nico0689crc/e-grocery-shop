@@ -6,6 +6,7 @@ import { UpdateTagInput } from './dto/inputs/update-tag.input';
 import { TagsResponse } from './responses/tags-response.dto';
 import { Auth } from 'src/core/decorators/auth.decorator';
 import { UserRole } from 'src/core/entities/user.entity';
+import { TagResponse } from './responses/tag-response.dto';
 
 @Resolver(() => Tag)
 export class TagsResolver {
@@ -26,26 +27,54 @@ export class TagsResolver {
     });
   }
 
-  @Query(() => Tag, { name: 'tag' })
-  findOne(@Args('id', { type: () => ID }) id: string) {
-    return this.tagsService.findOne({ where: { id } });
+  @Query(() => TagResponse, { name: 'tag' })
+  async findOne(@Args('id', { type: () => ID }) id: string): Promise<TagResponse> {
+    const tag = await this.tagsService.findOne({
+      where: { id },
+      relations: ['products'],
+    });
+
+    return {  
+      message: 'Tag fetched successfully',
+      statusCode: 200,
+      data: tag,
+    };
   }
 
-  @Mutation(() => Tag)
+  @Mutation(() => TagResponse)
   @Auth(UserRole.ADMINISTRATOR)
-  createTag(@Args('createTagInput') createTagInput: CreateTagInput) {
-    return this.tagsService.create(createTagInput);
+  async createTag(
+    @Args('createTagInput') createTagInput: CreateTagInput,
+  ): Promise<TagResponse> {
+    const tag = await this.tagsService.create(createTagInput);
+
+    return { 
+      message: 'Tag created successfully',
+      statusCode: 201,
+      data: tag,
+    };
   }
 
-  @Mutation(() => Tag)
+  @Mutation(() => TagResponse)
   @Auth(UserRole.ADMINISTRATOR)
-  updateTag(@Args('updateTagInput') updateTagInput: UpdateTagInput) {
-    return this.tagsService.update(updateTagInput.id, updateTagInput);
+  async updateTag(
+    @Args('updateTagInput') updateTagInput: UpdateTagInput,
+  ): Promise<TagResponse> {
+    await this.tagsService.update(updateTagInput);
+
+    return {
+      message: 'Tag updated successfully',
+      statusCode: 200,
+    };
   }
 
-  @Mutation(() => Tag)
+  @Mutation(() => TagResponse)
   @Auth(UserRole.ADMINISTRATOR)
-  removeTag(@Args('id', { type: () => ID }) id: string) {
-    return this.tagsService.remove(id);
+  async removeTag(
+    @Args('id', { type: () => ID }) id: string,
+  ): Promise<TagResponse> {
+    await this.tagsService.remove(id);
+
+    return { message: 'Tag removed successfully', statusCode: 204 };
   }
 }

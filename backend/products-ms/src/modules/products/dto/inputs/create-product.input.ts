@@ -22,7 +22,9 @@ export class CreateProductInput {
   @Field(() => String)
   @IsString()
   @IsNotEmpty()
-  @IsProductTitleUnique({ message: 'Title already exists. Choose another title.' })
+  @IsProductTitleUnique({
+    message: 'Title already exists. Choose another title.',
+  })
   title: string;
 
   @Field(() => String)

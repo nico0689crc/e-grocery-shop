@@ -45,7 +45,7 @@ type Tag {
   deletedAt: DateTime
   name: String!
   slug: String!
-  products: [Product!]!
+  products: [Product!]
 }
 
 type Product {
@@ -102,13 +102,19 @@ type TagsResponse {
   result: TagsFindAllResponse
 }
 
+type TagResponse {
+  message: String
+  statusCode: Int
+  data: Tag
+}
+
 type Query {
   categories: [Category!]!
   category(id: String!): Category!
   products(tags: [String!], categories: [String!], search: String, page: Int = 1, pageSize: Int = 10): ProductsResponse!
   product(id: String!): Product!
   tags(search: String, page: Int = 1, pageSize: Int = 10): TagsResponse!
-  tag(id: ID!): Tag!
+  tag(id: ID!): TagResponse!
 }
 
 type Mutation {
@@ -118,9 +124,9 @@ type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   removeProduct(id: String!): Product!
-  createTag(createTagInput: CreateTagInput!): Tag!
-  updateTag(updateTagInput: UpdateTagInput!): Tag!
-  removeTag(id: ID!): Tag!
+  createTag(createTagInput: CreateTagInput!): TagResponse!
+  updateTag(updateTagInput: UpdateTagInput!): TagResponse!
+  removeTag(id: ID!): TagResponse!
 }
 
 input CreateCategoryInput {

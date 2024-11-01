@@ -28,6 +28,6 @@ async function bootstrap() {
     app.connectMicroservice<MicroserviceOptions>(natsTransport);
 
   await microservice.listen();
-  console.log('Products-Service connected to RabbitMQ');
+  console.log('Products-Service connected to NATS');
 }
 bootstrap();

@@ -8,6 +8,8 @@ import { UpdateTagInput } from './dto/inputs/update-tag.input';
 import { FindAllOptions } from '../products/interfaces/find-all.interface';
 import { TagsResponse } from './responses/tags-response.dto';
 import { RpcException } from '@nestjs/microservices';
+import { TagResponse } from './responses/tag-response.dto';
+import { log } from 'console';
 
 @Injectable()
 export class TagsService {
@@ -17,11 +19,11 @@ export class TagsService {
   ) {}
 
   async create(createTagInput: CreateTagInput): Promise<Tag> {
-    const newTag = this.tagRepository.create({
+    return await this.tagRepository.save({
       ...createTagInput,
       slug: slugify(createTagInput.name),
+      products: [],
     });
-    return this.tagRepository.save(newTag);
   }
 
   async findAll(options: FindAllOptions): Promise<TagsResponse> {
@@ -31,17 +33,14 @@ export class TagsService {
     query.leftJoinAndSelect('tag.products', 'products');
 
     if (search) {
-      query.andWhere(
-        '(tag.name ILIKE :search)',
-        { search: `%${search}%` },
-      );
+      query.andWhere('(tag.name ILIKE :search)', { search: `%${search}%` });
     }
 
     query.skip((page - 1) * pageSize).take(pageSize);
 
     try {
       const [tags, totalItems] = await query.getManyAndCount();
-      
+
       const totalPages = Math.ceil(totalItems / pageSize);
 
       return {
@@ -64,29 +63,29 @@ export class TagsService {
   }
 
   async findOne(options: FindOneOptions<Tag>): Promise<Tag> {
-    return await this.tagRepository.findOne(options);
+    const tag = await this.tagRepository.findOne(options);
+
+    if (!tag) {
+      throw new NotFoundException(`Tag not found`);
+    }
+
+    return tag;
   }
 
-
-  async findBy(options: FindOptionsWhere<Tag>): Promise<Tag[]> {
-    return await this.tagRepository.findBy(options);
-  }
-
-  async update(id: string, updateTagInput: UpdateTagInput): Promise<Tag> {
+  async update(updateTagInput: UpdateTagInput): Promise<void> {
     const tag = await this.tagRepository.preload({
-      id,
       ...updateTagInput,
       slug: slugify(updateTagInput.name),
     });
 
     if (!tag) {
-      throw new NotFoundException(`Tag with ID ${id} not found`);
+      throw new NotFoundException(`Tag with ID ${updateTagInput.id} not found`);
     }
 
-    return this.tagRepository.save(tag);
+    await this.tagRepository.save(tag);
   }
 
-  async remove(id: string): Promise<Tag> {
+  async remove(id: string): Promise<void> {
     const tag = await this.tagRepository.preload({ id });
 
     if (!tag) {
@@ -94,6 +93,9 @@ export class TagsService {
     }
 
     await this.tagRepository.remove(tag);
-    return tag;
+  }
+
+  async findBy(options: FindOptionsWhere<Tag>): Promise<Tag[]> {
+    return await this.tagRepository.findBy(options);
   }
 }
