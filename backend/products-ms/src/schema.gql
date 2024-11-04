@@ -88,6 +88,26 @@ type ProductsResponse {
   result: ProductsFindAllResponse
 }
 
+type CategoriesFindAllResponse {
+  totalItems: Int!
+  totalPages: Int!
+  currentPage: Int!
+  pageSize: Int!
+  data: [Category!]!
+}
+
+type CategoriesResponse {
+  message: String
+  statusCode: Int
+  result: CategoriesFindAllResponse
+}
+
+type CategoryResponse {
+  message: String
+  statusCode: Int
+  data: Category
+}
+
 type TagsFindAllResponse {
   totalItems: Int!
   totalPages: Int!
@@ -109,8 +129,8 @@ type TagResponse {
 }
 
 type Query {
-  categories: [Category!]!
-  category(id: String!): Category!
+  categories(search: String, page: Int = 1, pageSize: Int = 10): CategoriesResponse!
+  category(id: ID!): CategoryResponse!
   products(tags: [String!], categories: [String!], search: String, page: Int = 1, pageSize: Int = 10): ProductsResponse!
   product(id: String!): Product!
   tags(search: String, page: Int = 1, pageSize: Int = 10): TagsResponse!
@@ -118,9 +138,9 @@ type Query {
 }
 
 type Mutation {
-  createCategory(createCategoryInput: CreateCategoryInput!): Category!
-  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
-  removeCategory(id: String!): Category!
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryResponse!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryResponse!
+  removeCategory(id: ID!): CategoryResponse!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   removeProduct(id: String!): Product!
@@ -130,15 +150,13 @@ type Mutation {
 }
 
 input CreateCategoryInput {
-  name: String!
-  slug: String!
+  title: String!
   description: String!
   parentId: String
 }
 
 input UpdateCategoryInput {
-  name: String
-  slug: String
+  title: String
   description: String
   parentId: String
   id: ID!

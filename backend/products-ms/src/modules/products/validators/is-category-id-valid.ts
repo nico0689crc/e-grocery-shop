@@ -16,7 +16,7 @@ export class IsCategoryIdValidConstraint
   constructor(private readonly categoriesService: CategoriesService) {}
 
   async validate(categories: string[]) {
-    const categoryIds = await this.categoriesService.findOne({
+    const categoryIds = await this.categoriesService.findBy({
       id: In(categories),
     });
     return categoryIds.length === categories.length;

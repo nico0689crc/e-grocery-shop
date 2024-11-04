@@ -1,22 +1,24 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
+import { IsCategoryTitleUnique } from '../validators/is-category-title-unique';
 
 @InputType()
 export class CreateCategoryInput {
   @Field(() => String)
   @IsString()
-  name: string;
+  @IsNotEmpty()
+  @IsCategoryTitleUnique()
+  title: string;
 
   @Field(() => String)
   @IsString()
-  slug: string;
-
-  @Field(() => String)
-  @IsString()
+  @IsNotEmpty()
   description: string;
+  
 
   @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
+  @IsNotEmpty()
   parentId?: string;
 }

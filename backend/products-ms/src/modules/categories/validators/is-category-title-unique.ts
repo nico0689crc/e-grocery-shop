@@ -3,19 +3,19 @@ import {
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
-  ValidationArguments, 
+  ValidationArguments,
 } from 'class-validator';
 import { Injectable } from '@nestjs/common';
-import { TagsService } from '../tags.service';
+import { CategoriesService } from '../categories.service';
 
 @Injectable()
 @ValidatorConstraint({ async: true })
-export class IsTitleUniqueConstraint implements ValidatorConstraintInterface {
-  constructor(private readonly tagService: TagsService) {}
+export class IsCategoryTitleUniqueConstraint implements ValidatorConstraintInterface {
+  constructor(private readonly categoryService: CategoriesService) {}
 
-  async validate(name: string, args: ValidationArguments) { 
-    const { id } = args.object as any;
-    const tag = await this.tagService.findBy({ name });
+  async validate(title: string, args: ValidationArguments) {
+    const { id } = args.object as any; 
+    const tag = await this.categoryService.findBy({ title });
     
     if (id) {
       return tag.length === 0 || (tag.length === 1 && tag[0].id === id);
@@ -29,14 +29,14 @@ export class IsTitleUniqueConstraint implements ValidatorConstraintInterface {
   }
 }
 
-export function IsTagTitleUnique(validationOptions?: ValidationOptions) {
+export function IsCategoryTitleUnique(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
       constraints: [],
-      validator: IsTitleUniqueConstraint,
+      validator: IsCategoryTitleUniqueConstraint,
     });
   };
 }
