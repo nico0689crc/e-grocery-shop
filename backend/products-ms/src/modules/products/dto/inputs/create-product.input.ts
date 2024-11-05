@@ -20,8 +20,8 @@ import { IsTagIdValid } from '../../validators/is-tag-id-valid';
 @InputType()
 export class CreateProductInput {
   @Field(() => String)
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   @IsProductTitleUnique({
     message: 'Title already exists. Choose another title.',
   })

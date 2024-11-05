@@ -1,5 +1,6 @@
 import {
   registerDecorator,
+  ValidationArguments,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
@@ -12,9 +13,15 @@ import { ProductsService } from '../products.service';
 export class IsTitleUniqueConstraint implements ValidatorConstraintInterface {
   constructor(private readonly productService: ProductsService) {}
 
-  async validate(title: string) {
-    const product = await this.productService.findOne({ where: { title } });
-    return !product;
+  async validate(title: string, args: ValidationArguments) {
+    const { id } = args.object as any; 
+    const product = await this.productService.findBy({ title });
+    
+    if (id) {
+      return product.length === 0 || (product.length === 1 && product[0].id === id);
+    }
+    
+    return product.length === 0;
   }
 
   defaultMessage() {

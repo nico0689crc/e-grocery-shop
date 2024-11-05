@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { FindOneOptions, Repository } from 'typeorm';
+import { FindOneOptions, FindOptionsWhere, Repository } from 'typeorm';
 import { RpcException } from '@nestjs/microservices';
 import { FindAllOptions } from './interfaces/find-all.interface';
 import { CreateProductInput } from './dto/inputs/create-product.input';
@@ -67,13 +67,13 @@ export class ProductsService {
     if (tags && tags.length > 0) {
       query
         .leftJoinAndSelect('product.tags', 'tag')
-        .andWhere('tag.name IN (:...tags)', { tags });
+        .andWhere('tag.id IN (:...tags)', { tags });
     }
 
     if (categories && categories.length > 0) {
       query
         .leftJoinAndSelect('product.categories', 'category')
-        .andWhere('category.name IN (:...categories)', { categories });
+        .andWhere('category.id IN (:...categories)', { categories });
     }
 
     if (search) {
@@ -192,5 +192,9 @@ export class ProductsService {
     });
 
     return attachments;
+  }
+
+  async findBy(options: FindOptionsWhere<Product>): Promise<Product[]> {
+    return await this.productRepository.findBy(options);
   }
 }
