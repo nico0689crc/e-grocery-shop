@@ -5,8 +5,8 @@ import { CreateTagInput } from './dto/inputs/create-tag.input';
 import { UpdateTagInput } from './dto/inputs/update-tag.input';
 import { TagsResponse } from './responses/tags-response.dto';
 import { Auth } from 'src/core/decorators/auth.decorator';
-import { UserRole } from 'src/core/entities/user.entity';
 import { TagResponse } from './responses/tag-response.dto';
+import { UserRole } from '../users/entities/user.entity';
 
 @Resolver(() => Tag)
 export class TagsResolver {

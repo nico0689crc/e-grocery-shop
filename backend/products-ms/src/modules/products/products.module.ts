@@ -27,5 +27,6 @@ import { TagsModule } from '../tags/tags.module';
     TagsModule,
     TypeOrmModule.forFeature([Product, Category, Tag, Attachment]),
   ],
+  exports: [ProductsService],
 })
 export class ProductsModule {}

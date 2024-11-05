@@ -4,6 +4,7 @@ import { Attachment } from 'src/modules/attachments/entities/attachment.entity';
 import { Category } from 'src/modules/categories/entities/category.entity';
 import { Core } from 'src/core/entities/core.entity';
 import { Tag } from 'src/modules/tags/entities/tag.entity';
+import { User } from 'src/modules/users/entities/user.entity';
 
 export enum ProductStatus {
   PUBLISHED = 'PUBLISHED',
@@ -62,6 +63,9 @@ export class Product extends Core {
   @Column({ nullable: false })
   @Field(() => String)
   creator: string;
+
+  @Field(() => User, { nullable: true })
+  user?: User;
 
   @ManyToMany(() => Category, (category) => category.products, {
     cascade: ['insert'],

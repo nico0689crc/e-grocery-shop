@@ -10,7 +10,7 @@ import { Reflector } from '@nestjs/core';
 import { VALID_ROLES_KEY } from '../decorators/valid-roles.decorator';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { lastValueFrom } from 'rxjs';
-import { User, UserRole } from '../entities/user.entity';
+import { UserRole, User } from 'src/modules/users/entities/user.entity';
 
 @Injectable()
 export class AuthValidatorGuard implements CanActivate {
@@ -43,7 +43,7 @@ export class AuthValidatorGuard implements CanActivate {
       return false;
     }
 
-    const { role: userRoles } = validationResponse as User;
+    const { role: userRoles } = validationResponse as User & { role: UserRole };
 
     if (validRoles && validRoles.length > 0) {
       const hasValidRole = validRoles.some(

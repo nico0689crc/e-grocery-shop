@@ -15,9 +15,9 @@ import {
   Attachment,
   AttachmentType,
 } from '../attachments/entities/attachment.entity';
-import { User } from 'src/core/entities/user.entity';
 import { CategoriesService } from '../categories/categories.service';
 import slugify from 'src/core/utils/slugify';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class ProductsService {

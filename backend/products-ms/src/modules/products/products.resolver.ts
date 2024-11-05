@@ -1,12 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context, ResolveField, Parent } from '@nestjs/graphql';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { RpcException } from '@nestjs/microservices';
 import { Auth } from 'src/core/decorators/auth.decorator';
-import { UserRole } from 'src/core/entities/user.entity';
 import { ProductsResponse } from './dto/responses/products-response.dto';
 import { CreateProductInput } from './dto/inputs/create-product.input';
 import { UpdateProductInput } from './dto/inputs/update-product.input';
+import { UserRole } from '../users/entities/user.entity';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -84,5 +84,10 @@ export class ProductsResolver {
         status: 500,
       });
     }
+  }
+
+  @ResolveField(() => Product)
+  user(@Parent() product: Product): any {
+    return { __typename: 'User', id: product.creator };
   }
 }

@@ -1,7 +1,7 @@
-import { Resolver, Query, Args } from '@nestjs/graphql';
+import { Resolver, Query, Args, ResolveReference } from '@nestjs/graphql';
 import { User, UserRole } from './entities/user.entity';
 import { UsersService } from './users.service';
-import { Inject, UseGuards } from '@nestjs/common';
+import { Inject, NotFoundException, UseGuards } from '@nestjs/common';
 import { Services } from 'src/core/constants';
 import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/core/decorators/current-user.decorator';
@@ -12,11 +12,14 @@ export class UsersResolver {
 
   @Query(() => User, { name: 'getUser' })
   @UseGuards(JwtAuthGuard)
-  async getUser(
-    @Args('id') id: string,
-    @CurrentUser([UserRole.ADMINISTRATOR]) user: User,
-  ): Promise<User> {
-    return await this.usersService.findOne({ where: { id } });
+  async getUser(@Args('id') id: string): Promise<User> {
+    const user = await this.usersService.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   @Query(() => [User], { name: 'getUsers' })
@@ -25,5 +28,10 @@ export class UsersResolver {
     @CurrentUser([UserRole.ADMINISTRATOR]) user: User,
   ): Promise<User[]> {
     return await this.usersService.findAll();
+  }
+
+  @ResolveReference()
+  async resolveReference(reference: { __typename: string; id: string }): Promise<User> {
+    return await this.usersService.findOne({ where: { id: reference.id } });
   }
 }

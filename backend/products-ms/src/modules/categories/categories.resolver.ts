@@ -4,10 +4,10 @@ import { Category } from './entities/category.entity';
 
 import { CategoriesResponse } from './responses/categories-response.dto';
 import { Auth } from 'src/core/decorators/auth.decorator';
-import { UserRole } from 'src/core/entities/user.entity';
 import { CategoryResponse } from './responses/category-response.dto';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
+import { UserRole } from '../users/entities/user.entity';
 
 @Resolver(() => Category)
 export class CategoriesResolver {

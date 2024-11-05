@@ -14,6 +14,8 @@ import { TagsModule } from './modules/tags/tags.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { envs } from './core/config';
 import { graphqlUploadExpress } from 'graphql-upload-ts';
+import { UsersModule } from './modules/users/users.module';
+import { User } from './modules/users/entities/user.entity';
 
 @Module({
   imports: [
@@ -35,6 +37,9 @@ import { graphqlUploadExpress } from 'graphql-upload-ts';
       },
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      buildSchemaOptions:{
+        orphanedTypes: [User],
+      }
     }),
     CategoriesModule,
     ProductsModule,
@@ -42,9 +47,9 @@ import { graphqlUploadExpress } from 'graphql-upload-ts';
     AttachmentsModule,
     AttachmentsModule,
     TagsModule,
+    UsersModule,
   ],
   controllers: [],
-  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -23,13 +23,7 @@ export class UsersService {
   }
 
   async findOne(params: Partial<FindOneOptions<User>>): Promise<User> {
-    const user = await this.userRepository.findOne(params);
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    return user;
+    return await this.userRepository.findOne(params);
   }
 
   // update(id: number, updateUserInput: UpdateUserInput) {
