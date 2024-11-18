@@ -1,0 +1,46 @@
+query Products($tags: [String!], $categories: [String!], $search: String, $page: Int, $pageSize: Int) {
+    products(tags: $tags, categories: $categories, search: $search, page: $page, pageSize: $pageSize) {
+        message
+        statusCode
+        result {
+            totalItems
+            totalPages
+            currentPage
+            pageSize
+            data {
+                id
+                createdAt
+                updatedAt
+                deletedAt
+                title
+                slug
+                description
+                inStock
+                stock
+                status
+                price
+                minPrice
+                maxPrice
+                salePrice
+                creator
+                categories {
+                    id
+                }
+                attachments {
+                    id
+                }
+                tags {
+                    id
+                }
+                user {
+                    id
+                    email
+                    firstName
+                    lastName
+                    avatar
+                    role
+                }
+            }
+        }
+    }
+}
