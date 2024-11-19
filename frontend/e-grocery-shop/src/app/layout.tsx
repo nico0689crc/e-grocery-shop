@@ -1,6 +1,8 @@
-import { ApolloProvider } from "@apollo/client";
 import type { Metadata } from "next";
 import { ApolloWrapper } from "../graphql/lib/apollo-wrapper";
+import ThemeProvider from "@/theme";
+import { SettingsProvider } from "@/components/settings";
+import { I18nextProvider } from 'react-i18next';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,9 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning={true}>
         <ApolloWrapper>
-          {children}
+          <SettingsProvider defaultSettings={{ themeMode: "light" }}>
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
+          </SettingsProvider>
         </ApolloWrapper>
       </body>
     </html>

@@ -2,6 +2,7 @@
 
 import { getClient } from "@/graphql/lib/client";
 import { Product, ProductsDocument } from "@/graphql/products.graphql";
+import { Button } from "@mui/material";
 
 export default async function Home() {
   // const { data: { products }, loading, error } = useProducts({variables: {page: 1, pageSize: 15}});
@@ -23,6 +24,7 @@ export default async function Home() {
   return (
     <div>
       <h1>Products</h1>
+      <Button variant="contained">Button</Button>
       <ul>
         {products.map((product: Product) => (
           <li key={product.id}>{product.title}</li>
