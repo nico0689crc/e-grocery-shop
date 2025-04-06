@@ -1,88 +1,87 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from 'react'
 
 export function useLocalStorage<T>(key: string, initialState: T) {
-  const [localStorage, SetLocalStorage] = useState<T>(initialState);
+  const [localStorage, SetLocalStorage] = useState<T>(initialState)
 
   useEffect(() => {
-    const restored = getStorage(key);
+    const restored = getStorage(key)
 
     if (restored) {
       SetLocalStorage((prevValue: T) => ({
         ...prevValue,
-        ...restored,
-      }));
+        ...restored
+      }))
     }
-  }, [key]);
+  }, [key])
 
   const updateState = useCallback(
     (updateValue: any) => {
       SetLocalStorage((prevValue: any) => {
         setStorage(key, {
           ...prevValue,
-          ...updateValue,
-        });
+          ...updateValue
+        })
 
         return {
           ...prevValue,
-          ...updateValue,
-        };
-      });
+          ...updateValue
+        }
+      })
     },
-    [key],
-  );
+    [key]
+  )
 
   const update = useCallback(
     (name: string, updateValue: any) => {
       updateState({
-        [name]: updateValue,
-      });
+        [name]: updateValue
+      })
     },
-    [updateState],
-  );
+    [updateState]
+  )
 
   const reset = useCallback(() => {
-    removeStorage(key);
-    SetLocalStorage(initialState);
-  }, [initialState, key]);
+    removeStorage(key)
+    SetLocalStorage(initialState)
+  }, [initialState, key])
 
   return {
     localStorage,
     update,
-    reset,
-  };
+    reset
+  }
 }
 
 export const getStorage = (key: string) => {
-  let value = null;
+  let value = null
 
   try {
-    const result = window.localStorage.getItem(key);
+    const result = window.localStorage.getItem(key)
 
     if (result) {
-      value = JSON.parse(result);
+      value = JSON.parse(result)
     }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 
-  return value;
-};
+  return value
+}
 
 export const setStorage = (key: string, value: any) => {
   try {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    window.localStorage.setItem(key, JSON.stringify(value))
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
 export const removeStorage = (key: string) => {
   try {
-    window.localStorage.removeItem(key);
+    window.localStorage.removeItem(key)
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
-export const getQuizLocalStorageKey = (quizUUID: string) =>
-  `STORAGE_KEY_USER_DATA_QUIZ_WEBSOCKET_${quizUUID}`;
+export const getQuizLocalStorageKey = (quizUUID: string) => `STORAGE_KEY_USER_DATA_QUIZ_WEBSOCKET_${quizUUID}`

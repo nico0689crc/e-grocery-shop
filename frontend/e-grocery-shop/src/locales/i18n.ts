@@ -1,32 +1,11 @@
-"use client";
+export const i18n = {
+  cookieName: 'i18next-lng-cookie',
+  defaultLocale: 'en',
+  locales: ['en', 'es'],
+  langDirection: {
+    en: 'ltr',
+    escapeRegExp: 'ltr'
+  }
+} as const
 
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-
-import { defaultLang } from "./config-lang";
-import translationEn from "./langs/en.json";
-import translationEs from "./langs/es.json";
-import { localStorageGetItem } from "@/utils/storage-available";
-
-const lng = localStorageGetItem("i18nextLng", defaultLang.value);
-
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources: {
-      en: { translations: translationEn },
-      es: { translations: translationEs },
-    },
-    lng,
-    fallbackLng: "en",
-    debug: false,
-    ns: ["translations"],
-    defaultNS: "translations",
-    interpolation: {
-      escapeValue: false,
-    },
-  });
-
-export default i18n;
+export type Locale = (typeof i18n)['locales'][number]

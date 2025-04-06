@@ -20,13 +20,19 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "@core/*": [
+        "./src/@core/*"
+      ],
+      "@configs/*": [
+        "./src/configs/*"
+      ],
     },
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
   },
   "include": [
     "next-env.d.ts",
