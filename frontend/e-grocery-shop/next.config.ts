@@ -10,12 +10,6 @@ const nextConfig: NextConfig = {
         permanent: true,
         locale: false
       },
-      // {
-      //   source: '/:lang(en|es)',
-      //   destination: '/:lang/',
-      //   permanent: true,
-      //   locale: false
-      // },
       {
         source: '/((?!(?:en|es|front-pages|favicon.ico)\\b)):path',
         destination: '/en/:path',

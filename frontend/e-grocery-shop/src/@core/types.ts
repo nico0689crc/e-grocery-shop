@@ -20,3 +20,10 @@ export type ChildrenType = {
 export type LocaleParams = {
   params: Promise<{ lang: Locale }>
 }
+
+export type LocaleWithIDParams = {
+  params: Promise<{ 
+    lang: Locale,
+    id: string 
+  }>
+}

@@ -3,18 +3,16 @@ import { Button } from '@mui/material'
 
 import type { LocaleParams } from '@core/types' // Assuming you have a separate file for types
 
-// External Libraries
-
 // Utilities
 import { getDictionary } from '@/locales/getDictionary'
-import { getProductsFromServer } from '../server/products'
+import { getProductsFromServer } from '@/app/server/products'
 
 // Components
 import ListItem from '@/components/ListItem'
 import Wrapper from '@/components/Wrapper'
 
 // Main Component
-export default async function Home({ params }: LocaleParams) {
+export default async function HomePage({ params }: LocaleParams) {
   const { lang } = await params
   const dictionary = await getDictionary(lang)
 

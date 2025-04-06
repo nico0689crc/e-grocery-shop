@@ -44,3 +44,7 @@ export interface ProductsResponse {
 export interface ProductsData {
   products: ProductsResponse
 }
+
+export interface ProductData {
+  product: Product
+}
