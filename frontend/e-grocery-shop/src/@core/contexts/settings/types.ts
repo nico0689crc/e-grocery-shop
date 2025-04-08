@@ -1,4 +1,4 @@
-import type { Mode } from '@/@core/types'
+import type { Mode } from '@core/types'
 
 export type Settings = {
   primaryColor: string

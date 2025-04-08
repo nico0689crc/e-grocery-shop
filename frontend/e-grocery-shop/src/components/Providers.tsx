@@ -2,10 +2,10 @@
 import { ApolloWrapper } from '@/graphql/lib/client/apollo-wrapper'
 
 // Contexts
-import { SettingsProvider } from '@/@core/contexts/settings/SettingsProvider'
+import { SettingsProvider } from '@core/contexts/settings/SettingsProvider'
 
 // Types
-import type { ChildrenType } from '@/@core/types'
+import type { ChildrenType } from '@core/types'
 
 // Utilities
 import { getMode, getSettingsFromCookie, getSystemMode } from '@core/utils/serverHelpers'

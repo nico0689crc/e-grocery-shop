@@ -3,7 +3,7 @@ import { headers } from 'next/headers'
 
 import type { Metadata } from 'next'
 
-import type { ChildrenType } from '@/@core/types'
+import type { ChildrenType } from '@core/types'
 
 // Components
 import Providers from '@/components/Providers'
@@ -14,6 +14,7 @@ import TranslationWrapper from '@/hocs/TranslationWrapper'
 // Utilities
 import type { Locale } from '@/locales/i18n'
 import { i18n } from '@/locales/i18n'
+import LayoutWrapper from '@/components/layout/LayoutWrapper'
 
 // Metadata
 export const metadata: Metadata = {
@@ -41,8 +42,10 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   return (
     <TranslationWrapper headersList={headersList} lang={lang}>
       <html lang={lang}>
-        <body suppressHydrationWarning>
-          <Providers>{children}</Providers>
+        <body suppressHydrationWarning style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Providers>
+            <LayoutWrapper>{children}</LayoutWrapper>
+          </Providers>
         </body>
       </html>
     </TranslationWrapper>

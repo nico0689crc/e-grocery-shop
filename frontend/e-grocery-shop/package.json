@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "npx graphql-let && next dev",
     "dev:local": "npx graphql-let && next dev --port 3009",
+    "dev:local-simple": "next dev --port 3009",
     "build": "next build",
     "start": "next start --port 3012",
     "lint": "next lint",

@@ -22,8 +22,8 @@ export type LocaleParams = {
 }
 
 export type LocaleWithIDParams = {
-  params: Promise<{ 
-    lang: Locale,
-    id: string 
+  params: Promise<{
+    lang: Locale
+    id: string
   }>
 }

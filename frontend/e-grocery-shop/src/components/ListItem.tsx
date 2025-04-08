@@ -1,4 +1,4 @@
-import Link from "@/components/mui/Link"
+import Link from '@/components/mui/Link'
 
 type Product = {
   id: string
@@ -8,7 +8,7 @@ type Product = {
 const ListItem = ({ item }: { item: Product }) => {
   return (
     <li key={item.id}>
-      <Link  href={`products/${item.id}`} color="inherit"> 
+      <Link href={`products/${item.id}`} color='inherit'>
         {item.title}
       </Link>
     </li>

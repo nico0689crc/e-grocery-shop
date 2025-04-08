@@ -27,6 +27,12 @@
       "@configs/*": [
         "./src/configs/*"
       ],
+      "@server/*": [
+        "./src/@server/*"
+      ],
+      "@layout/*": [
+        "./src/components/layout/*"
+      ],
     },
     "plugins": [
       {
