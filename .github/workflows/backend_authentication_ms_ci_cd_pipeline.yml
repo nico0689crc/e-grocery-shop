@@ -1,0 +1,129 @@
+name: backend_ci_cd_pipeline
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "backend/authentication-ms/**"
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - "backend/authentication-ms/**"
+  workflow_dispatch:
+env:
+  #########################################
+  #   GENERAL
+  #########################################
+  SHH_USER_PASSWORD: ${{secrets.SHH_USER_PASSWORD}}
+  DOCKER_HUB_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+  DOCKER_HUB_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
+  DOCKER_IMAGE: ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_APP_IMAGE}}
+  APP_NAME: ${{secrets.APP_NAME}}
+
+  #########################################
+  #   ENVIRONMENT
+  #########################################
+  BACKEND_AUTHENTICATION_MS_DOCKER_NETWORK: ${{vars.BACKEND_AUTHENTICATION_MS_DOCKER_NETWORK}}
+
+  # Nest App
+  BACKEND_AUTHENTICATION_MS_DOCKER_IMAGE_VERSION: ${{vars.BACKEND_AUTHENTICATION_MS_DOCKER_IMAGE_VERSION}}
+  BACKEND_AUTHENTICATION_MS_CONTAINER_NAME: ${{vars.BACKEND_AUTHENTICATION_MS_CONTAINER_NAME}}
+  BACKEND_AUTHENTICATION_MS_HOST_PORT: ${{vars.BACKEND_AUTHENTICATION_MS_HOST_PORT}}
+  BACKEND_AUTHENTICATION_MS_CONTAINER_PORT: ${{vars.BACKEND_AUTHENTICATION_MS_CONTAINER_PORT}}
+  BACKEND_NATS_TRANSPORTER_NETWORK: ${{vars.BACKEND_NATS_TRANSPORTER_NETWORK}}
+  BACKEND_AUTHENTICATION_MS_JWT_SECRET: ${{secrets.BACKEND_AUTHENTICATION_MS_JWT_SECRET}}
+  AUTHENTICATION_MS_BACKEND_USERS_PASSWORDS: ${{secrets.BACKEND_AUTHENTICATION_MS_USERS_PASSWORDS}}
+  NATS_SERVERS: ${{vars.BACKEND_NATS_TRANSPORTER_HOST}}
+
+  # Base de datos
+  BACKEND_AUTHENTICATION_MS_DATABASE_CONTAINER_NAME: ${{vars.BACKEND_AUTHENTICATION_MS_DATABASE_CONTAINER_NAME}}
+  POSTGRES_HOST: ${{vars.BACKEND_AUTHENTICATION_MS_DATABASE_CONTAINER_NAME}}
+  POSTGRES_DB: ${{vars.BACKEND_AUTHENTICATION_MS_POSTGRES_DB}}
+  POSTGRES_USER: ${{vars.BACKEND_AUTHENTICATION_MS_POSTGRES_USER}}
+  POSTGRES_PASSWORD: ${{secrets.BACKEND_AUTHENTICATION_MS_POSTGRES_PASSWORD}}
+  BACKEND_AUTHENTICATION_MS_DOCKER_VOLUME_NAME: ${{vars.BACKEND_AUTHENTICATION_MS_DOCKER_VOLUME}}
+
+jobs:
+  retrieve-environment-variable:
+    uses: ./.github/workflows/retrieve_environment.yml
+  build-test-push-docker-image:
+    name: Build, Test and Push Docker Image
+    needs: retrieve-environment-variable
+    runs-on: ubuntu-latest
+    environment: ${{needs.retrieve-environment-variable.outputs.environment_name}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Build Docker Image
+        run: docker build -t ${{env.DOCKER_IMAGE}}:${{env.BACKEND_AUTHENTICATION_MS_DOCKER_IMAGE_VERSION}} --target=build ./backend/authentication-ms
+
+      - name: Build Docker Image Production
+        run: docker build -t ${{env.DOCKER_IMAGE}}:${{env.BACKEND_AUTHENTICATION_MS_DOCKER_IMAGE_VERSION}} ./backend/authentication-ms
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{env.DOCKER_HUB_USERNAME}}
+          password: ${{env.DOCKER_HUB_PASSWORD}}
+
+      - name: Push to Dockerhub
+        run: docker push ${{env.DOCKER_IMAGE}}:${{env.BACKEND_AUTHENTICATION_MS_DOCKER_IMAGE_VERSION}}
+
+  build-database:
+    name: Build Database Container
+    runs-on: self-hosted
+    needs: [build-test-push-docker-image, retrieve-environment-variable]
+    environment: ${{needs.retrieve-environment-variable.outputs.environment_name}}
+    steps:
+      - name: Network Creation
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker network create ${{env.BACKEND_AUTHENTICATION_MS_DOCKER_NETWORK}} || true
+
+      - name: Stop Current Running Container
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker stop ${{env.BACKEND_AUTHENTICATION_MS_DATABASE_CONTAINER_NAME}} || true
+
+      - name: Run Docker Container
+        run: |
+          echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run --rm -d \
+            -e POSTGRES_HOST=${{env.POSTGRES_HOST}} \
+            -e POSTGRES_DB=${{env.POSTGRES_DB}} \
+            -e POSTGRES_USER=${{env.POSTGRES_USER}} \
+            -e POSTGRES_PASSWORD=${{env.POSTGRES_PASSWORD}} \
+            --name ${{env.BACKEND_AUTHENTICATION_MS_DATABASE_CONTAINER_NAME}} \
+            -v ${{env.BACKEND_AUTHENTICATION_MS_DOCKER_VOLUME_NAME}}:/var/lib/mysql \
+            --network ${{env.BACKEND_AUTHENTICATION_MS_DOCKER_NETWORK}} \
+            postgres:14.3
+
+  pull-backend-image-and-run-container:
+    runs-on: self-hosted
+    needs: [build-database, retrieve-environment-variable]
+    environment: ${{needs.retrieve-environment-variable.outputs.environment_name}}
+    steps:
+      - name: Network Creation
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker network create ${{env.BACKEND_AUTHENTICATION_MS_DOCKER_NETWORK}} || true
+
+      - name: Stop Current Running Container
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker stop ${{env.BACKEND_AUTHENTICATION_MS_CONTAINER_NAME}} || true
+
+      - name: Pull Docker Image
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker pull ${{env.DOCKER_IMAGE}}:${{env.BACKEND_AUTHENTICATION_MS_DOCKER_IMAGE_VERSION}}
+
+      - name: Run Docker Container
+        run: |
+          echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run --rm -d \
+            -p ${{env.BACKEND_AUTHENTICATION_MS_HOST_PORT}}:${{env.BACKEND_AUTHENTICATION_MS_CONTAINER_PORT}} \
+            -e AUTHENTICATION_MS_BACKEND_CONTAINER_PORT=${{env.BACKEND_AUTHENTICATION_MS_CONTAINER_PORT}} \
+            -e AUTHENTICATION_MS_BACKEND_HOST_PORT=${{env.BACKEND_AUTHENTICATION_MS_HOST_PORT}} \
+            -e POSTGRES_HOST=${{env.POSTGRES_HOST}} \
+            -e POSTGRES_DB=${{env.POSTGRES_DB}} \
+            -e POSTGRES_USER=${{env.POSTGRES_USER}} \
+            -e POSTGRES_PASSWORD=${{env.POSTGRES_PASSWORD}} \
+            -e JWT_SECRET=${{env.BACKEND_AUTHENTICATION_MS_JWT_SECRET}} \
+            -e AUTHENTICATION_MS_BACKEND_USERS_PASSWORDS=${{env.POSTGRES_HOST}} \
+            -e NATS_SERVERS=${{env.NATS_SERVERS}} \
+            --name ${{env.BACKEND_AUTHENTICATION_MS_CONTAINER_NAME}} \
+            --network ${{env.BACKEND_NATS_TRANSPORTER_NETWORK}} \
+            --network ${{env.BACKEND_AUTHENTICATION_MS_DOCKER_NETWORK}} \
+            ${{env.DOCKER_IMAGE}}:${{env.BACKEND_AUTHENTICATION_MS_DOCKER_IMAGE_VERSION}}

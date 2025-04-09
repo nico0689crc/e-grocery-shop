@@ -2,7 +2,7 @@
 #   BASE STAGE
 #########################################
 
-FROM node:21-alpine as base
+FROM node:23-slim as base
 
 RUN apk add --no-cache libc6-compat
 

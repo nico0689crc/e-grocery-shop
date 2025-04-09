@@ -46,7 +46,6 @@ jobs:
       - name: Run Docker Container
         run: |
           echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run --rm -d \
-            -p ${{env.BACKEND_NATS_TRANSPORTER_HOST_PORT}}:${{env.BACKEND_NATS_TRANSPORTER_CONTAINER_PORT}} \
             --name ${{env.BACKEND_NATS_TRANSPORTER_CONTAINER_NAME}} \
             --network ${{env.BACKEND_NATS_TRANSPORTER_NETWORK}} \
             nats:latest
