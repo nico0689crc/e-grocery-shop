@@ -12,9 +12,7 @@ ConfigModule.forRoot({
 const options = {
   type: 'postgres',
   host: process.env.PRODUCTS_MS_BACKEND_POSTGRES_HOST || 'localhost',
-  port:
-    parseInt(process.env.PRODUCTS_MS_BACKEND_POSTGRES_CONTAINER_PORT, 10) ||
-    5432,
+  port: 5432,
   username: process.env.PRODUCTS_MS_BACKEND_POSTGRES_USER || 'your_username',
   password:
     process.env.PRODUCTS_MS_BACKEND_POSTGRES_PASSWORD || 'your_password',
