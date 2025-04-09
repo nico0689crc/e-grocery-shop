@@ -3,6 +3,7 @@ import ContainerCommon from '@layout/components/common/ContainerCommon' // Commo
 import Navbar from '@layout/components/header/components/navbar/Navbar' // Component for the navigation bar
 import TopBar from '@layout/components/header/components/topbar/TopBar' // Component for the top section of the header
 import Navigation from '@layout/components/header/components/navigation/Navigation' // Component for additional navigation options
+import { layoutClasses } from '@layout/utils/layoutClasses'
 
 /**
  * Header component
@@ -17,6 +18,7 @@ const Header = () => {
         display: 'flex',
         flexDirection: 'column'
       }}
+      className={layoutClasses.header.root}
     >
       <TopBar />
       <Navbar />
