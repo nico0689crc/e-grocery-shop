@@ -2,6 +2,7 @@
 .env.secrets
 .env.commands
 node_modules/
+!.github/actions/retrieve-environment/node_modules
 .next/
 dist/
 out/
