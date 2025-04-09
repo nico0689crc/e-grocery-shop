@@ -1,0 +1,52 @@
+name: nats_server_ci_cd_pipeline
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "backend/nats-server/**"
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - "backend/nats-server/**"
+  workflow_dispatch:
+env:
+  #########################################
+  #   GENERAL
+  #########################################
+  SHH_USER_PASSWORD: ${{secrets.SHH_USER_PASSWORD}}
+  DOCKER_HUB_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+  DOCKER_HUB_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
+
+  #########################################
+  #   ENVIRONMENT
+  #########################################
+  BACKEND_NATS_TRANSPORTER_CONTAINER_NAME: ${{secrets.BACKEND_NATS_TRANSPORTER_CONTAINER_NAME}}
+  BACKEND_NATS_TRANSPORTER_HOST: ${{secrets.BACKEND_NATS_TRANSPORTER_HOST}}
+  BACKEND_NATS_TRANSPORTER_NETWORK: ${{secrets.BACKEND_NATS_TRANSPORTER_NETWORK}}
+  BACKEND_NATS_TRANSPORTER_CONTAINER_PORT: ${{secrets.BACKEND_NATS_TRANSPORTER_CONTAINER_PORT}}
+  BACKEND_NATS_TRANSPORTER_HOST_PORT: ${{secrets.BACKEND_NATS_TRANSPORTER_HOST_PORT}}
+
+jobs:
+  retrieve-environment-variable:
+    uses: ./.github/workflows/retrieve_environment.yml
+  build-nats-server:
+    name: Build Nats Server Container
+    runs-on: self-hosted
+    needs: [retrieve-environment-variable]
+    environment: ${{needs.retrieve-environment-variable.outputs.environment_name}}
+    steps:
+      - name: Network Creation
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker network create ${{env.BACKEND_NATS_TRANSPORTER_NETWORK}} || true
+
+      - name: Stop Current Running Container
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker stop ${{env.BACKEND_NATS_TRANSPORTER_CONTAINER_NAME}} || true
+
+      - name: Run Docker Container
+        run: |
+          echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run --rm -d \
+            -p ${{env.BACKEND_NATS_TRANSPORTER_HOST_PORT}}:${{env.BACKEND_NATS_TRANSPORTER_CONTAINER_PORT}} \
+            --name ${{env.BACKEND_NATS_TRANSPORTER_CONTAINER_NAME}} \
+            --network ${{env.BACKEND_NATS_TRANSPORTER_NETWORK}} \
+            nats:latest

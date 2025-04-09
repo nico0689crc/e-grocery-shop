@@ -1,0 +1,20 @@
+name: retrieve_environment
+on:
+  workflow_call:
+    outputs:
+      environment_name:
+        description: Enviroment value to use.
+        value: ${{jobs.retrieve_environment.outputs.environment_name}}
+
+jobs:
+  retrieve_environment:
+    runs-on: ubuntu-latest
+    outputs:
+      environment_name: ${{ steps.retrieve-environment-action.outputs.environment_name }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+      - name: Check Current Branch
+        id: retrieve-environment-action
+        uses: ./.github/actions/retrieve-environment
