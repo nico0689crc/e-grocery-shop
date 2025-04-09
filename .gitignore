@@ -1,1 +1,10 @@
 .env
+.env.secrets
+node_modules/
+.next/
+dist/
+out/
+*.log
+*.lock
+.DS_Store
+coverage/
