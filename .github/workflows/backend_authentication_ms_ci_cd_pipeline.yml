@@ -1,4 +1,4 @@
-name: backend_ci_cd_pipeline
+name: backend_authentication_ms_ci_cd_pipeline
 on:
   push:
     branches:
