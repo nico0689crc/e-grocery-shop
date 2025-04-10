@@ -45,9 +45,9 @@ COPY --chown=node:node --from=development /app/node_modules ./node_modules
 COPY --chown=node:node . .
 
 # Instalar rover y componer el supergraph
-RUN npm install -g @apollo/rover
+RUN npm install @apollo/rover --save-dev
 COPY --chown=node:node ./supergraph-config.yaml ./
-RUN rover supergraph compose --config supergraph-config.yaml > supergraph.graphql
+RUN npx rover supergraph compose --config supergraph-config.yaml > supergraph.graphql
 
 RUN npm run build
 
