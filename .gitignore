@@ -1,5 +1,6 @@
 .env
 .env.secrets
+.env.production
 .env.commands
 *.log
 *.lock

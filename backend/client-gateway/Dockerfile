@@ -40,9 +40,14 @@ CMD ["npm", "run", "start:dev"]
 
 FROM development as build
 
-COPY --chown=node:node --from=development /app/node_modules ./node_modules
 
+COPY --chown=node:node --from=development /app/node_modules ./node_modules
 COPY --chown=node:node . .
+
+# Instalar rover y componer el supergraph
+RUN npm install -g @apollo/rover
+COPY --chown=node:node ./supergraph-config.yaml ./
+RUN rover supergraph compose --config supergraph-config.yaml > supergraph.graphql
 
 RUN npm run build
 
@@ -57,7 +62,7 @@ ENV NODE_ENV production
 RUN npm ci --legacy-peer-deps && npm cache clean --force
 
 COPY --chown=node:node --from=build /app/dist dist
-
 COPY --chown=node:node --from=build /app/node_modules node_modules
+COPY --chown=node:node --from=build /app/supergraph.graphql ./supergraph.graphql
 
 CMD ["node", "dist/main.js"]

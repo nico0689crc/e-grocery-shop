@@ -30,7 +30,6 @@ import { User } from './modules/users/entities/user.entity';
       synchronize: false,
     }),
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
-      introspection: true,
       driver: ApolloFederationDriver,
       autoSchemaFile: {
         path: join(process.cwd(), 'src/schema.gql'),

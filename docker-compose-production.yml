@@ -1,0 +1,169 @@
+services:
+  nats-server:
+    image: nats:latest
+    ports:
+      - ${NATS_SERVER_HOST_PORT}:${NATS_SERVER_CONTAINER_PORT}
+    networks:
+      - e-grocery-network-dev
+      
+  ##################################################################################
+  #   AUTHENTICATION MS - Setup Database Container
+  ##################################################################################
+
+  authentication-ms-database:
+    container_name: authentication-ms-database-dev
+    image: postgres:14.3
+    environment:
+      - POSTGRES_DB=${AUTHENTICATION_MS_BACKEND_POSTGRES_DB}
+      - POSTGRES_USER=${AUTHENTICATION_MS_BACKEND_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${AUTHENTICATION_MS_BACKEND_POSTGRES_PASSWORD}
+    ports:
+      - "${AUTHENTICATION_MS_BACKEND_POSTGRES_HOST_PORT}:${AUTHENTICATION_MS_BACKEND_POSTGRES_CONTAINER_PORT}"
+    volumes:
+      - authentication-ms-dev-db:/var/lib/postgresql/data
+    networks:
+      - authentication-ms-network-dev
+
+  ##################################################################################
+  #   AUTHENTICATION MS - Setup Backend Container
+  ##################################################################################
+
+  authentication-ms-backend:
+    depends_on:
+      - authentication-ms-database
+    container_name: authentication-ms-backend-dev
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_AUTHENTICATION_MS_BACKEND_IMAGE}:dev
+    build:
+      context: ./backend/authentication-ms
+      target: development
+    environment:
+      - AUTHENTICATION_MS_BACKEND_CONTAINER_PORT=${AUTHENTICATION_MS_BACKEND_CONTAINER_PORT}
+      - AUTHENTICATION_MS_BACKEND_HOST_PORT=${AUTHENTICATION_MS_BACKEND_HOST_PORT}
+      - AUTHENTICATION_MS_BACKEND_POSTGRES_HOST=${AUTHENTICATION_MS_BACKEND_POSTGRES_HOST}
+      - AUTHENTICATION_MS_BACKEND_POSTGRES_DB=${AUTHENTICATION_MS_BACKEND_POSTGRES_DB}
+      - AUTHENTICATION_MS_BACKEND_POSTGRES_USER=${AUTHENTICATION_MS_BACKEND_POSTGRES_USER}
+      - AUTHENTICATION_MS_BACKEND_POSTGRES_PASSWORD=${AUTHENTICATION_MS_BACKEND_POSTGRES_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - AUTHENTICATION_MS_BACKEND_USERS_PASSWORDS=${AUTHENTICATION_MS_BACKEND_USERS_PASSWORDS}
+      - NATS_SERVERS=${NATS_SERVERS}
+    ports:
+      - "${AUTHENTICATION_MS_BACKEND_HOST_PORT}:${AUTHENTICATION_MS_BACKEND_CONTAINER_PORT}"
+    expose:
+      - 3000
+    volumes:
+      - type: bind
+        source: ./backend/authentication-ms
+        target: /app
+      - /app/node_modules
+    networks:
+      - authentication-ms-network-dev
+      - e-grocery-network-dev
+  ##################################################################################
+  #   PRODUCTS MS - Setup Database Container
+  ##################################################################################
+
+  products-ms-database:
+    container_name: products-ms-database-dev
+    image: postgres:14.3
+    environment:
+      - POSTGRES_DB=${PRODUCTS_MS_BACKEND_POSTGRES_DB}
+      - POSTGRES_USER=${PRODUCTS_MS_BACKEND_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${PRODUCTS_MS_BACKEND_POSTGRES_PASSWORD}
+    ports:
+      - "${PRODUCTS_MS_BACKEND_POSTGRES_HOST_PORT}:${PRODUCTS_MS_BACKEND_POSTGRES_CONTAINER_PORT}"
+    volumes:
+      - products-ms-dev-db:/var/lib/postgresql/data
+    networks:
+      - products-ms-network-dev
+
+  ##################################################################################
+  #   PRODUCTS MS - Setup Backend Container
+  ##################################################################################
+
+  products-ms-backend:
+    depends_on:
+      - products-ms-database
+    container_name: products-ms-backend-dev
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_PRODUCTS_MS_BACKEND_IMAGE}:dev
+    build:
+      context: ./backend/products-ms
+      target: development
+    environment:
+      - PRODUCTS_MS_BACKEND_CONTAINER_PORT=${PRODUCTS_MS_BACKEND_CONTAINER_PORT}
+      - PRODUCTS_MS_BACKEND_HOST_PORT=${PRODUCTS_MS_BACKEND_HOST_PORT}
+      - PRODUCTS_MS_BACKEND_POSTGRES_CONTAINER_PORT=${PRODUCTS_MS_BACKEND_POSTGRES_CONTAINER_PORT}
+      - PRODUCTS_MS_BACKEND_POSTGRES_HOST=${PRODUCTS_MS_BACKEND_POSTGRES_HOST}
+      - PRODUCTS_MS_BACKEND_POSTGRES_DB=${PRODUCTS_MS_BACKEND_POSTGRES_DB}
+      - PRODUCTS_MS_BACKEND_POSTGRES_USER=${PRODUCTS_MS_BACKEND_POSTGRES_USER}
+      - PRODUCTS_MS_BACKEND_POSTGRES_PASSWORD=${PRODUCTS_MS_BACKEND_POSTGRES_PASSWORD}
+      - NATS_SERVERS=${NATS_SERVERS}
+    ports:
+      - "${PRODUCTS_MS_BACKEND_HOST_PORT}:${PRODUCTS_MS_BACKEND_CONTAINER_PORT}"
+    expose:
+      - 3000
+    volumes:
+      - type: bind
+        source: ./backend/products-ms
+        target: /app
+      - /app/node_modules
+    networks:
+      - products-ms-network-dev
+      - e-grocery-network-dev
+
+  ##################################################################################
+  #   CLIENT GATEWAY - Setup 
+  ##################################################################################
+
+  client-gateway-backend:
+    depends_on:
+      - authentication-ms-backend
+      - products-ms-backend
+    container_name: client-gateway-backend-dev
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_CLIENT_GATEWAY_BACKEND_IMAGE}:dev
+    build:
+      context: ./backend/client-gateway
+      target: development
+    environment:
+      - CLIENT_GATEWAY_BACKEND_HOST_PORT=${CLIENT_GATEWAY_BACKEND_HOST_PORT}
+      - CLIENT_GATEWAY_BACKEND_CONTAINER_PORT=${CLIENT_GATEWAY_BACKEND_CONTAINER_PORT}
+    ports:
+      - "${CLIENT_GATEWAY_BACKEND_HOST_PORT}:${CLIENT_GATEWAY_BACKEND_CONTAINER_PORT}"
+    volumes:
+      - type: bind
+        source: ./backend/client-gateway
+        target: /app
+      - /app/node_modules
+    networks:
+      - e-grocery-network-dev
+
+  ##################################################################################
+  #   E-GROCERY-SHOP - Setup Frontend Container - E-Grocery-Shop
+  ##################################################################################
+
+  # e-grocery-shop-frontend:
+  #   depends_on:
+  #     - client-gateway-backend 
+  #   container_name: e-grocery-shop-frontend-dev
+  #   image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_E_GROCERY_SHOP_IMAGE}:dev
+  #   build:
+  #     context: ./frontend/e-grocery-shop
+  #     target: development
+  #   environment:
+  #     - NEXT_PUBLIC_BACKEND_HOST_DOMAIN=${BACKEND_HOST_DOMAIN}
+  #   ports:
+  #     - "${E_GROCERY_SHOP_HOST_PORT}:${E_GROCERY_SHOP_CONTAINER_PORT}"
+  #   volumes:
+  #     - type: bind
+  #       source: ./frontend/e-grocery-shop
+  #       target: /app
+  #     - /app/node_modules
+  #   # command: npm run dev
+  #   networks:
+  #     - e-grocery-network-dev
+volumes:
+  authentication-ms-dev-db:
+  products-ms-dev-db:
+networks:
+  authentication-ms-network-dev:
+  e-grocery-network-dev:
+  products-ms-network-dev:

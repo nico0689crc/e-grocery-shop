@@ -26,14 +26,13 @@ import { UsersModule } from './modules/users/users.module';
       synchronize: false,
     }),
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
-      introspection: true,
       driver: ApolloFederationDriver,
       autoSchemaFile: {
         path: join(process.cwd(), 'src/schema.gql'),
         federation: 2,
       },
-      playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      playground: false,
     }),
     AuthModule,
     UsersModule,
