@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { IntrospectAndCompose, RemoteGraphQLDataSource } from '@apollo/gateway';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { envs } from "./config/envs"
 
 @Module({
   imports: [
@@ -16,8 +17,8 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
       gateway: {
         supergraphSdl: new IntrospectAndCompose({
           subgraphs: [
-            { name: 'auth', url: 'http://authentication-ms-backend:3000/graphql' },
-            { name: 'products', url: 'http://products-ms-backend:3000/graphql' },
+            { name: 'auth', url: envs.clientGatewayBackendAuthenticationMsHost },
+            { name: 'products', url: envs.clientGatewayBackendProductsMsHost },
           ],
         }),
         buildService({ url }) {
