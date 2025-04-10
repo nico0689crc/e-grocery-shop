@@ -41,11 +41,12 @@ jobs:
         run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker network create ${{env.BACKEND_NATS_TRANSPORTER_NETWORK}} || true
 
       - name: Stop Current Running Container
-        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker stop ${{env.BACKEND_NATS_TRANSPORTER_CONTAINER_NAME}} || true
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker rm -f ${{env.BACKEND_NATS_TRANSPORTER_CONTAINER_NAME}} || true
 
       - name: Run Docker Container
         run: |
-          echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run --rm -d \
+          echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run -d \
+            --restart unless-stopped \
             --name ${{env.BACKEND_NATS_TRANSPORTER_CONTAINER_NAME}} \
             --network ${{env.BACKEND_NATS_TRANSPORTER_NETWORK}} \
             nats:latest

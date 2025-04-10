@@ -82,11 +82,12 @@ jobs:
         run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker network create ${{env.BACKEND_PRODUCTS_MS_DOCKER_NETWORK}} || true
 
       - name: Stop Current Running Container
-        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker stop ${{env.BACKEND_PRODUCTS_MS_DATABASE_CONTAINER_NAME}} || true
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker rm -f ${{env.BACKEND_PRODUCTS_MS_DATABASE_CONTAINER_NAME}} || true
 
       - name: Run Docker Container
         run: |
-          echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run --rm -d \
+          echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run -d \
+            --restart unless-stopped \
             -e POSTGRES_HOST=${{env.POSTGRES_HOST}} \
             -e POSTGRES_DB=${{env.POSTGRES_DB}} \
             -e POSTGRES_USER=${{env.POSTGRES_USER}} \
@@ -105,14 +106,15 @@ jobs:
         run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker network create ${{env.BACKEND_PRODUCTS_MS_DOCKER_NETWORK}} || true
 
       - name: Stop Current Running Container
-        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker stop ${{env.BACKEND_PRODUCTS_MS_CONTAINER_NAME}} || true
+        run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker rm -f ${{env.BACKEND_PRODUCTS_MS_CONTAINER_NAME}} || true
 
       - name: Pull Docker Image
         run: echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker pull ${{env.DOCKER_IMAGE}}:${{env.BACKEND_PRODUCTS_MS_DOCKER_IMAGE_VERSION}}
 
       - name: Run Docker Container
         run: |
-          echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run --rm -d \
+          echo ${{env.SHH_USER_PASSWORD}} | sudo -S docker run -d \
+            --restart unless-stopped \
             -p ${{env.BACKEND_PRODUCTS_MS_HOST_PORT}}:${{env.BACKEND_PRODUCTS_MS_CONTAINER_PORT}} \
             -e PRODUCTS_MS_BACKEND_CONTAINER_PORT=${{env.BACKEND_PRODUCTS_MS_CONTAINER_PORT}} \
             -e PRODUCTS_MS_BACKEND_HOST_PORT=${{env.BACKEND_PRODUCTS_MS_HOST_PORT}} \
