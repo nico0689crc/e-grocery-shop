@@ -2,7 +2,7 @@
 #   BASE STAGE
 #########################################
 
-FROM node:18-slim as base
+FROM node:21-alpine as base
 
 RUN apk add --no-cache libc6-compat curl
 
@@ -40,14 +40,9 @@ CMD ["npm", "run", "start:dev"]
 
 FROM development as build
 
-
 COPY --chown=node:node --from=development /app/node_modules ./node_modules
-COPY --chown=node:node . .
 
-# Instalar rover y componer el supergraph
-RUN npm install @apollo/rover --save-dev
-COPY --chown=node:node ./supergraph-config.yaml ./
-RUN npx rover supergraph compose --config supergraph-config.yaml > supergraph.graphql
+COPY --chown=node:node . .
 
 RUN npm run build
 
@@ -62,7 +57,7 @@ ENV NODE_ENV production
 RUN npm ci --legacy-peer-deps && npm cache clean --force
 
 COPY --chown=node:node --from=build /app/dist dist
+
 COPY --chown=node:node --from=build /app/node_modules node_modules
-COPY --chown=node:node --from=build /app/supergraph.graphql ./supergraph.graphql
 
 CMD ["node", "dist/main.js"]
