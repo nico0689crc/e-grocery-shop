@@ -5,7 +5,7 @@ import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
-import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { join } from 'path';
 import { CommonModule } from './core/common.module';
 import { CategoriesModule } from './modules/categories/categories.module';
@@ -35,17 +35,8 @@ import { User } from './modules/users/entities/user.entity';
         path: join(process.cwd(), 'src/schema.gql'),
         federation: 2,
       },
-      introspection: true,
       playground: false,
-      plugins: [
-        // Install a landing page plugin based on NODE_ENV
-        process.env.NODE_ENV === 'production'
-          ? ApolloServerPluginLandingPageProductionDefault({
-              graphRef: 'my-graph-id@my-graph-variant',
-              footer: false,
-            })
-          : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
-      ],
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
       buildSchemaOptions:{
         orphanedTypes: [User],
       }
