@@ -61,7 +61,7 @@ jobs:
 
   pull-backend-image-and-run-container:
     runs-on: self-hosted
-    needs: [retrieve-environment-variable]
+    needs: [retrieve-environment-variable, build-test-push-docker-image]
     environment: ${{needs.retrieve-environment-variable.outputs.environment_name}}
     steps:
       - name: Network Creation
