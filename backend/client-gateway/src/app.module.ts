@@ -12,17 +12,15 @@ import { envs } from "./config/envs"
       server: {
         playground: false,
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
-        context: ({ req }) => ({ req }),
+        context: ({ req }) => ({ req }), 
       },
       gateway: {
-        supergraphSdl: process.env.NODE_ENV === 'production'
-          ? require('fs').readFileSync(require('path').join(process.cwd(), 'supergraph.graphql')).toString()
-          : new IntrospectAndCompose({
-            subgraphs: [
-              { name: 'auth', url: envs.clientGatewayBackendAuthenticationMsHost },
-              { name: 'products', url: envs.clientGatewayBackendProductsMsHost },
-            ],
-          }),
+        supergraphSdl: new IntrospectAndCompose({
+          subgraphs: [
+            { name: 'auth', url: envs.clientGatewayBackendAuthenticationMsHost },
+            { name: 'products', url: envs.clientGatewayBackendProductsMsHost },
+          ],
+        }),
         buildService({ url }) {
           return new RemoteGraphQLDataSource({
             url,
