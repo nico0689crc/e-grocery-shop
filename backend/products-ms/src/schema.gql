@@ -138,7 +138,7 @@ type Query {
   categories(search: String, page: Int = 1, pageSize: Int = 10): CategoriesResponse!
   category(id: ID!): CategoryResponse!
   products(tags: [String!], categories: [String!], search: String, page: Int = 1, pageSize: Int = 10): ProductsResponse!
-  product(id: String!): Product!
+  product(slug: String!): Product!
   tags(search: String, page: Int = 1, pageSize: Int = 10): TagsResponse!
   tag(id: ID!): TagResponse!
 }
