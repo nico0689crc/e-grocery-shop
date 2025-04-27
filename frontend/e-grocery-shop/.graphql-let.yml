@@ -1,5 +1,4 @@
-# schema: "http://client-gateway-backend:3000/graphql"
-schema: "https://grocery-api.nicolasfernandez.tech/graphql"
+schema: "src/graphql/schemas/*.schema.gql"
 documents: "**/*.graphql"
 plugins:
   - typescript-operations

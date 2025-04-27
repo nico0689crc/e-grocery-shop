@@ -1,17 +1,16 @@
-'use client'
-
-// Next Imports
-import { redirect, usePathname } from 'next/navigation'
+'use client';
 
 // Config Imports
-import { i18n } from '@/locales/i18n'
+import { i18n } from '@/config/i18n';
+// Next Imports
+import { redirect, usePathname } from 'next/navigation';
 
 const LangRedirect = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
-  const redirectUrl = `/${i18n.defaultLocale}${pathname}`
+  const redirectUrl = `/${i18n.defaultLocale}${pathname}`;
 
-  redirect(redirectUrl)
-}
+  redirect(redirectUrl);
+};
 
-export default LangRedirect
+export default LangRedirect;

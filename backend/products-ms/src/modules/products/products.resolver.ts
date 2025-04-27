@@ -1,4 +1,13 @@
-import { Resolver, Query, Mutation, Args, Int, Context, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  Context,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { RpcException } from '@nestjs/microservices';
@@ -46,13 +55,13 @@ export class ProductsResolver {
 
   @Query(() => Product, { name: 'product' })
   async findOne(
-    @Args('id', { type: () => String }) id: string,
+    @Args('slug', { type: () => String }) slug: string,
   ): Promise<Product> {
-    const product = await this.productsService.findOne({ where: { id } });
+    const product = await this.productsService.findOne({ where: { slug } });
 
     if (!product) {
       throw new RpcException({
-        message: `Product with ID ${id} not found`,
+        message: `Product with Slug ${slug} not found`,
         status: 404,
       });
     }

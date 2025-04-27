@@ -1,0 +1,186 @@
+{
+  "pages": {
+    "home": {
+      "title": "Inicio",
+      "sections": {
+        "hero": {
+          "title": "Hola, soy Nicolás",
+          "subtitle_1": "Programador",
+          "subtitle_2": "Fullstack",
+          "skills": "JavaScript, TypeScript, React.js, Next.js, Nest.js, Express.js, Node.js, Docker, Postgress, Mysql y más.",
+          "view_portfolio_button": "Ver mi portafolio",
+          "download_cv": "Descargar CV"
+        },
+        "about": {
+          "title": "Sobre mí",
+          "know_me_more": "Conóceme más",
+          "introduction": "Hola, soy <span>Nicolás Fernández</span>",
+          "description": "Soy un Desarrollador Fullstack con más de <b>3 años de experiencia en Desarrollo Web y de Software</b>. Mi experiencia abarca tanto tecnologías frontend como backend. En el frontend, me especializo en <mark>React.js</mark>, <mark>Next.js</mark>, <mark>JavaScript</mark>, <mark>TypeScript</mark>, <mark>HTML</mark>, <mark>CSS</mark>, <mark>Tailwind CSS</mark> y <mark>Material UI</mark>. En el backend, tengo amplia experiencia con <mark>Node.js</mark>, <mark>Express.js</mark>, <mark>NestJS</mark>, <mark>GraphQL</mark>, <mark>REST APIs</mark>, <mark>Laravel</mark> y <mark>Ruby on Rails</mark>. Para bases de datos, trabajo con <mark>MongoDB</mark>, <mark>PostgreSQL</mark> y <mark>MySQL</mark>. Además, tengo habilidades en DevOps y herramientas como <mark>Docker</mark>, <mark>Git</mark>, <mark>CI/CD</mark>, <mark>GitHub Actions</mark>, <mark>Linux</mark> y <mark>AWS</mark>. Radicado en Neuquén, Argentina, me apasiona construir soluciones escalables y eficientes y estoy abierto a oportunidades remotas.",
+          "years_of_experience": "Años de <span>Experiencia</span>",
+          "years": "3",
+          "more_about_me": "Más sobre mí"
+        },
+        "faq": {
+          "title": "Preguntas Frecuentes",
+          "sub_title": "Estoy aquí para ayudarte"
+        }
+      }
+    }, 
+    "about_me": {
+      "title": "Sobre mí",
+      "know_me_more": "Conóceme más",
+      "introduction": "Hola de nuevo, soy <span>Nicolás Fernández</span>",
+      "description": {
+        "paragraph_1": "Soy un Desarrollador Fullstack con más de <b>3 años de experiencia en Desarrollo Web y de Software</b>. Mi experiencia abarca tanto tecnologías frontend como backend. En el frontend, me especializo en <mark>React.js</mark>, <mark>Next.js</mark>, <mark>JavaScript</mark>, <mark>TypeScript</mark>, <mark>HTML</mark>, <mark>CSS</mark>, <mark>Tailwind CSS</mark> y <mark>Material UI</mark>. En el backend, tengo amplia experiencia con <mark>Node.js</mark>, <mark>Express.js</mark>, <mark>NestJS</mark>, <mark>GraphQL</mark>, <mark>REST APIs</mark>, <mark>Laravel</mark> y <mark>Ruby on Rails</mark>. Para bases de datos, trabajo con <mark>MongoDB</mark>, <mark>PostgreSQL</mark> y <mark>MySQL</mark>. Además, tengo habilidades en DevOps y herramientas como <mark>Docker</mark>, <mark>Git</mark>, <mark>CI/CD</mark>, <mark>GitHub Actions</mark>, <mark>Linux</mark> y <mark>AWS</mark>. Radicado en Neuquén, Argentina, me apasiona construir soluciones escalables y eficientes y estoy abierto a oportunidades remotas.",
+        "paragraph_2": "Me gusta aprender nuevas tecnologías y mejorar mis habilidades constantemente. Me considero una persona proactiva, responsable y comprometida con mi trabajo. Siempre busco la mejor manera de resolver problemas y aportar valor a los proyectos en los que participo.",
+        "paragraph_3": "En mi tiempo libre, disfruto de la lectura, el deporte y cocinar. Me gusta estar al tanto de las últimas tendencias en <mark>tecnología</mark> y <mark>desarrollo de software</mark>. También disfruto de compartir mis conocimientos y aprender de otros profesionales del sector.",
+        "paragraph_4": "Además, tengo <b>7 años de experiencia internacional</b> en el sector de la hospitalidad como cocinero y asistente de cocina, habiendo trabajado en <mark>Nueva Zelanda</mark>, <mark>Suecia</mark>, <mark>Alemania</mark> y <mark>Australia</mark>. Esta experiencia me ha ayudado a desarrollar adaptabilidad, habilidades para resolver problemas y capacidad para trabajar bajo presión.",
+        "paragraph_5": "Trabajar en entornos diversos también ha potenciado mi capacidad para integrarme a nuevas culturas, colaborar con equipos multiculturales y adaptarme rápidamente a diferentes dinámicas y expectativas laborales."
+      },
+      "skills_title": "<span>Mis Habilidades</span>"
+    },
+    "resume": {
+      "title": "Currículum",
+      "sub_title": "Mi trayectoria profesional",
+      "accordion_sections": {
+        "it_experience": "Experiencia en IT",
+        "other_experience": "Otras Experiencias",
+        "education": "Educación",
+        "courses": "Cursos"
+      }
+    },
+    "portfolio": {
+      "title": "Portafolio",
+      "sub_title": "Algunos de mis proyectos más recientes",
+      "description": "Aquí puedes ver algunos de mis proyectos más recientes. Cada uno de ellos representa un desafío único y una oportunidad para aplicar mis habilidades y conocimientos en el desarrollo de soluciones efectivas y atractivas. Espero que los disfrutes y te inspiren a conocer más sobre mi trabajo."
+    },
+    "project": {
+      "title": "Proyecto"
+    },
+    "cookies_policy": {
+      "title": "Política de Cookies",
+      "description": "Esta política explica qué son las cookies, cómo las utilizamos en este sitio web y tus opciones respecto a su uso.",
+      "whatAreCookiesTitle": "¿Qué son las cookies?",
+      "whatAreCookiesDescription": "Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo cuando visitas un sitio web. Se utilizan ampliamente para hacer que los sitios web funcionen, o funcionen de manera más eficiente, así como para proporcionar información a los propietarios del sitio.",
+      "typesOfCookiesTitle": "¿Qué tipos de cookies utilizamos?",
+      "necessaryCookies": "<strong>Cookies necesarias:</strong> Estas son esenciales para que el sitio funcione correctamente.",
+      "analyticsCookies": "<strong>Cookies analíticas:</strong> Utilizamos Google Analytics para recopilar información anónima sobre cómo se utiliza el sitio y para mejorarlo. Estas cookies solo se activan si das tu consentimiento.",
+      "cookiesUsedTitle": "Cookies utilizadas",
+      "cookieName": "Nombre",
+      "cookiePurpose": "Propósito",
+      "cookieDuration": "Duración",
+      "cookieConsentName": "cookie_consent",
+      "cookieConsentPurpose": "Almacena tus preferencias de cookies",
+      "cookieConsentDuration": "1 año",
+      "gaName": "_ga (Google Analytics)",
+      "gaPurpose": "Distingue usuarios únicos",
+      "gaDuration": "2 años",
+      "gidName": "_gid (Google Analytics)",
+      "gidPurpose": "Registra la sesión de navegación",
+      "gidDuration": "24 horas",
+      "controlCookiesTitle": "¿Cómo puedes controlar las cookies?",
+      "controlCookiesDescription": "Puedes aceptar o rechazar las cookies analíticas desde el banner que se muestra al ingresar al sitio. También puedes eliminar o bloquear cookies desde la configuración de tu navegador.",
+      "changeChoiceDescription": "Si deseas cambiar tu elección actual, puedes hacerlo utilizando el botón a continuación:",
+      "changeCookiesButton": "Cambiar configuración de cookies"
+    },
+    "contact": {
+      "title": "Contacto",
+      "sub_title": "Pongámonos en contacto",
+      "body": "Si tienes alguna pregunta, comentario o te gustaría discutir un proyecto potencial, no dudes en comunicarte. Siempre estoy abierto a nuevas oportunidades y colaboraciones. Puedes contactarme a través del formulario a continuación o mediante mis redes sociales.",
+      "form": {
+        "email": "Envíame un correo",
+        "linkedin": "Contáctame en LinkedIn",
+        "github": "Visita mi GitHub",
+        "zoom_google": "Agenda una reunión por Zoom o Google"
+      }
+    },
+    "not_found": {
+      "title": "¡Oops! Página No Encontrada",
+      "description": "Parece que la página que buscas no existe o ha sido movida. Por favor, verifica la URL o navega de regreso a la página de inicio para continuar explorando.",
+      "go_home": "Ir a Inicio",
+      "image_alt": "Imagen de error 404"
+    },
+    "error": {
+      "title": "¡Oops! Algo salió mal",
+      "description": "Parece que hubo un error al cargar la página. Por favor, verifica tu conexión a Internet o intenta recargar la página.",
+      "go_home": "Ir a Inicio",
+      "image_alt": "Imagen de error 500"
+    },
+    "work_in_progress": {
+      "title": "¡Estamos trabajando en ello!",
+      "description": "Esta sección está actualmente en construcción. Estamos trabajando arduamente para traerte contenido emocionante y actualizaciones. ¡Por favor, vuelve pronto y gracias por tu paciencia y comprensión!",
+      "go_home": "Ir a Inicio",
+      "image_alt": "Imagen de trabajo en progreso"
+    }
+  },
+  "actions": {
+    "change_mode": "Cambiar modo"
+  },
+  "footer": {
+    "right_reserved": "Todos los derechos reservados.",
+    "site": "Sitio",
+    "socials": "Redes sociales",
+    "description": "Soy <mark>Nicolás Fernández</mark>, un Desarrollador Fullstack con más de 3 años de experiencia en Desarrollo Web y de Software. Especializándome en <mark>JavaScript</mark>, <mark>TypeScript</mark>, <mark>React.js</mark>, <mark>Next.js</mark>, <mark>Nest.js</mark>, <mark>Express.js</mark>, <mark>Node.js</mark>, <mark>Postgress</mark>, <mark>Mysql</mark> y prácticas de Devops como <mark>Docker</mark> y <mark>Github Actions</mark>. Actualmente radicado en Neuquén, Argentina, y abierto a proyectos remotos. Te invito a conocer más sobre mis habilidades, experiencia y trayectoria profesional."
+  },
+  "months": {
+    "1": {
+      "name": "Enero",
+      "short_name": "Ene"
+    }, 
+    "2": {
+      "name": "Febrero",
+      "short_name": "Feb"
+    },
+    "3": {
+      "name": "Marzo",
+      "short_name": "Mar"
+    },
+    "4": {
+      "name": "Abril",
+      "short_name": "Abr"
+    },
+    "5": {
+      "name": "Mayo",
+      "short_name": "May"
+    },
+    "6": {
+      "name": "Junio",
+      "short_name": "Jun"
+    },
+    "7": {
+      "name": "Julio",
+      "short_name": "Jul"
+    },
+    "8": {
+      "name": "Agosto",
+      "short_name": "Ago"
+    },
+    "9": {
+      "name": "Septiembre",
+      "short_name": "Sep"
+    },
+    "10": {
+      "name": "Octubre",
+      "short_name": "Oct"
+    },
+    "11": {
+      "name": "Noviembre",
+      "short_name": "Nov"
+    },
+    "12": {
+      "name": "Diciembre",
+      "short_name": "Dic"
+    }
+  },
+  "common": {
+    "remote": "Remoto",
+    "on_site": "Presencial",
+    "view_more": "Ver más"
+  },
+  "cookies_banner": {
+    "description": "Utilizamos cookies para mejorar tu experiencia en nuestro sitio web. Al continuar navegando, aceptas el uso de cookies.",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "learn_more": "Más información."
+  }
+}

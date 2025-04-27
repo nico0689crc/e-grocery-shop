@@ -5,7 +5,7 @@ FROM node:21-alpine as development
 
 RUN apk add --no-cache libc6-compat
 
-ENV NODE_ENV development
+ENV NODE_ENV=development
 
 WORKDIR /app
 
@@ -37,19 +37,15 @@ WORKDIR /app
 
 RUN apk add --no-cache libc6-compat
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 COPY --chown=node:node --from=development /app/node_modules ./node_modules
 COPY --chown=node:node . .
 
-ARG NEXT_PUBLIC_BACKEND_HOST_DOMAIN
-ARG NEXT_PUBLIC_FRONTEND_HOST_DOMAIN
-ARG NEXT_PUBLIC_USER
-ARG NEXT_PUBLIC_PASSWORD
+ARG NEXT_PUBLIC_API_URL
 
 RUN touch .env.production
-RUN echo "NEXT_PUBLIC_BACKEND_HOST_DOMAIN=$NEXT_PUBLIC_BACKEND_HOST_DOMAIN" >> .env.production
-RUN echo "NEXT_PUBLIC_FRONTEND_HOST_DOMAIN=$NEXT_PUBLIC_FRONTEND_HOST_DOMAIN" >> .env.production
+RUN echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env.production
 RUN cat .env.production
 
 RUN npm run build
@@ -64,20 +60,27 @@ FROM node:21-alpine as production
 
 WORKDIR /app
 
+# Install necessary dependencies for production
 RUN apk add --no-cache libc6-compat
 
-ENV NODE_ENV production
-
+# Create a user and group to run the app with
 RUN addgroup --system --gid 1001 nodejs
-
 RUN adduser --system --uid 1001 nextjs
 
+# Set the environment variable for production
+ENV NODE_ENV=production
+
+# Copy only the built output from the build stage
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
+# Set the user for running the app
 USER nextjs
 
-CMD ["node", "server.js"]
+# Expose the port that Next.js runs on by default (3000)
+EXPOSE 3000
+
+# Start the Next.js server
+CMD ["npm", "start"]

@@ -1,16 +1,28 @@
-# Versioning and metadata
-.git
-.gitignore
-.dockerignore
-
-# Build dependencies
+# Dependencies
 node_modules
+*.log
+
+# Build output
 .next
-/.cache
+out
 
-# Environment (contains sensitive data)
-.env
-
-# Files not required for production
+# Docker files
 Dockerfile
-README.md
+Dockerfile.*
+
+# Local environment files
+.env
+.env.*
+.env.local
+.env.*.local
+
+# Editor directories and files
+.vscode
+.idea
+*.swp
+*.swo
+*.swn
+
+# OS generated files
+.DS_Store
+Thumbs.db

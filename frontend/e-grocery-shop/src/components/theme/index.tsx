@@ -1,52 +1,57 @@
-'use client'
+'use client';
 
 // React Imports
-import { useMemo } from 'react'
-
-// MUI Imports
-import CssBaseline from '@mui/material/CssBaseline'
-import { deepmerge } from '@mui/utils'
-import { ThemeProvider, lighten, darken, createTheme } from '@mui/material/styles'
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
+import { useMemo } from 'react';
 
 // Third-party Imports
-import { useMedia } from 'react-use'
+import { useMedia } from 'react-use';
 
-// Type Imports
-import type { ChildrenType, SystemMode } from '@core/types'
-
-// Component Imports
-import ModeChanger from './ModeChanger'
+// MUI Imports
+import { deepmerge } from '@mui/utils';
+import { ThemeProvider, lighten, darken, createTheme } from '@mui/material/styles';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import CssBaseline from '@mui/material/CssBaseline';
+import type {} from '@mui/material/themeCssVarsAugmentation'; //! Do not remove this import otherwise you will get type errors while making a production build
+import type {} from '@mui/lab/themeAugmentation'; //! Do not remove this import otherwise you will get type errors while making a production build
 
 // Config Imports
-import { themeConfig } from '@configs/index'
+import themeConfig from '@/config/app-config';
 
 // Hook Imports
-import { useSettings } from '@core/hooks/useSettings'
+import { useSettings } from '@/components/settings/settings.hook';
 
 // Core Theme Imports
-import defaultCoreTheme from '@core/theme'
+import defaultCoreTheme from './default';
 
-type Props = ChildrenType & {
-  systemMode: SystemMode
-}
+// Type Imports
+import type { PropsWithChildren, SystemMode } from '@/types';
 
-const CustomThemeProvider = ({ children, systemMode }: Props) => {
+// Component Imports
+import ModeChanger from './ModeChanger';
+
+type Props = PropsWithChildren & {
+  systemMode: SystemMode;
+};
+
+const CustomThemeProvider = (props: Props) => {
+  // Props
+  const { children, systemMode } = props;
+
   // Vars
-  const isServer = typeof window === 'undefined'
-  let currentMode: SystemMode
+  const isServer = typeof window === 'undefined';
+  let currentMode: SystemMode;
 
   // Hooks
-  const { settings } = useSettings()
-  const isDark = useMedia('(prefers-color-scheme: dark)', systemMode === 'dark')
+  const { settings } = useSettings();
+  const isDark = useMedia('(prefers-color-scheme: dark)', systemMode === 'dark');
 
   if (isServer) {
-    currentMode = systemMode
+    currentMode = systemMode;
   } else {
     if (settings.mode === 'system') {
-      currentMode = isDark ? 'dark' : 'light'
+      currentMode = isDark ? 'dark' : 'light';
     } else {
-      currentMode = settings.mode as SystemMode
+      currentMode = settings.mode as SystemMode;
     }
   }
 
@@ -59,36 +64,34 @@ const CustomThemeProvider = ({ children, systemMode }: Props) => {
             primary: {
               main: settings.primaryColor,
               light: lighten(settings.primaryColor as string, 0.2),
-              dark: darken(settings.primaryColor as string, 0.1)
-            }
-          }
+              dark: darken(settings.primaryColor as string, 0.1),
+            },
+          },
         },
         dark: {
           palette: {
             primary: {
               main: settings.primaryColor,
               light: lighten(settings.primaryColor as string, 0.2),
-              dark: darken(settings.primaryColor as string, 0.1)
-            }
-          }
-        }
+              dark: darken(settings.primaryColor as string, 0.1),
+            },
+          },
+        },
       },
       cssVariables: {
-        colorSchemeSelector: 'data'
-      }
-    }
+        colorSchemeSelector: 'data',
+      },
+    };
 
-    const coreTheme = deepmerge(defaultCoreTheme(currentMode), newTheme)
+    const coreTheme = deepmerge(defaultCoreTheme(currentMode), newTheme);
 
-    return createTheme(coreTheme)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings.primaryColor, currentMode])
+    return createTheme(coreTheme);
+  }, [settings.primaryColor, currentMode]);
 
   return (
     <AppRouterCacheProvider
       options={{
-        prepend: true
+        prepend: true,
       }}
     >
       <ThemeProvider
@@ -103,7 +106,7 @@ const CustomThemeProvider = ({ children, systemMode }: Props) => {
         </>
       </ThemeProvider>
     </AppRouterCacheProvider>
-  )
-}
+  );
+};
 
-export default CustomThemeProvider
+export default CustomThemeProvider;

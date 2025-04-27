@@ -1,53 +1,68 @@
-// Types
-import { headers } from 'next/headers'
+// Third-party Imports
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 
-import type { Metadata } from 'next'
+import { headers } from 'next/headers';
 
-import type { ChildrenType } from '@core/types'
+// Config Imports
+import { i18n } from '@/config/i18n';
 
-// Components
-import Providers from '@/components/Providers'
+// Utility Imports
+import { getSystemMode } from '@/lib/serverHelpers';
 
-// HOCs
-import TranslationWrapper from '@/hocs/TranslationWrapper'
+// Component Imports
+import TranslationWrapper from '@/components/TranslationWrapper';
 
-// Utilities
-import type { Locale } from '@/locales/i18n'
-import { i18n } from '@/locales/i18n'
-import LayoutWrapper from '@/components/layout/LayoutWrapper'
+// Type Importss
+import type { PropsWithChildren, ParamsType } from '@/types';
 
-// Metadata
-export const metadata: Metadata = {
-  title: 'E-Grocery Shop',
-  description:
-    "E-Grocery Shop is a grocery store that sells groceries online. It is a one-stop shop for all your grocery needs. You can find everything from fresh produce to canned goods, all at the click of a button. E-Grocery Shop is the perfect solution for busy people who don't have time to go to the store. With E-Grocery Shop, you can shop from the comfort of your own home, and have your groceries delivered right to your door."
+import Providers from '@/components/providers';
+import getMetadata from '@/server/metadata/get-metadata';
+import BackToTopButton from '@/components/ui/BackToTopButton';
+
+export async function generateMetadata(props: ParamsType) {
+  const params = await props.params;
+  const metadata = getMetadata('default');
+
+  return metadata[params.lang];
 }
 
-// Static Params
-export async function generateStaticParams() {
-  return i18n.locales.map(lang => ({ lang }))
-}
+const RootLayout = async (props: PropsWithChildren & ParamsType) => {
+  const params = await props.params;
+  const { children } = props;
 
-// Types
-type RootLayoutProps = ChildrenType & {
-  params: Promise<{ lang: Locale }>
-}
-
-// Root Layout Component
-export default async function RootLayout({ children, params }: RootLayoutProps) {
-  const { lang } = await params
-
-  const headersList = await headers()
+  // Vars
+  const headersList = await headers();
+  const systemMode = await getSystemMode();
+  const direction = i18n.langDirection[params.lang];
 
   return (
-    <TranslationWrapper headersList={headersList} lang={lang}>
-      <html lang={lang}>
-        <body suppressHydrationWarning style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <TranslationWrapper headersList={headersList} lang={params.lang}>
+      <html id="__next" lang={params.lang} dir={direction} suppressHydrationWarning>
+        <head>
+          <script
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('consent', 'default', {
+                  analytics_storage: 'denied'
+                });
+              `,
+            }}
+          />
+        </head>
+        <body>
           <Providers>
-            <LayoutWrapper>{children}</LayoutWrapper>
+            <InitColorSchemeScript attribute="data" defaultMode={systemMode} />
+            {children}
+            <BackToTopButton />
           </Providers>
         </body>
       </html>
     </TranslationWrapper>
-  )
-}
+  );
+};
+
+export default RootLayout;

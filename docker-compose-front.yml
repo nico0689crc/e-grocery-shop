@@ -1,0 +1,28 @@
+services:
+  ##################################################################################
+  #   e-grocery-shop-frontend - Setup Frontend Container - e-grocery-shop-frontend
+  ##################################################################################
+
+  e-grocery-shop-frontend:
+    container_name: e-grocery-shop-frontend-dev
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_E_GROCERY_SHOP_FRONTEND_IMAGE}:dev
+    build:
+      context: ./frontend/e-grocery-shop
+      target: development
+    environment:
+      - NEXTAUTH_BASEPATH=${NEXTAUTH_BASEPATH}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - API_URL=${API_URL}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    ports:
+      - "${E_GROCERY_SHOP_FRONTEND_HOST_PORT}:${E_GROCERY_SHOP_FRONTEND_CONTAINER_PORT}"
+    expose:
+      - 3000
+    volumes:
+      - type: bind
+        source: ./frontend/e-grocery-shop
+        target: /app
+      - /app/node_modules

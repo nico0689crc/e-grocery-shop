@@ -1,0 +1,36 @@
+query Product($productId: String!) {
+    product(id: $productId) {
+        id
+        createdAt
+        updatedAt
+        deletedAt
+        title
+        slug
+        description
+        inStock
+        stock
+        status
+        price
+        minPrice
+        maxPrice
+        salePrice
+        creator
+        categories {
+            id
+        }
+        tags {
+            id
+        }
+        attachments {
+            id
+        }
+        user {
+            id
+            email
+            firstName
+            lastName
+            avatar
+            role
+        }
+    }
+}

@@ -1,0 +1,258 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  avatar: String
+  role: UserRole!
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMINISTRATOR
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type Query {
+  getProfile: AuthResponse!
+  getUser(id: String!): User!
+  getUsers: [User!]!
+}
+
+type Mutation {
+  signUp(signUpInput: SignUpInput!): AuthResponse!
+  signIn(signInInput: SignInInput!): AuthResponse!
+}
+
+input SignUpInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  passwordConfirmation: String!
+  returnUrl: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Attachment {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  thumbnail: String!
+  original: String!
+  isPrimary: Boolean!
+  order: Int!
+  type: AttachmentType!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum AttachmentType {
+  IMAGE
+  VIDEO
+  FILE
+  AUDIO
+}
+
+type Category {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  title: String!
+  slug: String!
+  description: String
+  parentId: String
+  products: [Product!]!
+}
+
+type Tag {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  name: String!
+  slug: String!
+  products: [Product!]
+}
+
+type User {
+  id: ID!
+  products: [Product!]!
+}
+
+type Product {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  title: String!
+  slug: String!
+  description: String!
+  inStock: Boolean!
+  stock: Float!
+  status: ProductStatus!
+  price: Float!
+  minPrice: Float
+  maxPrice: Float
+  salePrice: Float
+  creator: String!
+  user: User
+  categories: [Category!]
+  tags: [Tag!]
+  attachments: [Attachment!]
+}
+
+enum ProductStatus {
+  PUBLISHED
+  DRAFTED
+}
+
+type ProductsFindAllResponse {
+  totalItems: Int!
+  totalPages: Int!
+  currentPage: Int!
+  pageSize: Int!
+  data: [Product!]!
+}
+
+type ProductsResponse {
+  message: String
+  statusCode: Int
+  result: ProductsFindAllResponse
+}
+
+type CategoriesFindAllResponse {
+  totalItems: Int!
+  totalPages: Int!
+  currentPage: Int!
+  pageSize: Int!
+  data: [Category!]!
+}
+
+type CategoriesResponse {
+  message: String
+  statusCode: Int
+  result: CategoriesFindAllResponse
+}
+
+type CategoryResponse {
+  message: String
+  statusCode: Int
+  data: Category
+}
+
+type TagsFindAllResponse {
+  totalItems: Int!
+  totalPages: Int!
+  currentPage: Int!
+  pageSize: Int!
+  data: [Tag!]!
+}
+
+type TagsResponse {
+  message: String
+  statusCode: Int
+  result: TagsFindAllResponse
+}
+
+type TagResponse {
+  message: String
+  statusCode: Int
+  data: Tag
+}
+
+type Query {
+  categories(search: String, page: Int = 1, pageSize: Int = 10): CategoriesResponse!
+  category(id: ID!): CategoryResponse!
+  products(tags: [String!], categories: [String!], search: String, page: Int = 1, pageSize: Int = 10): ProductsResponse!
+  product(id: String!): Product!
+  tags(search: String, page: Int = 1, pageSize: Int = 10): TagsResponse!
+  tag(id: ID!): TagResponse!
+}
+
+type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryResponse!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryResponse!
+  removeCategory(id: ID!): CategoryResponse!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: String!): Product!
+  createTag(createTagInput: CreateTagInput!): TagResponse!
+  updateTag(updateTagInput: UpdateTagInput!): TagResponse!
+  removeTag(id: ID!): TagResponse!
+}
+
+input CreateCategoryInput {
+  title: String!
+  description: String!
+  parentId: String
+}
+
+input UpdateCategoryInput {
+  title: String
+  description: String
+  parentId: String
+  id: ID!
+}
+
+input CreateProductInput {
+  title: String!
+  description: String!
+  stock: Float!
+  status: ProductStatus! = PUBLISHED
+  price: Float!
+  minPrice: Float!
+  maxPrice: Float!
+  salePrice: Float
+  attachments: [Upload!]
+  categories: [ID!]!
+  tags: [ID!]
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input UpdateProductInput {
+  title: String
+  description: String
+  stock: Float
+  status: ProductStatus = PUBLISHED
+  price: Float
+  minPrice: Float
+  maxPrice: Float
+  salePrice: Float
+  attachments: [Upload!]
+  categories: [ID!]
+  tags: [ID!]
+  id: ID!
+}
+
+input CreateTagInput {
+  name: String!
+}
+
+input UpdateTagInput {
+  name: String
+  id: ID!
+}

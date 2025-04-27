@@ -1,0 +1,186 @@
+{
+  "pages": {
+    "home": {
+      "title": "Home",
+      "sections": {
+        "hero": {
+          "title": "Hi, I'm Nicolás",
+          "subtitle_1": "Developer",
+          "subtitle_2": "Fullstack",
+          "skills": "JavaScript, TypeScript, React.js, Next.js, Nest.js, Express.js, Node.js, Docker, Postgress, Mysql and more.",
+          "view_portfolio_button": "View my portfolio",
+          "download_cv": "Download resume"
+        },
+        "about": {
+          "title": "About Me",
+          "know_me_more": "Know Me More",
+          "introduction": "Hi, I'm <span>Nicolás Fernández</span>",
+          "description": "I am a Fullstack Developer with over <b>3 years of experience in Web and Software Development</b>. My expertise spans both frontend and backend technologies. On the frontend, I specialize in <mark>React.js</mark>, <mark>Next.js</mark>, <mark>JavaScript</mark>, <mark>TypeScript</mark>, <mark>HTML</mark>, <mark>CSS</mark>, <mark>Tailwind CSS</mark>, and <mark>Material UI</mark>. On the backend, I have extensive experience with <mark>Node.js</mark>, <mark>Express.js</mark>, <mark>NestJS</mark>, <mark>GraphQL</mark>, <mark>REST APIs</mark>, <mark>Laravel</mark>, and <mark>Ruby on Rails</mark>. For databases, I work with <mark>MongoDB</mark>, <mark>PostgreSQL</mark>, and <mark>MySQL</mark>. Additionally, I am skilled in DevOps and tools such as <mark>Docker</mark>, <mark>Git</mark>, <mark>CI/CD</mark>, <mark>GitHub Actions</mark>, <mark>Linux</mark>, and <mark>AWS</mark>. Based in Neuquén, Argentina, I am passionate about building scalable and efficient solutions and am open to remote opportunities.",
+          "years_of_experience": "Years of <span>Experience</span>",
+          "years": "3",
+          "more_about_me": "More about me"
+        },
+        "faq": {
+          "title": "Frequently Asked Questions",
+          "sub_title": "I am here to help you"
+        }
+      }
+    }, 
+    "about_me": {
+      "title": "About Me",
+      "know_me_more": "Know Me More",
+      "introduction": "Hi again, I'm <span>Nicolás Fernández</span>",
+      "description": {
+        "paragraph_1": "I am a Fullstack Developer with over <b>3 years of experience in Web and Software Development</b>. My expertise spans both frontend and backend technologies. On the frontend, I specialize in <mark>React.js</mark>, <mark>Next.js</mark>, <mark>JavaScript</mark>, <mark>TypeScript</mark>, <mark>HTML</mark>, <mark>CSS</mark>, <mark>Tailwind CSS</mark>, and <mark>Material UI</mark>. On the backend, I have extensive experience with <mark>Node.js</mark>, <mark>Express.js</mark>, <mark>NestJS</mark>, <mark>GraphQL</mark>, <mark>REST APIs</mark>, <mark>Laravel</mark>, and <mark>Ruby on Rails</mark>. For databases, I work with <mark>MongoDB</mark>, <mark>PostgreSQL</mark>, and <mark>MySQL</mark>. Additionally, I am skilled in DevOps and tools such as <mark>Docker</mark>, <mark>Git</mark>, <mark>CI/CD</mark>, <mark>GitHub Actions</mark>, <mark>Linux</mark>, and <mark>AWS</mark>. Based in Neuquén, Argentina, I am passionate about building scalable and efficient solutions and am open to remote opportunities.",
+        "paragraph_2": "I enjoy learning new technologies and constantly improving my skills. I consider myself proactive, responsible, and committed to my work. I always seek the best way to solve problems and add value to the projects I participate in.",
+        "paragraph_3": "In my free time, I enjoy reading, sports, and cooking. I like to stay updated on the latest trends in technology and software development. I also enjoy sharing my knowledge and learning from other professionals in the field.",
+        "paragraph_4": "Additionally, I have <b>7 years of international experience</b> in the hospitality sector as a cook and kitchen assistant, having worked in <mark>New Zealand</mark>, <mark>Sweden</mark>, <mark>Germany</mark>, and <mark>Australia</mark>. This experience has helped me develop adaptability, problem-solving skills, and the ability to work under pressure.",
+        "paragraph_5": "Working in diverse environments has also enhanced my ability to integrate into new cultures, collaborate with multicultural teams, and quickly adapt to different dynamics and work expectations."
+      },
+      "skills_title": "<span>My Skills</span>"
+    },
+    "resume": {
+      "title": "Resume",
+      "sub_title": "My professional journey",
+      "accordion_sections": {
+        "it_experience": "IT Experience",
+        "other_experience": "Other Experiences",
+        "education": "Education",
+        "courses": "Courses"
+      }
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "sub_title": "Some of my most recent projects",
+      "description": "Here you can see some of my most recent projects. Each one represents a unique challenge and an opportunity to apply my skills and knowledge in developing effective and attractive solutions. I hope you enjoy them and feel inspired to learn more about my work."
+    },
+    "project": {
+      "title": "Project"
+    },
+    "cookies_policy": {
+      "title": "Cookies Policy",
+      "description": "This policy explains what cookies are, how we use them on this website, and your options regarding their use.",
+      "whatAreCookiesTitle": "What are cookies?",
+      "whatAreCookiesDescription": "Cookies are small text files stored on your device when you visit a website. They are widely used to make websites work, or work more efficiently, as well as to provide information to the site owners.",
+      "typesOfCookiesTitle": "What types of cookies do we use?",
+      "necessaryCookies": "<strong>Necessary cookies:</strong> These are essential for the website to function properly.",
+      "analyticsCookies": "<strong>Analytics cookies:</strong> We use Google Analytics to collect anonymous information about how the site is used to improve it. These cookies are only activated if you give your consent.",
+      "cookiesUsedTitle": "Cookies used",
+      "cookieName": "Name",
+      "cookiePurpose": "Purpose",
+      "cookieDuration": "Duration",
+      "cookieConsentName": "cookie_consent",
+      "cookieConsentPurpose": "Stores your cookie preference",
+      "cookieConsentDuration": "1 year",
+      "gaName": "_ga (Google Analytics)",
+      "gaPurpose": "Distinguishes unique users",
+      "gaDuration": "2 years",
+      "gidName": "_gid (Google Analytics)",
+      "gidPurpose": "Records browsing session",
+      "gidDuration": "24 hours",
+      "controlCookiesTitle": "How can you control cookies?",
+      "controlCookiesDescription": "You can accept or reject analytics cookies from the banner displayed when you enter the site. You can also delete or block cookies from your browser settings.",
+      "changeChoiceDescription": "If you want to change your current choice, you can do so using the following button:",
+      "changeCookiesButton": "Change cookie settings"
+    },
+    "contact": {
+      "title": "Contact",
+      "sub_title": "Let's get in touch",
+      "body": "If you have any questions, comments, or would like to discuss a potential project, feel free to reach out. I am always open to new opportunities and collaborations. You can contact me through the form below or via my social media channels.",
+      "form": {
+        "email": "Email me",
+        "linkedin": "Contact me on LinkedIn",
+        "github": "Check out my GitHub",
+        "zoom_google": "Book a Zoom or Google meeting"
+      }
+    },
+    "not_found": {
+      "title": "Oops! Page Not Found",
+      "description": "It seems the page you are looking for doesn't exist or has been moved. Please check the URL or navigate back to the homepage to continue exploring.",
+      "go_home": "Go home",
+      "image_alt": "404 error image"
+    },
+    "error": {
+      "title": "Something Went Wrong",
+      "description": "Oops! It seems something went wrong while loading the page. Please try refreshing the page or come back later. If the issue persists, feel free to contact us for assistance.",
+      "go_home": "Go home",
+      "image_alt": "Error image 500"
+    },
+    "work_in_progress": {
+      "title": "We are working on it!",
+      "description": "This section is currently under construction. We are working hard to bring you exciting content and updates. Please check back soon, and thank you for your patience and understanding!",
+      "go_home": "Go home",
+      "image_alt": "Work in progress image"
+    }
+  },
+  "actions": {
+    "change_mode": "Change mode"
+  },
+  "footer": {
+    "right_reserved": "All rights reserved.",
+    "site": "Site",
+    "socials": "Socials",
+    "description": "I am <mark>Nicolás Fernández</mark>, a Fullstack Developer with over 3 years of experience in Web and Software Development. Specializing in <mark>JavaScript</mark>, <mark>TypeScript</mark>, <mark>React.js</mark>, <mark>Next.js</mark>, <mark>Nest.js</mark>, <mark>Express.js</mark>, <mark>Node.js</mark>, <mark>Postgress</mark>, <mark>Mysql</mark> and Devops practices such <mark>Docker</mark> and <mark>Github Actions</mark>. Currently based in Neuquén, Argentina, and open to remote projects. I invite you to learn more about my skills, experience, and professional journey."
+  },
+  "months": {
+    "1": {
+      "name": "January",
+      "short_name": "Jan"
+    },
+    "2": {
+      "name": "February",
+      "short_name": "Feb"
+    },
+    "3": {
+      "name": "March",
+      "short_name": "Mar"
+    },
+    "4": {
+      "name": "April",
+      "short_name": "Apr"
+    },
+    "5": {
+      "name": "May",
+      "short_name": "May"
+    },
+    "6": {
+      "name": "June",
+      "short_name": "Jun"
+    },
+    "7": {
+      "name": "July",
+      "short_name": "Jul"
+    },
+    "8": {
+      "name": "August",
+      "short_name": "Aug"
+    },
+    "9": {
+      "name": "September",
+      "short_name": "Sep"
+    },
+    "10": {
+      "name": "October",
+      "short_name": "Oct"
+    },
+    "11": {
+      "name": "November",
+      "short_name": "Nov"
+    },
+    "12": {
+      "name": "December",
+      "short_name": "Dec"
+    }
+  },
+  "common": {
+    "remote": "Remote",
+    "on_site": "On site",
+    "view_more": "View more"
+  },
+  "cookies_banner": {
+    "description": "We use cookies to enhance your experience on our website. By continuing to browse, you agree to the use of cookies.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "learn_more": "Learn more"
+  }
+}

@@ -1,0 +1,47 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  avatar: String
+  role: UserRole!
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMINISTRATOR
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type Query {
+  getProfile: AuthResponse!
+  getUser(id: String!): User!
+  getUsers: [User!]!
+}
+
+type Mutation {
+  signUp(signUpInput: SignUpInput!): AuthResponse!
+  signIn(signInInput: SignInInput!): AuthResponse!
+}
+
+input SignUpInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  passwordConfirmation: String!
+  returnUrl: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
