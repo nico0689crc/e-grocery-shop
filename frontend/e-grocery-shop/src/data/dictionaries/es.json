@@ -101,10 +101,11 @@
       "image_alt": "Imagen de error 404"
     },
     "error": {
-      "title": "¡Oops! Algo salió mal",
-      "description": "Parece que hubo un error al cargar la página. Por favor, verifica tu conexión a Internet o intenta recargar la página.",
-      "go_home": "Ir a Inicio",
-      "image_alt": "Imagen de error 500"
+      "title": "Algo salió mal",
+      "description": "¡Ups! Parece que algo salió mal al cargar la página. Intenta actualizar la página o vuelve más tarde. Si el problema persiste, no dudes en contactarnos para obtener ayuda.",
+      "go_home": "Volver a la página de inicio",
+      "image_alt": "Imagen de error 500",
+      "retry": "Reintentar"
     },
     "work_in_progress": {
       "title": "¡Estamos trabajando en ello!",

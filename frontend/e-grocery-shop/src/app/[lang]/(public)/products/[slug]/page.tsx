@@ -24,14 +24,14 @@ type ProductPageProps = ParamsType<{
 // HomePage component
 const ProductPage = async (props: ProductPageProps) => {
   const params = await props.params;
-  const dictionary = await getDictionary(params.lang);
+
   const product = await getProductFromServer({
     variables: {
       slug: params.slug,
     }
   });
 
-  return <ProductView dictionary={dictionary} lang={params.lang} product={product} />;
+  return <ProductView product={product} />;
 };
 
 export default ProductPage;

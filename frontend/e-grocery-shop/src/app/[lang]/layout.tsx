@@ -2,8 +2,6 @@
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 
-import { headers } from 'next/headers';
-
 // Config Imports
 import { i18n } from '@/config/i18n';
 
@@ -32,12 +30,11 @@ const RootLayout = async (props: PropsWithChildren & ParamsType) => {
   const { children } = props;
 
   // Vars
-  const headersList = await headers();
   const systemMode = await getSystemMode();
   const direction = i18n.langDirection[params.lang];
 
   return (
-    <TranslationWrapper headersList={headersList} lang={params.lang}>
+    <TranslationWrapper lang={params.lang}>
       <html id="__next" lang={params.lang} dir={direction} suppressHydrationWarning>
         <head>
           <script

@@ -103,8 +103,9 @@
     "error": {
       "title": "Something Went Wrong",
       "description": "Oops! It seems something went wrong while loading the page. Please try refreshing the page or come back later. If the issue persists, feel free to contact us for assistance.",
-      "go_home": "Go home",
-      "image_alt": "Error image 500"
+      "go_home": "Go back to the homepage",
+      "image_alt": "Error image 500",
+      "retry": "Retry"
     },
     "work_in_progress": {
       "title": "We are working on it!",

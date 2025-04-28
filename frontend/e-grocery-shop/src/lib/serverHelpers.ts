@@ -6,7 +6,7 @@ import 'server-only';
 import { cookies } from 'next/headers';
 
 // Type Imports
-import type { Settings } from '@/components/settings/settings.provider';
+import type { Settings } from '@/components/settings/types';
 import type { SystemMode } from '@/types';
 
 // Config Imports

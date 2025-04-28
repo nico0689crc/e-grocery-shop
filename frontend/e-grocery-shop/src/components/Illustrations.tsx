@@ -1,6 +1,7 @@
 import { Typography, Button, Stack } from '@mui/material';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/lib/i18n/navigation';
+import LinkButton from './ui/LinkButton';
 
 type IllustrationsProps = {
   title: string;
@@ -33,15 +34,9 @@ const Illustrations = (props: IllustrationsProps) => {
         {description}
       </Typography>
       <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-        <Button
-          component={Link}
-          href={href}
-          rel="noopener noreferrer"
-          variant="contained"
-          color="primary"
-        >
+        <LinkButton href={href}>
           {hrefText}
-        </Button>
+        </LinkButton>
         {moreActions}
       </Stack>
     </>

@@ -1,10 +1,13 @@
 'use client';
 
 import useGetProductsFromClient from "@/request/client/products/use-get-products";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { Link } from '@/lib/i18n/navigation';
 
 function ProductsPage() {
   const { loading, error, data } = useGetProductsFromClient();
+  const t = useTranslations();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -12,7 +15,8 @@ function ProductsPage() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
-      <h1 className="text-4xl font-bold">Products</h1>
+      <h1 className="text-4xl font-bold">{t('pages.home.title')}</h1>
+      <Link href="/products" locale="en">About</Link>
       <p className="mt-4 text-lg">Welcome to the Products Page!</p>
       <div className="mt-4">
         <h2 className="text-2xl font-semibold">Products</h2>

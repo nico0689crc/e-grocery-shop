@@ -2,7 +2,6 @@
 import type { ParamsType } from '@/types';
 
 // Utilities
-import { getDictionary } from '@/lib/getDictionary';
 import getMetadata from '@/request/server/metadata/get-metadata';
 import { getProductsFromServer } from '@/request/server/products/get-products';
 
@@ -18,12 +17,10 @@ export async function generateMetadata(props: ParamsType) {
 }
 
 // HomePage component
-const HomePage = async (props: ParamsType) => {
-  const params = await props.params;
-  const dictionary = await getDictionary(params.lang);
+const HomePage = async () => {
   const { products } = await getProductsFromServer();
 
-  return <HomeView dictionary={dictionary} lang={params.lang} products={products} />;
+  return <HomeView  products={products} />;
 };
 
 export default HomePage;
