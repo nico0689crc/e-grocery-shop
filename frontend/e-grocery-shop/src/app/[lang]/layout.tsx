@@ -17,7 +17,7 @@ import TranslationWrapper from '@/components/TranslationWrapper';
 import type { PropsWithChildren, ParamsType } from '@/types';
 
 import Providers from '@/components/providers';
-import getMetadata from '@/server/metadata/get-metadata';
+import getMetadata from '@/request/server/metadata/get-metadata';
 import BackToTopButton from '@/components/ui/BackToTopButton';
 
 export async function generateMetadata(props: ParamsType) {

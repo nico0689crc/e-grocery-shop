@@ -43,7 +43,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'res.cloudinary.com',
+        hostname: 'pickbazarlaravel.s3.ap-southeast-1.amazonaws.com',
         pathname: '/**',
       },
     ],

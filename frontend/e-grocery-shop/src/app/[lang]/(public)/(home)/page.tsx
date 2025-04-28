@@ -1,10 +1,10 @@
 // Types
-import type { ParamsType, Locale } from '@/types';
+import type { ParamsType } from '@/types';
 
 // Utilities
 import { getDictionary } from '@/lib/getDictionary';
-import getMetadata from '@/server/metadata/get-metadata';
-import { getProductsFromServer } from '@/server/products/get-products';
+import getMetadata from '@/request/server/metadata/get-metadata';
+import { getProductsFromServer } from '@/request/server/products/get-products';
 
 // Components
 import HomeView from '@/components/views/home/HomeView';
@@ -18,7 +18,7 @@ export async function generateMetadata(props: ParamsType) {
 }
 
 // HomePage component
-const HomePage = async (props: { params: Promise<{ lang: Locale }> }) => {
+const HomePage = async (props: ParamsType) => {
   const params = await props.params;
   const dictionary = await getDictionary(params.lang);
   const { products } = await getProductsFromServer();

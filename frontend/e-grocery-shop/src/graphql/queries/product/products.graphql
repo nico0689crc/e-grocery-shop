@@ -28,6 +28,8 @@ query Products($tags: [String!], $categories: [String!], $search: String, $page:
                 }
                 attachments {
                     id
+                    thumbnail
+                    original
                 }
                 tags {
                     id

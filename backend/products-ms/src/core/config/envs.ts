@@ -8,16 +8,12 @@ interface EnvVars {
   PRODUCTS_MS_BACKEND_POSTGRES_HOST: string;
   PRODUCTS_MS_BACKEND_POSTGRES_DB: string;
   PRODUCTS_MS_BACKEND_POSTGRES_USER: string;
-  PRODUCTS_MS_BACKEND_USERS_PASSWORDS: string;
-  JWT_SECRET: string;
   PRODUCTS_MS_BACKEND_POSTGRES_PASSWORD: string;
   NATS_SERVERS: string[];
 }
 
 const envsSchema = joi
   .object<EnvVars>({
-    JWT_SECRET: joi.string().required(),
-    PRODUCTS_MS_BACKEND_USERS_PASSWORDS: joi.string().required(),
     PRODUCTS_MS_BACKEND_POSTGRES_DB: joi.string().required(),
     PRODUCTS_MS_BACKEND_POSTGRES_HOST: joi.string().required(),
     PRODUCTS_MS_BACKEND_POSTGRES_USER: joi.string().required(),
@@ -40,8 +36,6 @@ if (error) {
 const envVars: EnvVars = value;
 
 export const envs = {
-  jwtSecret: envVars.JWT_SECRET,
-  usersPassword: envVars.PRODUCTS_MS_BACKEND_USERS_PASSWORDS,
   postgresDb: envVars.PRODUCTS_MS_BACKEND_POSTGRES_DB,
   postgresHost: envVars.PRODUCTS_MS_BACKEND_POSTGRES_HOST,
   postgresUser: envVars.PRODUCTS_MS_BACKEND_POSTGRES_USER,

@@ -1,7 +1,7 @@
 'use client';
 
 // Types
-import type { Locale } from '@/config/i18n';
+import type { Locale } from '@/types';
 
 // Hooks
 import { useParams } from 'next/navigation';

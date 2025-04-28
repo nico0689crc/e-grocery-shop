@@ -126,6 +126,8 @@ services:
     environment:
       - CLIENT_GATEWAY_BACKEND_HOST_PORT=${CLIENT_GATEWAY_BACKEND_HOST_PORT}
       - CLIENT_GATEWAY_BACKEND_CONTAINER_PORT=${CLIENT_GATEWAY_BACKEND_CONTAINER_PORT}
+      - CLIENT_GATEWAY_BACKEND_AUTHENTICATION_MS_HOST=${CLIENT_GATEWAY_BACKEND_AUTHENTICATION_MS_HOST}
+      - CLIENT_GATEWAY_BACKEND_PRODUCTS_MS_HOST=${CLIENT_GATEWAY_BACKEND_PRODUCTS_MS_HOST}
     ports:
       - "${CLIENT_GATEWAY_BACKEND_HOST_PORT}:${CLIENT_GATEWAY_BACKEND_CONTAINER_PORT}"
     volumes:
@@ -140,26 +142,26 @@ services:
   #   E-GROCERY-SHOP - Setup Frontend Container - E-Grocery-Shop
   ##################################################################################
 
-  e-grocery-shop-frontend:
-    depends_on:
-      - client-gateway-backend 
-    container_name: e-grocery-shop-frontend-dev
-    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_E_GROCERY_SHOP_IMAGE}:dev
-    build:
-      context: ./frontend/e-grocery-shop
-      target: development
-    environment:
-      - NEXT_PUBLIC_BACKEND_HOST_DOMAIN=${BACKEND_HOST_DOMAIN}
-    ports:
-      - "${E_GROCERY_SHOP_HOST_PORT}:${E_GROCERY_SHOP_CONTAINER_PORT}"
-    volumes:
-      - type: bind
-        source: ./frontend/e-grocery-shop
-        target: /app
-      - /app/node_modules
-    # command: npm run dev
-    networks:
-      - e-grocery-network-dev
+  # e-grocery-shop-frontend:
+  #   depends_on:
+  #     - client-gateway-backend 
+  #   container_name: e-grocery-shop-frontend-dev
+  #   image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_E_GROCERY_SHOP_IMAGE}:dev
+  #   build:
+  #     context: ./frontend/e-grocery-shop
+  #     target: development
+  #   environment:
+  #     - NEXT_PUBLIC_BACKEND_HOST_DOMAIN=${BACKEND_HOST_DOMAIN}
+  #   ports:
+  #     - "${E_GROCERY_SHOP_HOST_PORT}:${E_GROCERY_SHOP_CONTAINER_PORT}"
+  #   volumes:
+  #     - type: bind
+  #       source: ./frontend/e-grocery-shop
+  #       target: /app
+  #     - /app/node_modules
+  #   # command: npm run dev
+  #   networks:
+  #     - e-grocery-network-dev
 volumes:
   authentication-ms-dev-db:
   products-ms-dev-db:

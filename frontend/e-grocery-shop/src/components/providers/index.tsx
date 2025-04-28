@@ -9,6 +9,7 @@ import ReduxProvider from '@/redux-store/ReduxProvider';
 
 // Util Imports
 import { getMode, getSettingsFromCookie, getSystemMode } from '@/lib/serverHelpers';
+import { ApolloNextAppProvider } from '@/components/graphql/apollo-next-app.provider';
 
 type Props = PropsWithChildren;
 
@@ -25,7 +26,11 @@ const Providers = async (props: Props) => {
     <NextAuthProvider basePath={process.env.NEXTAUTH_BASEPATH}>
       <SettingsProvider settingsCookie={settingsCookie} mode={mode}>
         <ThemeProvider systemMode={systemMode}>
-          <ReduxProvider>{children}</ReduxProvider>
+          <ReduxProvider>
+            <ApolloNextAppProvider>
+              {children}
+            </ApolloNextAppProvider>
+          </ReduxProvider>
         </ThemeProvider>
       </SettingsProvider>
     </NextAuthProvider>

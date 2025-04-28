@@ -15,7 +15,11 @@ export interface Product {
   salePrice: number | null
   creator: string
   categories: { id: string }[]
-  attachments: { id: string }[]
+  attachments: { 
+    id: string
+    thumbnail: string
+    original: string 
+  }[]
   tags: any[] // Adjust type if tags have a specific structure
   user: {
     id: string
@@ -42,9 +46,7 @@ export interface ProductsResponse {
 }
 
 export interface ProductsData {
-  data: {
-    products: ProductsResponse
-  }
+  products: ProductsResponse
 }
 
 export interface ProductData {

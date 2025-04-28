@@ -2,12 +2,12 @@
 import type { ParamsType } from '@/types';
 
 // Utilities
+import getMetadata from '@/request/server/metadata/get-metadata';
 import { getDictionary } from '@/lib/getDictionary';
-import getMetadata from '@/server/metadata/get-metadata';
-import { getProductsFromServer } from '@/server/products/get-products';
+import { getProductFromServer } from '@/request/server/products/get-product';
 
 // Components
-import HomeView from '@/components/views/home/HomeView';
+import ProductView from '@/components/views/product/ProductView';
 
 // Function to generate metadata for the page
 export async function generateMetadata(props: ParamsType) {
@@ -25,9 +25,13 @@ type ProductPageProps = ParamsType<{
 const ProductPage = async (props: ProductPageProps) => {
   const params = await props.params;
   const dictionary = await getDictionary(params.lang);
-  const { products } = await getProductsFromServer();
+  const product = await getProductFromServer({
+    variables: {
+      slug: params.slug,
+    }
+  });
 
-  return <HomeView dictionary={dictionary} lang={params.lang} products={products} />;
+  return <ProductView dictionary={dictionary} lang={params.lang} product={product} />;
 };
 
 export default ProductPage;

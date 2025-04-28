@@ -1,6 +1,5 @@
 // Types
-import type { Locale } from '@/config/i18n';
-import type { PropsWithChildren } from '@/types';
+import type { PropsWithChildren, Locale } from '@/types';
 
 // Layout Components
 import CookieBanner from '@/components/CookieBanner';

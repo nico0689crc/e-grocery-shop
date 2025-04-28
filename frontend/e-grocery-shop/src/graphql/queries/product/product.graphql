@@ -1,5 +1,5 @@
-query Product($productId: String!) {
-    product(id: $productId) {
+query Product($slug: String!) {
+    product(slug: $slug) {
         id
         createdAt
         updatedAt
