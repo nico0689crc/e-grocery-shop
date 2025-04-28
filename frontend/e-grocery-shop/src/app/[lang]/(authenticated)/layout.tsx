@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from '@/types';
-import type { Locale } from '@/config/i18n';
+import type { Locale } from '@/types';
 import AuthenticatedGuard from '@/components/guards/AuthenticatedGuard';
 
 const PrivateLayout = async (props: PropsWithChildren & { params: Promise<{ lang: Locale }> }) => {

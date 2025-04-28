@@ -1,4 +1,4 @@
-import type { Locale } from '@/config/i18n';
+import type { Locale } from '@/types';
 import type { Metadata } from 'next';
 
 type MetadataType = {

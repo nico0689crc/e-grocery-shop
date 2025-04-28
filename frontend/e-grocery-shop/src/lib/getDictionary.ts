@@ -3,7 +3,7 @@
 import 'server-only';
 
 // Type Imports
-import type { Locale } from '@/config/i18n';
+import type { Locale } from '@/types';
 
 // Import one of the JSON files to infer the type
 import type enDictionary from '@/data/dictionaries/en.json';

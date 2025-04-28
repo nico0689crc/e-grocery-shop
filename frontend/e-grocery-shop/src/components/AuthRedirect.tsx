@@ -4,7 +4,7 @@
 import { redirect, usePathname } from 'next/navigation';
 
 // Type Imports
-import type { Locale } from '@/config/i18n';
+import type { Locale } from '@/types';
 
 // Config Imports
 import routes from '@/config/routes';

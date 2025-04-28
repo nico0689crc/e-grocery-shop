@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth';
 
 // Type Imports
 import type { PropsWithChildren } from '@/types';
-import type { Locale } from '@/config/i18n';
+import type { Locale } from '@/types';
 
 // Config Imports
 import routes from '@/config/routes';

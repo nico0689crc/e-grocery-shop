@@ -7,7 +7,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
 // Configs and utilities
-import type { Locale } from '@/config/i18n';
+import type { Locale } from '@/types';
 import routes from '@/config/routes';
 import { getLocalizedUrl } from '@/lib/i18n';
 

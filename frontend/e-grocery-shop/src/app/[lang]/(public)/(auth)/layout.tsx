@@ -1,6 +1,6 @@
 // Type Imports
 import type { PropsWithChildren } from '@/types';
-import type { Locale } from '@/config/i18n';
+import type { Locale } from '@/types';
 
 // HOC Imports
 import GuestOnlyRoute from '@/components/guards/GuestOnlyGuard';

@@ -1,7 +1,7 @@
 // Next Imports
 import type { headers } from 'next/headers';
 // Type Imports
-import type { Locale } from '@/config/i18n';
+import type { Locale } from '@/types';
 import type { PropsWithChildren } from '@/types';
 
 // Config Imports
