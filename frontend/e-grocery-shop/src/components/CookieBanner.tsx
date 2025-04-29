@@ -1,23 +1,27 @@
 'use client';
 
-import type { DictionaryType, LangParamType } from '@/types';
-
+// React imports
 import { useState, useEffect } from 'react';
-import { Box, Button, Typography, Link as LinkMUI } from '@mui/material';
-import Link from 'next/link';
+
+// Next.js imports
+import { useTranslations } from 'next-intl';
+
+// MUI imports
+import { Box, Button, Typography } from '@mui/material';
+
+// Local imports
 import themeConfig from '@/config/app-config';
-import { getLocalizedUrl } from '@/lib/i18n';
 import routes from '@/config/routes';
+import Link from './ui/Link';
 
-type CookieBannerProps = DictionaryType & LangParamType;
-
-export default function CookieBanner({ dictionary, lang }: CookieBannerProps) {
+export default function CookieBanner() {
   const [show, setShow] = useState(false);
+  const t = useTranslations('cookies_banner');
 
   useEffect(() => {
     const consent = document.cookie
       .split('; ')
-      .find(row => row.startsWith('cookie_consent='))
+      .find((row) => row.startsWith('cookie_consent='))
       ?.split('=')[1];
     if (!consent) setShow(true);
   }, []);
@@ -31,7 +35,7 @@ export default function CookieBanner({ dictionary, lang }: CookieBannerProps) {
     }
     setShow(false);
 
-    if(value === 'granted') {
+    if (value === 'granted') {
       window.location.reload();
     }
   };
@@ -42,7 +46,7 @@ export default function CookieBanner({ dictionary, lang }: CookieBannerProps) {
     <Box
       sx={{
         display: 'flex',
-        position: 'fixed',
+        position: 'absolute',
         alignItems: 'center',
         flexDirection: {
           xs: 'column',
@@ -51,6 +55,7 @@ export default function CookieBanner({ dictionary, lang }: CookieBannerProps) {
         gap: 5,
         justifyContent: 'space-between',
         bottom: 0,
+        left: 0,
         width: '100%',
         bgcolor: 'primary.main',
         borderTop: 1,
@@ -60,26 +65,30 @@ export default function CookieBanner({ dictionary, lang }: CookieBannerProps) {
         zIndex: 1300,
       }}
     >
-      <Box sx={{ 
-        display: 'flex', 
-        flexGrow: 1,
-        gap: 2,
-        flexDirection: {
-          xs: 'column',
-          [themeConfig.breakpointToChangeLayout]: 'row',
-        },
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <Typography variant="body1" sx={{ textAlign: 'center', color: '#000000', fontWeight: 500 }}>
-          {dictionary.cookies_banner.description}
+      <Box
+        sx={{
+          display: 'flex',
+          flexGrow: 1,
+          gap: 2,
+          flexDirection: {
+            xs: 'column',
+            [themeConfig.breakpointToChangeLayout]: 'row',
+          },
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography
+          variant="body1"
+          sx={{ textAlign: 'center', color: '#000000', fontWeight: 500 }}
+        >
+          {t('description')}
         </Typography>
-        <LinkMUI 
-          component={Link} 
-          href={getLocalizedUrl("/", lang)}
-          sx={{ 
+        <Link
+          href={routes.pages.public.cookies_policy}
+          sx={{
             fontWeight: 600,
-            width: 'fit-content', 
+            width: 'fit-content',
             color: '#000000',
             '&.MuiLink-with-hover-effect': {
               '&:after': {
@@ -87,33 +96,34 @@ export default function CookieBanner({ dictionary, lang }: CookieBannerProps) {
               },
             },
           }}
-          className='MuiLink-with-hover-effect'
+          className="MuiLink-with-hover-effect"
         >
-          {dictionary.cookies_banner.learn_more}
-        </LinkMUI>
+          {t('learn_more')}
+        </Link>
       </Box>
       <Box sx={{ display: 'flex', gap: 5 }}>
         <Button
           variant="contained"
-          size='small'
+          size="small"
           color="inherit"
           onClick={() => handleConsent('denied')}
           sx={{
-            backgroundColor: "#424242", color: "#ffffff",
+            backgroundColor: '#424242',
+            color: '#ffffff',
           }}
         >
-          {dictionary.cookies_banner.decline}
+          {t('decline')}
         </Button>
         <Button
           variant="contained"
-          color='primary'
-          size='small'
+          color="primary"
+          size="small"
           onClick={() => handleConsent('granted')}
           sx={{
             border: '1px solid #000000',
           }}
         >
-          {dictionary.cookies_banner.accept}
+          {t('accept')}
         </Button>
       </Box>
     </Box>

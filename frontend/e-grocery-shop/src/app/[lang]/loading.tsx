@@ -1,19 +1,5 @@
-import { Box, CircularProgress } from '@mui/material';
+import LoadingMui from '@/components/Loading';
 
 export default function Loading() {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexGrow: 1,
-        flexShrink: 1,
-        flexBasis: 'auto',
-        height: '100vh',
-      }}
-    >
-      <CircularProgress />
-    </Box>
-  );
+  return <LoadingMui />;
 }

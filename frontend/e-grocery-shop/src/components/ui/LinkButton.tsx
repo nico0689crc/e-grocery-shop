@@ -1,7 +1,8 @@
 'use client'
 
-import { PropsWithChildren } from "@/types";
-import { Button, ButtonProps, LinkProps } from "@mui/material";
+import type { PropsWithChildren } from "@/types";
+import type { ButtonProps} from "@mui/material";
+import { Button } from "@mui/material";
 import { Link } from '@/lib/i18n/navigation';
 
 type LinkButtonProps = ButtonProps & PropsWithChildren

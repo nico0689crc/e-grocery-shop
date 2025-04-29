@@ -8,7 +8,7 @@ import { useMedia } from 'react-use';
 
 // MUI Imports
 import { deepmerge } from '@mui/utils';
-import { ThemeProvider, lighten, darken, createTheme } from '@mui/material/styles';
+import { ThemeProvider, lighten, darken, createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import CssBaseline from '@mui/material/CssBaseline';
 import type {} from '@mui/material/themeCssVarsAugmentation'; //! Do not remove this import otherwise you will get type errors while making a production build
@@ -85,7 +85,7 @@ const CustomThemeProvider = (props: Props) => {
 
     const coreTheme = deepmerge(defaultCoreTheme(currentMode), newTheme);
 
-    return createTheme(coreTheme);
+    return responsiveFontSizes(createTheme(coreTheme));
   }, [settings.primaryColor, currentMode]);
 
   return (

@@ -17,6 +17,10 @@ import type { PropsWithChildren, ParamsType } from '@/types';
 import Providers from '@/components/providers';
 import getMetadata from '@/request/server/metadata/get-metadata';
 import BackToTopButton from '@/components/ui/BackToTopButton';
+import LayoutWrapper from '@/components/layout/LayoutWrapper';
+import { getCookieConsent } from '@/lib/cookies';
+import CookieBanner from '@/components/CookieBanner';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export async function generateMetadata(props: ParamsType) {
   const params = await props.params;
@@ -26,6 +30,7 @@ export async function generateMetadata(props: ParamsType) {
 }
 
 const RootLayout = async (props: PropsWithChildren & ParamsType) => {
+  const consent = await getCookieConsent();
   const params = await props.params;
   const { children } = props;
 
@@ -52,9 +57,15 @@ const RootLayout = async (props: PropsWithChildren & ParamsType) => {
         </head>
         <body>
           <Providers>
-            <InitColorSchemeScript attribute="data" defaultMode={systemMode} />
-            {children}
-            <BackToTopButton />
+            <LayoutWrapper>
+              <InitColorSchemeScript attribute="data" defaultMode={systemMode} />
+              {children}
+              <BackToTopButton />
+              <CookieBanner />
+              {consent === 'granted' && (
+                <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID as string} />
+              )}
+            </LayoutWrapper>
           </Providers>
         </body>
       </html>

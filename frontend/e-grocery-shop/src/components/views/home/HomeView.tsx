@@ -2,6 +2,7 @@ import { Link } from '@/lib/i18n/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import type { Product } from "@/types";
+import { Typography } from '@mui/material';
 
 type HomeViewProps ={
   products: Product[]
@@ -13,6 +14,19 @@ const HomeView = async ({ products }: HomeViewProps) => {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       <h1 className="text-4xl font-bold">{t('title')}</h1>
+      <Typography variant="h1">
+        {t('title')}
+      </Typography>
+      <Typography variant="h2">
+        {t('title')}
+      </Typography>
+      <Typography variant="h3">
+        {t('title')}
+      </Typography>
+      <Typography variant="h4">
+        {t('title')}
+      </Typography>
+
       <Link href="/products" locale="en">About</Link>
       <p className="mt-4 text-lg">Welcome to the Home View!</p>
       <div className="mt-4">
