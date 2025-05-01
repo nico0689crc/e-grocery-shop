@@ -1,9 +1,9 @@
 // React and Material-UI imports
-import { Box } from '@mui/material'
 import type { BoxProps } from '@mui/material'
 
 // Types
 import type { PropsWithChildren } from '@/types'
+import ContainerCommon from '@/components/layout/components/common/ContainerCommon'
 
 // Define the props for the TopBarContainer component
 type TopBarContainerProps = PropsWithChildren & BoxProps
@@ -17,7 +17,7 @@ const TopBarContainer = ({ children, ...props }: TopBarContainerProps) => {
   const { sx, ...restProps } = props
 
   return (
-    <Box
+    <ContainerCommon
       sx={
         {
           display: 'flex',
@@ -32,7 +32,7 @@ const TopBarContainer = ({ children, ...props }: TopBarContainerProps) => {
       {...restProps}
     >
       {children}
-    </Box>
+    </ContainerCommon>
   )
 }
 

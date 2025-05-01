@@ -10,13 +10,13 @@ import TopBarSocialMedias from './TopBarSocialMedias'
 
 // TopBar component: Renders the top bar section of the header
 const TopBar = () => (
-    <TopBarRoot className={layoutClasses.header.topBar.root}>
-      <TopBarContainer className={layoutClasses.header.topBar.container}>
-        <TopBarContent className={layoutClasses.header.topBar.content} />
-        <TopBarLanguage className={layoutClasses.header.topBar.language} />
-        <TopBarSocialMedias className={layoutClasses.header.topBar.socialMedias} />
-      </TopBarContainer>
-    </TopBarRoot>
-  )
+  <TopBarRoot className={layoutClasses.header.topBar.root}>
+    <TopBarContainer className={layoutClasses.header.topBar.container}>
+      <TopBarContent className={layoutClasses.header.topBar.content} />
+      <TopBarLanguage className={layoutClasses.header.topBar.language} />
+      <TopBarSocialMedias className={layoutClasses.header.topBar.socialMedias} />
+    </TopBarContainer>
+  </TopBarRoot>
+)
 
 export default TopBar

@@ -26,6 +26,7 @@ const TopBarRoot = ({ children, ...props }: TopBarRootProps): React.ReactNode =>
     <Box
       sx={
         {
+          backgroundColor: '#2b3445',
           ...sx
         } as BoxProps['sx']
       }

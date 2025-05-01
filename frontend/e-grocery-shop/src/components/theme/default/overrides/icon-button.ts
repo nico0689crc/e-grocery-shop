@@ -5,6 +5,8 @@ const iconButton: Theme['components'] = {
   MuiIconButton: {
     styleOverrides: {
       root: {
+        borderRadius: '0.75rem',
+        transition: 'background-color 0.3s ease',
         variants: [
           {
             props: { color: 'default' },

@@ -21,8 +21,8 @@ export type AppConfig = {
 };
 
 const appConfig: AppConfig = {
-  templateName: 'NextJs App MUI Base',
-  settingsCookieName: 'nicolas-fernandez-portfolio-settings',
+  templateName: 'e-grocery-shop',
+  settingsCookieName: 'e-grocery-settings',
   mode: 'light',
   headerHeight: '70px',
   layoutPadding: 24,
@@ -30,7 +30,7 @@ const appConfig: AppConfig = {
   toastPosition: 'top-right',
   primaryColor: {
     light: '#f8e17e',
-    main: '#f5df4e',
+    main: '#d33f57',
     dark: '#c7a631',
   }
 };

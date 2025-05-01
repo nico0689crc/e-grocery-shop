@@ -1,5 +1,5 @@
 // External imports
-import { Box } from '@mui/material' // Material-UI Box component
+import { Box, Chip, Typography } from '@mui/material' // Material-UI Box component
 import type { BoxProps } from '@mui/material' // Type definition for Box props
 import React from 'react'
 
@@ -22,12 +22,30 @@ const TopBarContent = (props: BoxProps): React.ReactNode => {
           flexGrow: 1,
           flexShrink: 1,
           flexBasis: 'auto',
+          paddingY: '0.5rem',
+          alignItems: 'center',
+          gap: '0.25rem',
           ...sx
         } as BoxProps['sx']
       }
       {...restProps}
     >
-      TopBarContent
+      <Chip 
+        label="HOT"
+        variant="filled"
+        color="primary"
+        size='small'
+      />
+      <Typography
+        variant="body2"
+        sx={{
+          marginLeft: '0.5rem',
+          fontWeight: 600,
+          color: `rgb(var(--mui-mainColorChannels-dark) / 1)`,
+        }}
+      >
+        Free Express Shipping
+      </Typography>
     </Box>
   )
 }

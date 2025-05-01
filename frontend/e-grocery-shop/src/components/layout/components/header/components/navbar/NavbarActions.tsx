@@ -1,5 +1,7 @@
 // External imports
-import { Box } from '@mui/material'
+import AccountCircle from '@/components/ui/icons/account-circle'
+import CartCircle from '@/components/ui/icons/cart-circle'
+import { Badge, Box, IconButton } from '@mui/material'
 import type { BoxProps } from '@mui/material'
 
 /**
@@ -21,13 +23,21 @@ const NavbarActions = (props: BoxProps): React.ReactNode => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          gap: '0.3rem',
+          marginRight: '0.3rem',
           ...sx
         } as BoxProps['sx']
       }
       {...restProps}
     >
-      <button className='bg-blue-500 text-white px-4 py-2 rounded'>Login</button>
-      <button className='bg-green-500 text-white px-4 py-2 rounded'>Sign Up</button>
+      <IconButton>
+        <AccountCircle size={30} />
+      </IconButton>
+      <Badge badgeContent='5' color='primary'>
+        <IconButton>
+          <CartCircle size={30} />
+        </IconButton>
+      </Badge>
     </Box>
   )
 }

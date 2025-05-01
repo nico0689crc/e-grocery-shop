@@ -4,6 +4,7 @@ import type { BoxProps } from '@mui/material'
 
 // Internal types
 import type { PropsWithChildren } from '@/types'
+import ContainerCommon from '../../../common/ContainerCommon'
 
 /**
  * NavbarContainerProps combines PropsWithChildren and BoxProps to define the props for the NavbarContainer component.
@@ -20,14 +21,17 @@ const NavbarContainer = ({ children, ...props }: NavbarContainerProps): React.Re
   const { sx, ...restProps } = props
 
   return (
-    <Box
+    <ContainerCommon
       sx={
         {
           display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           flexGrow: 1,
           flexShrink: 1,
           flexBasis: 'auto',
           flexDirection: 'row',
+          py: '1.5rem',
           gap: 5,
           ...sx
         } as BoxProps['sx']
@@ -35,7 +39,7 @@ const NavbarContainer = ({ children, ...props }: NavbarContainerProps): React.Re
       {...restProps}
     >
       {children}
-    </Box>
+    </ContainerCommon>
   )
 }
 

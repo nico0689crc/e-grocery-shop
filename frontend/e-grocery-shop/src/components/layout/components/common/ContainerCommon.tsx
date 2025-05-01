@@ -3,7 +3,6 @@ import type { BoxProps } from '@mui/material' // Type for Box component props
 import { Box } from '@mui/material' // Box component from Material-UI
 
 // Internal imports
-import { layoutConfig } from '@/components/layout/utils/layoutConfig' // Layout configuration
 import type { PropsWithChildren } from '@/types' // Type for children prop
 
 /**
@@ -26,14 +25,11 @@ const ContainerCommon = ({ children, ...props }: ContainerCommonProps): React.Re
     <Box
       sx={{
         width: '100%',
+        maxWidth: '115rem',
         marginInline: 'auto',
-        maxInlineSize: `${layoutConfig.compactContentWidth}px`,
         px: {
-          xs: `${layoutConfig.contentPadding.xs}px`,
-          sm: `${layoutConfig.contentPadding.sm}px`,
-          md: `${layoutConfig.contentPadding.md}px`,
-          lg: `${layoutConfig.contentPadding.lg}px`,
-          xl: `${layoutConfig.contentPadding.xl}px`
+          xs: '1rem',
+          lg: '2rem',
         },
         ...sx
       }}

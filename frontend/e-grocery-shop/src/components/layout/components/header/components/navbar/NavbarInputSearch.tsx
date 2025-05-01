@@ -1,5 +1,7 @@
 // External imports
-import { Box, type BoxProps } from '@mui/material'
+import SearchIcon from '@/components/ui/icons/search';
+import type { BoxProps } from '@mui/material';
+import { Box, TextField } from '@mui/material'
 
 /**
  * NavbarInputSearch Component
@@ -27,10 +29,31 @@ const NavbarInputSearch = (props: BoxProps): React.ReactNode => {
       }
       {...restProps}
     >
-      <input
-        type='text'
+      <TextField
+        variant='outlined'
         placeholder='Search...'
-        className='w-full h-10 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500'
+        sx={{
+          width: '100%',
+          maxWidth: '600px',
+        }}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  color: 'var(--mui-palette-secondary-main)', 
+                  paddingInline: '0.5rem 1rem',
+                  marginRight: '1rem',
+                  borderRight: '1px solid var(--mui-palette-secondary-main)', 
+                }}
+              >
+                <SearchIcon size={28}  />
+              </Box>
+            )
+          }
+        }}
       />
     </Box>
   )

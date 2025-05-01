@@ -1,5 +1,5 @@
 // Next Imports
-import { Poppins } from 'next/font/google';
+import { Public_Sans } from 'next/font/google';
 
 // MUI Imports
 import type { Theme } from '@mui/material/styles';
@@ -15,7 +15,7 @@ import shadows from './shadows';
 import customShadows from './customShadows';
 import typography from './typography';
 
-const poppins = Poppins({
+const publicSans = Public_Sans({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800', '900'],
 });
@@ -35,7 +35,7 @@ const theme = (mode: SystemMode): Theme => ({
     },
   },
   shadows: shadows(mode),
-  typography: typography([poppins.style.fontFamily, 'sans-serif'].join(',')),
+  typography: typography([publicSans.style.fontFamily].join(',')),
   customShadows: customShadows(mode),
   mainColorChannels: {
     light: '37 43 51',
